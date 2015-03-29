@@ -1,0 +1,26 @@
+
+freq_scripts
+# install the latest plugins this one would flush all other plugins into one
+# bower install [component1] [component2] [component3] ... -S 
+bower install ionic --save
+
+# update 
+bower update [name]
+
+# what components already installed
+# paths mapping
+bower list -p 
+# versions
+bower list -r
+
+# -D or -d to devDependencies
+# -S or -s to dependencies
+
+# update dependencies version in bower.json
+1. rename current bower.json to bower.json.bak
+2. bower init
+3. copy anything that is necessary from bower.json.bak to bower.json
+4. remove bower.json.bak
+
+please refer to http://stackoverflow.com/questions/20279792/how-to-update-bower-json-with-installed-packages
+

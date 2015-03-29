@@ -1,0 +1,24 @@
+{
+  "name": "quanquan",
+  "private": "true",
+  "version": "1.0.0",
+  "authors": [
+    "Drew Foehn <drew@pixelburn.net>"
+  ],
+  "moduleType": [
+    "amd"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ionic": "driftyco/ionic-bower#1.0.0-rc.1",
+    "requirejs": "2.1.16",
+    "ngCordova": "~0.1.12-alpha",
+    "font-awesome": "~4.3.0"
+  }
+}
