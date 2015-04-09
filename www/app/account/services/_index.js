@@ -1,6 +1,5 @@
 define([
-    './auth.service'
-    , './register.service'
+    './user.service'
 ], function () {
     'use strict';
 });

@@ -1,6 +1,5 @@
 define([
-    './auth.service'
-    , './register.service'
+    './profile.controller'
 ], function () {
     'use strict';
 });

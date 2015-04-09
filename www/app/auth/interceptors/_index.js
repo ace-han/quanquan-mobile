@@ -1,6 +1,5 @@
 define([
-    './auth.service'
-    , './register.service'
+    './auth.interceptor'
 ], function () {
     'use strict';
 });
