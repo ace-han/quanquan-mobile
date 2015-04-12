@@ -10,3 +10,5 @@ wwww/lib/
 
 # css is generated from scss
 www/css/
+
+.settings/
