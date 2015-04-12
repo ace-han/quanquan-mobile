@@ -8,12 +8,12 @@ function (app) {
         , '$urlRouterProvider'
         , function($stateProvider, $urlRouterProvider){
             $stateProvider
-                .state('app', {
-                  url: "/app",
+                .state('root', {
+                  url: "",
                   abstract: true,
                   templateUrl: "templates/main.html",   // this from 'www' or maybe baseUrl in main.js
                 })
-                .state('app.home', {
+                .state('root.home', {
                   url: "/home",
                   views: {
                     // according to https://github.com/angular-ui/ui-router/wiki/Multiple-Named-Views#view-names---relative-vs-absolute-names
@@ -23,7 +23,7 @@ function (app) {
                     }
                   }
                 })
-                 .state('app.others', {
+                 .state('root.others', {
                   url: "/others",
                   views: {
                     'mainMenuContent': {
@@ -32,7 +32,7 @@ function (app) {
                   }
                 })
                 // if none of the above states are matched, use this as the fallback
-                $urlRouterProvider.otherwise('/app/others');
+                $urlRouterProvider.otherwise('/others');
 /*
     let's assume that `root` is `index.html` as well
     state `app` is `main.html`

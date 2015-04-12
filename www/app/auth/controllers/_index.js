@@ -1,6 +1,6 @@
 define([
-    './auth.controller'
-    , './register.controller'
+    './login.controller'
+    //, './register.controller'
 ], function () {
     'use strict';
 });

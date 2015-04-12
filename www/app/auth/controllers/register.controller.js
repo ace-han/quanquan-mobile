@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-
+/*
   angular
     .module('application.auth.controllers')
     .controller('RegisterController', RegisterController);
@@ -16,4 +16,5 @@
       Auth.register(vm.username, vm.password, vm.email);
     }
   }
+  */
 })();

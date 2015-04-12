@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-
+/*
   angular
     .module('application.auth.interceptors')
     .service('AuthInterceptor', AuthInterceptor);
@@ -36,4 +36,5 @@
       return $q.reject(response);
     }
   }
+  */
 })();
