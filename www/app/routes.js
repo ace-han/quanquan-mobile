@@ -10,24 +10,23 @@ function (app) {
             $stateProvider
                 .state('root', {
                   url: "",
-                  abstract: true,
-                  templateUrl: "templates/main.html",   // this from 'www' or maybe baseUrl in main.js
+                  abstract: true
                 })
                 .state('root.home', {
                   url: "/home",
                   views: {
-                    // according to https://github.com/angular-ui/ui-router/wiki/Multiple-Named-Views#view-names---relative-vs-absolute-names
-                    // this is relative 
-                    'mainMenuContent': {
-                      templateUrl: "templates/home.html",
+                    // with this '@' means unname view at root level
+                    // every submodule's root may define like this
+                    '@': {
+                      templateUrl: "templates/home.html"
                     }
                   }
                 })
                  .state('root.others', {
                   url: "/others",
                   views: {
-                    'mainMenuContent': {
-                      templateUrl: "templates/others.html",
+                    '@': {
+                      templateUrl: "templates/others.html"
                     }
                   }
                 })

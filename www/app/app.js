@@ -10,6 +10,7 @@ define([
     , 'ngUiRouter'
     , 'ionicAngular'
     , './auth/module.require'
+    , '../components/module.require'
 ],
 function (angular, namespace, namespaceAuth) {
     'use strict';
