@@ -6,7 +6,7 @@ platforms/
 plugins/
 
 # align to .bowerrc directory
-wwww/lib/
+www/lib/
 
 # css is generated from scss
 www/css/
