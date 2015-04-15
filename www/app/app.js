@@ -17,7 +17,7 @@ function (angular, namespace, namespaceAuth, namespaceCommon) {
     'use strict';
 
     var app = angular.module(namespace, 
-        ['ionic'])
+        ['ionic', namespaceAuth, namespaceCommon])
         .run(function () {
           //
         })
