@@ -1,18 +1,19 @@
 define([
     'app/app'
+    , './namespace'
 ],
-function (app) {
+function (appModule, namespace) {
     'use strict';
-    return app.config([
+    return appModule.config([
         '$stateProvider'
         , '$urlRouterProvider'
         , function($stateProvider, $urlRouterProvider){
             $stateProvider
-                .state('root', {
+                .state(namespace, {
                   url: "",
                   abstract: true
                 })
-                .state('root.home', {
+                .state(namespace + '.home', {
                   url: "/home",
                   views: {
                     // with this '@' means unname view at root level
@@ -22,7 +23,7 @@ function (app) {
                     }
                   }
                 })
-                 .state('root.others', {
+                 .state(namespace + '.others', {
                   url: "/others",
                   views: {
                     '@': {
@@ -30,6 +31,7 @@ function (app) {
                     }
                   }
                 })
+              
                 // if none of the above states are matched, use this as the fallback
                 $urlRouterProvider.otherwise('/others');
 /*

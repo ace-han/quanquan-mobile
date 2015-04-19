@@ -1,31 +1,28 @@
-<ion-modal-view>
-  <ion-header-bar>
-    <h1 class="title">Login</h1>
-    <div class="buttons">
-      <button class="button button-clear" ng-click="closeLogin()">Close</button>
-    </div>
-  </ion-header-bar>
+<ion-view view-title="Login" class="white-pane">
+  <!-- no ion-nav-bar here for <ion-nav-back-button/> working-->
+  <ion-nav-buttons side="right">
+    <button class="button">
+      Register
+    </button>
+  </ion-nav-buttons>
+
   <ion-content>
-    <iframe src="sink.html" name="sink"
-        style="display:none"></iframe>
-    <form name="loginForm"
-      action="sink.html" target="sink" method="post"
-      ng-controller="LoginController"
-      ng-submit="login(credentials)"
-      novalidate>
-      <div class="list">
-        <label class="item item-input">
-          <span class="input-label">Username</span>
-          <input type="text" ng-model="credentials.username">
-        </label>
-        <label class="item item-input">
-          <span class="input-label">Password</span>
-          <input type="password" ng-model="credentials.password">
-        </label>
-        <label class="item">
-          <button class="button button-block button-positive" type="submit">Log in</button>
-        </label>
-      </div>
-    </form>
+    <br/>
+    <div class="list">
+      <label class="item item-input" style="border-top:0;">
+        <input type="text" placeholder="QuanQuan Account/Phone Number">
+        <div class="highlight highlight-positive"></div>
+      </label>
+      <label class="item item-input">
+        <input type="password" placeholder="Password">
+        <div class="highlight highlight-positive"></div>
+      </label>
+    </div>
+    <div class="padding">
+      <button class="button button-block button-positive" ng-click="login()">Login</button>
+    </div>
+    <button class="button button-clear button-positive" ui-sref="app.auth.login">
+      Forgot Password?
+    </button>
   </ion-content>
-</ion-modal-view>
+</ion-view>

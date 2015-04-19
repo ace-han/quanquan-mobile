@@ -1,4 +1,4 @@
 
 define([], function () {
-    return "quanquan";
+    return "app";
 });
