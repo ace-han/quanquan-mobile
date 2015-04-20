@@ -24,3 +24,15 @@ bower list -r
 
 please refer to http://stackoverflow.com/questions/20279792/how-to-update-bower-json-with-installed-packages
 
+# fresh setup on another machine
+git clone https://github.com/ace-han/quanquan-mobile.git
+cd quanquan-mobile
+npm install
+bower install
+gulp sass
+ionic serve
+
+# if you encounter any difficulty on node-sass
+# make sure your python executable is python2.7
+# Windows need Visual Studio installed
+# refer to https://github.com/TooTallNate/node-gyp
