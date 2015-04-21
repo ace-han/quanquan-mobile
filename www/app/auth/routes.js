@@ -17,10 +17,16 @@ function (authModule, authNamespace, appNamespace) {
               })
               .state(authNamespace + '.login', {
                 url: "/login",
-                controller: authNamespace + '.LoginController as loginController',
+                // there is a warning on the official website says
+                //  Warning: The controller will not be instantiated if template is not defined.
+                //controller: authNamespace + '.LoginController as loginController',
                 views: {
                   '@': {
-                    templateUrl: "app/auth/templates/login.html"
+                    // found controller: 'XxxController as xxxController' is working with ionic now
+                    // BUT NOT controllerAs syntax!!!
+                    templateUrl: "app/auth/templates/login.html", 
+                    controller: authNamespace + '.LoginController as loginController'
+                    
                   }
                 }
               })

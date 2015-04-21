@@ -22,12 +22,17 @@ function (module, namespace) {
 
     function LoginController($scope, $log, authService) {
         var vm = this;
-        vm.title = 'Some Title';
+        vm.crefidentials = {
+            username: 'abc',
+            password: ''
+        };
 
-        $scope.$watch('vm.title', function(current, original) {
-            $log.info('vm.title was %s', original);
-            $log.info('vm.title is now %s', current);
-        });
+        vm.login = login;
+        
+
+        function login(crefidentials){
+            authService.login(crefidentials.username, crefidentials.password);
+        }
     }
 
 
