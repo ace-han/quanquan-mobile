@@ -11,7 +11,13 @@ function (appModule, namespace) {
             $stateProvider
                 .state(namespace, {
                   url: "",
-                  abstract: true
+                  abstract: true,
+                  views: {
+                    'left-panel': {
+                      templateUrl: 'templates/left-panel.html',
+                      controller: 'MainMenuController as mainMenuController'
+                    }
+                  }
                 })
                 .state(namespace + '.home', {
                   url: "/home",
