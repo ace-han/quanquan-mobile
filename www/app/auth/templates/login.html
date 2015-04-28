@@ -8,19 +8,21 @@
 
   <ion-content>
     <br/>
-    <div class="list">
-      <label class="item item-input" style="border-top:0;">
-        <input type="text" placeholder="QuanQuan Account/Phone Number" ng-model="loginController.crefidentials.username">
-        <div class="highlight highlight-positive"></div>
-      </label>
-      <label class="item item-input">
-        <input type="password" placeholder="Password" ng-model="loginController.crefidentials.password">
-        <div class="highlight highlight-positive"></div>
-      </label>
-    </div>
-    <div class="padding">
-      <button class="button button-block button-positive" ng-click="loginController.login(loginController.crefidentials)">Login</button>
-    </div>
+    <form name="loginForm" ng-submit="loginController.login(loginController.crefidentials)">
+      <div class="list">
+        <label class="item item-input" style="border-top:0;">
+          <input type="text" placeholder="QuanQuan Account/Phone Number" ng-model="loginController.crefidentials.username">
+          <div class="highlight highlight-positive"></div>
+        </label>
+        <label class="item item-input">
+          <input type="password" placeholder="Password" ng-model="loginController.crefidentials.password">
+          <div class="highlight highlight-positive"></div>
+        </label>
+      </div>
+      <div class="padding">
+        <input type="submit" class="button button-block button-positive" value="Login" ng-click=""/>
+      </div>
+    </form>
     <button class="button button-clear button-positive" ui-sref="auth.login">
       Forgot Password?
     </button>

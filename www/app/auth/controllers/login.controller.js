@@ -33,6 +33,7 @@ function (module, namespace) {
         
 
         function login(crefidentials){
+
             $ionicLoading.show();
             authService.login(crefidentials.username, 
                 crefidentials.password)
@@ -49,6 +50,8 @@ function (module, namespace) {
                         $state.go('app.home');
                         // $state.go('account.profile');
                     }
+                    vm.crefidentials.username = '';
+                    
                 }, function(){
                     $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
                     $timeout(function(){
@@ -57,6 +60,12 @@ function (module, namespace) {
                 })
                 .finally(function(){
                     $ionicLoading.hide();
+                    // below won't work as controller declare in ui-router's way
+                    // need to bind ng-controller to the dom explicitly
+
+                    // and below just back to the state NOT the value
+                    // $scope.loginForm.$setPristine();
+                    vm.crefidentials.password = '';
                 });
         }
     }

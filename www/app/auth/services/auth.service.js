@@ -33,7 +33,7 @@ function (angular, module, namespace) {
 
             var deferred = $q.defer();
 
-            $http.post('/api/v1/account/login/', 
+            $http.post('/api/v1/auth/login/', 
                 {   username: username, 
                     password: password
                 }).success(function (response, status, headers, config) {
