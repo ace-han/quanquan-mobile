@@ -10,17 +10,16 @@ function (appModule, namespace) {
         , function($stateProvider, $urlRouterProvider){
             $stateProvider
                 .state(namespace, {
-                  url: "",
                   abstract: true,
                   views: {
                     'left-panel': {
-                      templateUrl: 'templates/left-panel.html',
+                      templateUrl: 'templates/left_panel.html',
                       controller: 'MainMenuController as mainMenuController'
                     }
                   }
                 })
                 .state(namespace + '.home', {
-                  url: "/home",
+                  url: '',  // it's very important that with an empty string here to make it home page
                   views: {
                     // with this '@' means unname view at root level
                     // every submodule's root may define like this
@@ -29,7 +28,7 @@ function (appModule, namespace) {
                     }
                   }
                 })
-                 .state(namespace + '.others', {
+                .state(namespace + '.others', {
                   url: "/others",
                   views: {
                     '@': {
@@ -37,7 +36,24 @@ function (appModule, namespace) {
                     }
                   }
                 })
-              
+                .state(namespace + '.termsOfService', {
+                  url: "/terms-of-service",
+                  views: {
+                    '@': {
+                      templateUrl: "templates/terms_of_service.html" 
+                      
+                    }
+                  }
+                })
+                .state(namespace + '.privacyPolicy', {
+                  url: "/privacy-policy",
+                  views: {
+                    '@': {
+                      templateUrl: "templates/privacy_policy.html" 
+                      
+                    }
+                  }
+                })
                 // if none of the above states are matched, use this as the fallback
                 $urlRouterProvider.otherwise('/others');
 /*

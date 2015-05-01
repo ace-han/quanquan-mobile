@@ -1,6 +1,5 @@
 define([
-    '../namespace'  // we are requiring here the top root namespace
-], function (namespace) {
+], function () {
     'use strict';
-    return namespace + ".account";
+    return "account";
 });

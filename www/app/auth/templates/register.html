@@ -1,31 +1,47 @@
-<ion-modal-view>
-  <ion-header-bar>
-    <h1 class="title">Login</h1>
-    <div class="buttons">
-      <button class="button button-clear" ng-click="closeLogin()">Close</button>
-    </div>
-  </ion-header-bar>
+<ion-view view-title="Registration" class="white-pane">
+
   <ion-content>
-    <iframe src="sink.html" name="sink"
-        style="display:none"></iframe>
-    <form name="loginForm"
-      action="sink.html" target="sink" method="post"
-      ng-controller="LoginController"
-      ng-submit="login(credentials)"
-      novalidate>
-      <div class="list">
-        <label class="item item-input">
+    <form name="registerForm">
+      <div class="list padding">
+        <label class="item item-input no-vertical-border" style="border-top:0;align-items:baseline;">
           <span class="input-label">Username</span>
-          <input type="text" ng-model="credentials.username">
+          <input type="text" ng-model="username" style="position:relative; top:10px;" required>
+          <img ng-src="http://ionicframework.com/img/docs/nevermind.jpg" ng-click="takePicture()"
+                  style="display:table-cell; max-width:10%; vertical-align:bottom; cursor:pointer;"/>
+          <div class="highlight highlight-positive"></div>
         </label>
-        <label class="item item-input">
+        <label class="item item-input no-vertical-border">
           <span class="input-label">Password</span>
-          <input type="password" ng-model="credentials.password">
+          <input type="password" ng-model="password" placeholder="6~16 chars or numbers password" required/>
+          <div class="highlight highlight-positive"></div>
         </label>
-        <label class="item">
-          <button class="button button-block button-positive" type="submit">Log in</button>
+        <label class="item item-input no-vertical-border">
+          <span class="input-label">Mobile Number</span>
+          <input type="text" ng-model="mobile" placeholder="11 digits mobile number" required/>
+          <div class="highlight highlight-positive"></div>
+        </label>
+        <label class="item item-input item-select">
+          <div class="input-label">
+            City
+          </div>
+          <select required>
+            <option>Beijing</option>
+            <option>Shanghai</option>
+            <option selected>Guangzhou</option>
+            <option>Shenzhen</option>
+          </select>
         </label>
       </div>
+
+      <div class="padding">
+        <input type="submit" class="button button-block button-positive" 
+          value="Sign Up" ng-disabled="registerForm.$invalid"/>
+      </div>
     </form>
+    <p>
+      Continuing means you've read and agreed to our 
+      <a ui-sref="app.termsOfService">Terms of Service</a> and 
+      <a ui-sref="app.privacyPolicy">Priacy Policy</a>
+    </p>
   </ion-content>
-</ion-modal-view>
+</ion-view>

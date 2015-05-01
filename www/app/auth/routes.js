@@ -26,7 +26,38 @@ function (authModule, authNamespace, appNamespace) {
                     // BUT NOT controllerAs syntax!!!
                     templateUrl: "app/auth/templates/login.html", 
                     controller: authNamespace + '.LoginController as loginController'
-                    
+                  }
+                }
+              })
+              .state(authNamespace + '.register', {
+                url: "/register",
+                views: {
+                  '@': {
+                    templateUrl: "app/auth/templates/register.html" 
+                  }
+                }
+              })
+              .state(authNamespace + '.resetPassword', {
+                url: "/reset-password",
+                views: {
+                  '@': {
+                    templateUrl: "app/auth/templates/password_reset_form.html" 
+                  }
+                }
+              })
+              .state(authNamespace + '.confirmResetPassword', {
+                url: "/confirm-reset-password",
+                views: {
+                  '@': {
+                    templateUrl: "app/auth/templates/password_reset_confirm.html" 
+                  }
+                }
+              })
+              .state(authNamespace + '.changePassword', {
+                url: "/change-password",
+                views: {
+                  '@': {
+                    templateUrl: "app/auth/templates/password_change_form.html" 
                   }
                 }
               })

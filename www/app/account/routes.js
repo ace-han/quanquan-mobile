@@ -1,0 +1,28 @@
+define([
+    './module'
+    , './namespace'
+    , '../namespace'
+],
+function (accountModule, accountNamespace, appNamespace) {
+    'use strict';
+    return accountModule.config([
+        '$stateProvider'
+        , function($stateProvider){
+            $stateProvider
+              // a abstract view for each module view is necessary for the time being
+              .state(accountNamespace, {
+                url: '/account',
+                parent: appNamespace,
+                abstract: true
+              })
+              .state(accountNamespace + '.profile', {
+                url: "/profile",
+                views: {
+                  '@': {
+                    templateUrl: "app/account/templates/profile.html"
+                  }
+                }
+              })
+              
+        }]);
+});

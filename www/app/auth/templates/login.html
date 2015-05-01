@@ -1,7 +1,7 @@
 <ion-view view-title="Login" class="white-pane">
   <!-- no ion-nav-bar here for <ion-nav-back-button/> working-->
   <ion-nav-buttons side="right">
-    <button class="button">
+    <button class="button button-clear" ui-sref="auth.register">
       Register
     </button>
   </ion-nav-buttons>
@@ -9,21 +9,22 @@
   <ion-content>
     <br/>
     <form name="loginForm" ng-submit="loginController.login(loginController.crefidentials)">
-      <div class="list">
-        <label class="item item-input" style="border-top:0;">
-          <input type="text" placeholder="QuanQuan Account/Phone Number" ng-model="loginController.crefidentials.username">
+      <div class="list padding">
+        <label class="item item-input no-vertical-border" style="border-top:0;">
+          <input type="text" placeholder="Username/Mobile Number" required
+            ng-model="loginController.crefidentials.username" cmn-reset-field/>
           <div class="highlight highlight-positive"></div>
         </label>
-        <label class="item item-input">
-          <input type="password" placeholder="Password" ng-model="loginController.crefidentials.password">
+        <label class="item item-input no-vertical-border">
+          <input type="password" placeholder="Password" ng-model="loginController.crefidentials.password" required>
           <div class="highlight highlight-positive"></div>
         </label>
       </div>
       <div class="padding">
-        <input type="submit" class="button button-block button-positive" value="Login" ng-click=""/>
+        <input type="submit" class="button button-block button-positive" value="Login" ng-disabled="loginForm.$invalid"/>
       </div>
     </form>
-    <button class="button button-clear button-positive" ui-sref="auth.login">
+    <button class="button button-clear button-positive" ui-sref="auth.resetPassword">
       Forgot Password?
     </button>
   </ion-content>

@@ -5,6 +5,7 @@ define([
 //    './directives/_index',
 //    './filters/_index',
     , './services/_index'
+    , './routes'
 ], function () {
     'use strict';
 
