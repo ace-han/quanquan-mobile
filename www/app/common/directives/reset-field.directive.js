@@ -5,6 +5,10 @@ define([
 function (module) {
     'use strict';
     
+    // this directive now is not working since <label/> would steal the click event for any input
+    // and ionic team has already planned in release 1.1
+    // and user could live without this feature
+
     module.directive('cmnResetField', cmnResetField);
 
 	cmnResetField.$inject = ['$compile', '$timeout'];
@@ -32,17 +36,19 @@ function (module) {
 			}
 
 			var templateStr = '<i ng-show="enabled" ng-click="reset()" class="icon ion-android-close reset-field-icon"></i>';
-			var isLabelContainer = $element[0].parentElement.tagName == 'LABEL';
-			if( isLabelContainer ){
-				templateStr = templateStr.replace('></i>', ' style="position:absolute; right:2.5em; top:2em;"></i>');
-			}
-			// compiled reset icon template
+			// var isLabelContainer = $element[0].parentElement.tagName == 'LABEL';
+			// if( isLabelContainer ){
+			// 	templateStr = templateStr.replace('></i>', ' style="position:absolute; right:2.5em; top:2em;"></i>');
+			// }
+			// // compiled reset icon template
+			// var template = $compile(templateStr)($scope);
+			// if (isLabelContainer){
+			// 	$element.parent().after(template);
+			// } else {
+			// 	
+			// }
 			var template = $compile(templateStr)($scope);
-			if (isLabelContainer){
-				$element.parent().after(template);
-			} else {
-				$element.after(template);
-			}
+			$element.after(template);
 			$element.addClass("reset-field");
 
 			$scope.reset = function() {
