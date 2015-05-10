@@ -5,7 +5,7 @@ define([
 function (angular, namespace) {
 	'use strict';
 	/* 
-    	Sepacial for Authentication and Authorization 
+    	Sepacial for search engine
     */
 	return angular.module(namespace, []);
 });

@@ -1,5 +1,9 @@
 define([
 ], function () {
     'use strict';
-    return "account";
+	/* 
+    	Sepacial for basic account info relevant management
+    */
+
+    return 'account';
 });
