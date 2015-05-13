@@ -16,7 +16,7 @@
     "tests"
   ],
   "dependencies": {
-    "ionic": "driftyco/ionic-bower#1.0.0-rc.4",
+    "ionic": "driftyco/ionic-bower#1.0.0",
     "requirejs": "2.1.16",
     "ngCordova": "~0.1.12-alpha",
     "font-awesome": "~4.3.0"
