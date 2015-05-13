@@ -2,7 +2,7 @@ define([
 ], function (namespace) {
     'use strict';
     /* 
-    	Sepacial for Authentication and Authorization 
+    	Sepacial for group and topic management
     */
-    return 'auth';
+    return 'group';
 });

@@ -1,5 +1,8 @@
 
 define([], function () {
 	'use strict';
-    return "common";
+	/* 
+    	Sepacial for common components for this quanquan app
+    */
+    return 'common';
 });

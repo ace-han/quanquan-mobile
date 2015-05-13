@@ -3,33 +3,34 @@ define([
     , './namespace'
     , '../namespace'
 ],
-function (accountModule, accountNamespace, appNamespace) {
+function (groupModule, groupNamespace, appNamespace) {
     'use strict';
-    return accountModule.config([
+    return groupModule.config([
         '$stateProvider'
         , function($stateProvider){
             $stateProvider
               // a abstract view for each module view is necessary for the time being
-              .state(accountNamespace, {
-                url: '/account',
+              .state(groupNamespace, {
+                url: '/group',
                 parent: appNamespace,
                 abstract: true
               })
-              .state(accountNamespace + '.profile', {
-                url: '/profile',
+              .state(groupNamespace + '.index', {
+                url: '',
                 views: {
                   '@': {
-                    templateUrl: 'app/account/templates/profile.html'
+                    templateUrl: 'app/group/templates/index.html', 
                   }
                 }
               })
-              .state(accountNamespace + '.settings', {
-                url: '/settings',
+              .state(groupNamespace + '.topics', {
+                url: '/topics',
                 views: {
                   '@': {
-                    templateUrl: 'app/account/templates/settings.html'
+                    templateUrl: 'app/group/templates/topics.html', 
                   }
                 }
               })
+              
         }]);
 });
