@@ -24,8 +24,7 @@ function (appModule, namespace) {
                     // with this '@' means unname view at root level
                     // every submodule's root may define like this
                     '@': {
-                      // it's bad solution doing this
-                      templateUrl: "app/group/templates/topics.html"
+                      templateUrl: "templates/home.html"
                     }
                   }
                 })
@@ -55,9 +54,8 @@ function (appModule, namespace) {
                     }
                   }
                 })
-                $urlRouterProvider
-                  // if none of the above states are matched, use this as the fallback
-                  .otherwise('/others');
+                // if none of the above states are matched, use this as the fallback
+                $urlRouterProvider.otherwise('/others');
 /*
     let's assume that `root` is `index.html` as well
     state `app` is `main.html`

@@ -16,20 +16,13 @@ function (accountModule, accountNamespace, appNamespace) {
                 abstract: true
               })
               .state(accountNamespace + '.profile', {
-                url: '/profile',
+                url: "/profile",
                 views: {
                   '@': {
-                    templateUrl: 'app/account/templates/profile.html'
+                    templateUrl: "app/account/templates/profile.html"
                   }
                 }
               })
-              .state(accountNamespace + '.settings', {
-                url: '/settings',
-                views: {
-                  '@': {
-                    templateUrl: 'app/account/templates/settings.html'
-                  }
-                }
-              })
+              
         }]);
 });
