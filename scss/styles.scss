@@ -6,6 +6,13 @@ body {
   cursor: url('../img/finger.png'), auto;
 }
 
+/*
+	keep a not being infected by body's cursor
+*/
+a {
+	cursor: pointer;
+}
+
 
 .pane, .view {
 	background-color: $stable;
@@ -77,3 +84,21 @@ input.reset-field {
     margin: 0px;
     color: #bbb;
 }
+
+.nav-bar-title {
+	*::-webkit-input-placeholder {
+	    color: white;
+	}
+	*:-moz-placeholder {
+	    /* FF 4-18 */
+	    color: white;
+	}
+	*::-moz-placeholder {
+	    /* FF 19+ */
+	    color: white;
+	}
+	*:-ms-input-placeholder {
+	    /* IE 10+ */
+	    color: white;
+	}
+	}
