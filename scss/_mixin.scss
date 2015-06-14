@@ -1,0 +1,9 @@
+
+@mixin sized-img($width, $height) {
+	// in pixel
+ 	max-width: $width;
+ 	max-height: $height;
+ 	width:100%;
+ 	height:100%;
+
+}

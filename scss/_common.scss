@@ -1,5 +1,5 @@
 body {
-  cursor: url('../img/finger.png'), auto;
+	cursor: url('../img/finger.png'), auto;
 }
 
 /*
@@ -9,7 +9,6 @@ a {
 	cursor: pointer;
 }
 
-
 .pane, .view {
 	background-color: $stable;
 }
@@ -18,26 +17,11 @@ a {
 	background-color: white;
 }
 
-.main-menu {
-	.item-light {
-		.item-content {
-			padding-top: 8px;
-			padding-bottom: 8px;
-		}
-	}
-	
-	.item-light.activated {	
-		.item-content {
-  			color: $calm;
-  			border-right: .5em solid $calm;
-		}
-	}
-	
-	.user-profile.activated {
-		background-color: #2D6C9E;
+@each $size in 16,32,48,64 {
+	.img#{$size}x#{$size} {
+ 		@include sized-img(#{$size}px, #{$size}px);
 	}
 }
-
 
 .item-input {
 	.highlight-positive {
@@ -62,11 +46,6 @@ a {
 		transform: translate3d(0, 0, 0);
     }
 
-}
-
-.no-vertical-border {
-	border-left:0;
-	border-right:0;
 }
 
 input.reset-field { 
@@ -98,3 +77,10 @@ input.reset-field {
 	    color: white;
 	}
 }
+
+.text-cut {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;	
+}
+

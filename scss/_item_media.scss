@@ -1,0 +1,184 @@
+/*
+	vertical centralized aligning needs a very specific height of the container(no percentage)
+	for reasons plz refer to 
+	http://stackoverflow.com/questions/11003911/why-are-margin-padding-percentages-in-css-always-calculated-against-width#answer-11004839
+	so if we want to do vertical centralized aligning will need to mannually defined css class as many as we need
+	combo class .text-vertical-centralized and .media-body-$height/fixed-height-$height will do
+	or .text-vertical-centralized-$height
+
+
+for text vertical centralized, I'm afraid that I have to stick to display: block solution
+reasons:
+1. below class for tripping needs a specific width, and display: block; will do it for us
+.truncate {
+  // width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+2. responsive design could do this in js, since the browser resizing will cause a great calculation on text ellipsis
+*/
+
+/*
+1. ionic's media-body padding-left=left 10px + right 10px + img's width
+	I will define the left/right padding = 8px, img's width=64px
+
+2. for text vertical centralized I will do margin-top based on height of img
+
+3. cancel text-overflow effect just do "white-space: normal;"
+
+4. replies design just 1 levels for simplicity sake, just topic then [reply1, reply2, ...replyN] @ in between
+*/
+
+
+.text-horizontal-centralized {
+	display: flex;
+	justify-content: center;
+}
+/*
+.item-media {
+	padding: 8px 16px;
+}
+
+.media-block {
+	
+	img.pull-left {
+		padding-right: 10px;
+	}
+
+	img.pull-right {
+		margin-left: 10px;
+	}
+
+	.media-icon {}
+
+	.media-left, .media-right, .media-body {
+		display: table-cell;
+		vertical-align: middle;	
+
+		.media-heading {}
+		.media-content {
+			white-space:normal;
+		}
+		.media-footer {
+
+		}
+	}
+
+
+}
+*/
+
+.item-media {
+	padding: 8px 16px;
+}
+
+.size-xs {
+  width: 2rem;
+}
+
+.size-md {
+	width: 3rem;
+}
+
+.size-lg {
+	width: 4rem;
+}
+
+.box-col {
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	-ms-flex: 1;
+	flex: 1;
+	width: 100%;
+}
+
+.text-vertical-centralized {
+	display: flex;
+	align-items: center;
+}
+
+.strong-text {
+	font-weight: 400;
+}
+
+.weak-colored-text {
+	color: #666;
+}
+
+.media-other-text {
+	line-height: 1rem;
+}
+
+.media-block {
+
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+
+	padding-top: 8px;
+	.media-thumbnail {
+		line-height: .7; // just don't know why it adds 4px to height
+		position: relative;
+	}
+
+
+	.media-body {
+		display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+		-webkit-box-direction: normal;
+		-webkit-box-orient: vertical;
+		-webkit-flex-direction: column;
+		-ms-flex-direction: column;
+		flex-direction: column;
+		
+		-webkit-box-pack: center;
+		-ms-flex-pack: center;
+		-webkit-justify-content: center;
+		justify-content: center;
+	
+		padding-left: .7rem;
+
+		
+		.media-heading {
+
+		}
+		.media-content {
+			white-space: normal;
+		}
+		.media-footer {
+
+		}
+	}	
+	.plus {
+		width: auto;
+		position: relative;
+
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-align: center;
+		-ms-flex-align: center;
+		-webkit-align-items: center;
+		align-items: center;
+		-webkit-box-pack: end;
+		-ms-flex-pack: end;
+		-webkit-justify-content: flex-end;
+		justify-content: flex-end;
+
+
+		font-size: .8125rem;
+
+		.time {
+			position: absolute;
+			width: 5rem;
+			right: 0;
+			text-align: right;
+			white-space: normal; // important since item's white-space already pollute the white-space
+		}
+	}
+}

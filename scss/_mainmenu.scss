@@ -1,0 +1,19 @@
+.main-menu {
+	.item-light {
+		.item-content {
+			padding-top: 8px;
+			padding-bottom: 8px;
+		}
+	}
+	
+	.item-light.activated {	
+		.item-content {
+  			color: $calm;
+  			border-right: .5em solid $calm;
+		}
+	}
+	
+	.user-profile.activated {
+		background-color: #2D6C9E;
+	}
+}

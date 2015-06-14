@@ -23,6 +23,7 @@ function (groupModule, groupNamespace, appNamespace) {
                   }
                 }
               })
+              /*
               .state(groupNamespace + '.topics', {
                 url: '/topics',
                 views: {
@@ -31,6 +32,6 @@ function (groupModule, groupNamespace, appNamespace) {
                   }
                 }
               })
-              
+              */
         }]);
 });
