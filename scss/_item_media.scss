@@ -74,7 +74,11 @@ reasons:
 }
 
 .size-xs {
-  width: 2rem;
+  width: 1rem;
+}
+
+.size-s {
+	width: 2rem;
 }
 
 .size-md {
@@ -126,9 +130,9 @@ reasons:
 
 	.media-body {
 		display: -webkit-box;
-	display: -webkit-flex;
-	display: -ms-flexbox;
-	display: flex;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
 		-webkit-box-direction: normal;
 		-webkit-box-orient: vertical;
 		-webkit-flex-direction: column;
@@ -173,7 +177,7 @@ reasons:
 
 		font-size: .8125rem;
 
-		.time {
+		.time, .vote-up {
 			position: absolute;
 			width: 5rem;
 			right: 0;
