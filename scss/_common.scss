@@ -1,0 +1,86 @@
+body {
+	cursor: url('../img/finger.png'), auto;
+}
+
+/*
+	keep a not being infected by body's cursor
+*/
+a {
+	cursor: pointer;
+}
+
+.pane, .view {
+	background-color: $stable;
+}
+
+.white-pane {
+	background-color: white;
+}
+
+@each $size in 16,32,48,64 {
+	.img#{$size}x#{$size} {
+ 		@include sized-img(#{$size}px, #{$size}px);
+	}
+}
+
+.item-input {
+	.highlight-positive {
+	  background: $positive;
+	}
+
+	.highlight {
+		position: absolute;
+		bottom: 0;
+		height: 2px;
+		left: 0;
+		width: 100%;
+		-webkit-transform: translate3d(-100%, 0, 0);
+		transform: translate3d(-100%, 0, 0);
+		-webkit-transition: all 0.15s ease;
+		transition: all 0.15s ease;
+		z-index: 1;
+	}
+
+	input:focus ~ .highlight {
+	    -webkit-transform: translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0);
+    }
+
+}
+
+input.reset-field { 
+	padding-right: 2em; 
+}
+
+.reset-field-icon {
+    position: absolute;
+    right: .5em;
+    top: 1em;
+    margin: 0px;
+    color: #bbb;
+}
+
+.nav-bar-title {
+	*::-webkit-input-placeholder {
+	    color: white;
+	}
+	*:-moz-placeholder {
+	    /* FF 4-18 */
+	    color: white;
+	}
+	*::-moz-placeholder {
+	    /* FF 19+ */
+	    color: white;
+	}
+	*:-ms-input-placeholder {
+	    /* IE 10+ */
+	    color: white;
+	}
+}
+
+.text-cut {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;	
+}
+
