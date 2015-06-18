@@ -25,7 +25,7 @@ function (appModule, namespace) {
                     // every submodule's root may define like this
                     '@': {
                       // it's bad solution doing this
-                      templateUrl: "app/group/templates/index.html"
+                      templateUrl: "templates/home.html"
                     }
                   }
                 })

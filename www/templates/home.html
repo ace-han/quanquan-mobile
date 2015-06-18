@@ -1,0 +1,64 @@
+<ion-view view-title="Home" hide-back-button="true">
+	<ion-nav-buttons side="right">
+      <button class="button button-icon button-clear ion-search" ui-sref="search.index">
+      </button>
+    </ion-nav-buttons>
+    	<!--
+    		DO NOT WRAP <ion-tabs/> in <ion-content/>!!!
+    		add a css as ion-tabs .pane { margin-top: 50px;	} to control it's margin
+    	https://github.com/driftyco/ionic/issues/992
+    	<ion-content>
+    	-->
+    	
+        <ion-tabs class="tabs-striped tabs-icon-top tabs-top tabs-color-positive">
+
+        <ion-tab title="Home" icon="ion-home">
+        <ion-view>
+        	<ion-content>
+          <p>
+            <a class="button icon icon-right ion-chevron-right" href="#/tab/facts">Scientific Facts</a>
+          </p>
+          </ion-content>
+          </ion-view>
+        </ion-tab>
+
+        <ion-tab title="About" icon="ion-ios-information">
+          <h3>Create hybrid mobile apps with the web technologies you love.</h3>
+          <p>Free and open source, Ionic offers a library of mobile-optimized HTML, CSS and JS components for building highly interactive apps.</p>
+          <p>Built with Sass and optimized for AngularJS.</p>
+          <p>
+            <a class="button icon icon-right ion-chevron-right" href="#/tab/navstack">Tabs Nav Stack</a>
+          </p>
+        </ion-tab>
+
+        <ion-tab title="Contact" icon="ion-ios-world">
+          <div class="list">
+            <div class="item">
+              @IonicFramework
+            </div>
+            <div class="item">
+              @DriftyTeam
+            </div>
+          </div>
+        </ion-tab>
+
+      </ion-tabs>
+
+<!--
+<ion-tabs class="tabs-icon-top tabs-positive tabs-top">
+
+        <ion-tab title="Home" icon="ion-home" href="#/tab/home">
+          <ion-nav-view name="home-tab"></ion-nav-view>
+        </ion-tab>
+
+        <ion-tab title="About" icon="ion-ios-information" href="#/tab/about">
+          <ion-nav-view name="about-tab"></ion-nav-view>
+        </ion-tab>
+
+        <ion-tab title="Contact" icon="ion-ios-world" ui-sref="tabs.contact">
+          <ion-nav-view name="contact-tab"></ion-nav-view>
+        </ion-tab>
+
+      </ion-tabs>
+-->
+</ion-view>
