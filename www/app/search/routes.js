@@ -11,15 +11,15 @@ function (searchModule, searchNamespace, appNamespace) {
             $stateProvider
               // a abstract view for each module view is necessary for the time being
               .state(searchNamespace, {
-                url: '/search',
-                parent: appNamespace,
-                abstract: true
+                url: '/search'
+                , parent: appNamespace
+                , abstract: true
               })
               .state(searchNamespace + '.index', {
-                url: "",
-                views: {
+                url: ""
+                , views: {
                   '@': {
-                    templateUrl: "app/search/templates/index.html", 
+                    templateUrl: "app/search/templates/index.html"
                   }
                 }
               });

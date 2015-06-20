@@ -1,6 +1,6 @@
 define([
-    '../module',
-    '../namespace'
+    '../module'
+    , '../namespace'
 ],
 function (module, namespace) {
     'use strict';

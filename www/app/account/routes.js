@@ -11,21 +11,21 @@ function (accountModule, accountNamespace, appNamespace) {
             $stateProvider
               // a abstract view for each module view is necessary for the time being
               .state(accountNamespace, {
-                url: '/account',
-                parent: appNamespace,
-                abstract: true
+                url: '/account'
+                , parent: appNamespace
+                , abstract: true
               })
               .state(accountNamespace + '.profile', {
-                url: '/profile',
-                views: {
+                url: '/profile'
+                , views: {
                   '@': {
                     templateUrl: 'app/account/templates/profile.html'
                   }
                 }
               })
               .state(accountNamespace + '.settings', {
-                url: '/settings',
-                views: {
+                url: '/settings'
+                , views: {
                   '@': {
                     templateUrl: 'app/account/templates/settings.html'
                   }

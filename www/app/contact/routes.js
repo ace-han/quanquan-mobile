@@ -11,15 +11,15 @@ function (contactModule, contactNamespace, appNamespace) {
             $stateProvider
               // a abstract view for each module view is necessary for the time being
               .state(contactNamespace, {
-                url: '/contact',
-                parent: appNamespace,
-                abstract: true
+                url: '/contact'
+                , parent: appNamespace
+                , abstract: true
               })
               .state(contactNamespace + '.index', {
-                url: '',
-                views: {
+                url: ''
+                , views: {
                   '@': {
-                    templateUrl: 'app/contact/templates/index.html', 
+                    templateUrl: 'app/contact/templates/index.html'
                   }
                 }
               });

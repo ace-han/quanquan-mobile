@@ -1,6 +1,6 @@
 define([
-    '../module',
-    '../namespace'
+    '../module'
+    , '../namespace'
 ],
 function (module, namespace) {
     'use strict';
@@ -25,8 +25,8 @@ function (module, namespace) {
                             $ionicHistory, authService, AUTH_EVENTS) {
         var vm = this;
         vm.crefidentials = {
-            username: '',
-            password: ''
+            username: ''
+            , password: ''
         };
 
         vm.login = login;
@@ -41,8 +41,8 @@ function (module, namespace) {
                     $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, payload);
                     if(payload.is_profile_filled){
                         $ionicHistory.nextViewOptions({
-                            disableBack: true,
-                            historyRoot: true
+                            disableBack: true
+                            , historyRoot: true
                         });
                         $state.go('app.home');
                     } else {

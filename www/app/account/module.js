@@ -1,6 +1,6 @@
 define([
-	'angular',
-	'./namespace'
+	'angular'
+	, './namespace'
 ],
 function (angular, namespace) {
 	'use strict';

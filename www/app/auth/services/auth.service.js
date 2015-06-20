@@ -1,7 +1,7 @@
 define([
-    'angular',
-    '../module',
-    '../namespace'
+    'angular'
+    , '../module'
+    , '../namespace'
 
 ],
 function (angular, module, namespace) {
@@ -17,12 +17,12 @@ function (angular, module, namespace) {
 
     function authService($http, $q, $window){
         var service = {
-            login: login,
-            logout: logout,
-            currentUser: currentUser,
-            setToken: setToken,
-            getToken: getToken,
-            deleteToken: deleteToken
+            login: login
+            , logout: logout
+            , currentUser: currentUser
+            , setToken: setToken
+            , getToken: getToken
+            , deleteToken: deleteToken
         }
 
         return service;
@@ -34,8 +34,8 @@ function (angular, module, namespace) {
             var deferred = $q.defer();
 
             $http.post('/api/v1/auth/login/', 
-                {   username: username, 
-                    password: password
+                {   username: username
+                    , password: password
                 }).success(function (response, status, headers, config) {
                     if (response.token) {
                         // if token means success, we can extract the payload

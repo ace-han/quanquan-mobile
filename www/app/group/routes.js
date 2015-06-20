@@ -11,15 +11,15 @@ function (groupModule, groupNamespace, appNamespace) {
             $stateProvider
               // a abstract view for each module view is necessary for the time being
               .state(groupNamespace, {
-                url: '/group',
-                parent: appNamespace,
-                abstract: true
+                url: '/group'
+                , parent: appNamespace
+                , abstract: true
               })
               .state(groupNamespace + '.index', {
-                url: '',
-                views: {
+                url: ''
+                , views: {
                   '@': {
-                    templateUrl: 'app/group/templates/index.html', 
+                    templateUrl: 'app/group/templates/index.html'
                   }
                 }
               })
