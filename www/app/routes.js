@@ -19,7 +19,7 @@ function (appModule, namespace) {
                   }
                 })
                 .state(namespace + '.home', {
-                  url: ''  // it's very important that with an empty string here to make it home page
+                  url: '/'  // it's very important that with an empty string here to make it home page
                   , abstract: true
                   , views: {
                     // with this '@' means unname view at root level
@@ -27,6 +27,22 @@ function (appModule, namespace) {
                     '@': {
                       // it's bad solution doing this
                       templateUrl: "templates/home.html"
+                    }
+                  }
+                })
+                .state(namespace + '.home.selected', {
+                  url: 'selected'
+                  , views: {
+                    'selected-tab@app.home': {
+                      templateUrl: "templates/channel1.html"
+                    }
+                  }
+                })
+                .state(namespace + '.home.civilized', {
+                  url: 'civilized'
+                  , views: {
+                    'civilized-tab@app.home': {
+                      templateUrl: "templates/channel2.html"
                     }
                   }
                 })
