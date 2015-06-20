@@ -37,11 +37,11 @@ function (angular, namespace,
         , contactNamespace, searchNamespace
         , groupNamespace, commonNamespace
         ])
-        .config(function($ionicConfigProvider) {
+        .config(['$ionicConfigProvider', function($ionicConfigProvider) {
             // remove back button text completely
             $ionicConfigProvider.backButton.previousTitleText(false).text('');
             $ionicConfigProvider.navBar.alignTitle('left');
-        })
+        }])
         .run(function () {
           
         })

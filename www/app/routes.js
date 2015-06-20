@@ -1,13 +1,14 @@
 define([
     'app/app'
     , './namespace'
-],
-function (appModule, namespace) {
+]
+,function (appModule, namespace) {
     'use strict';
     return appModule.config([
         '$stateProvider'
         , '$urlRouterProvider'
-        , function($stateProvider, $urlRouterProvider){
+        , 'auth.authService'
+        , function($stateProvider, $urlRouterProvider, channelService){
             $stateProvider
                 .state(namespace, {
                   abstract: true
@@ -19,62 +20,60 @@ function (appModule, namespace) {
                   }
                 })
                 .state(namespace + '.home', {
-                  url: '/'  // it's very important that with an empty string here to make it home page
-                  , abstract: true
+                  url: ''  // it's very important that with an empty string here to make it home page
+                  
                   , views: {
                     // with this '@' means unname view at root level
                     // every submodule's root may define like this
                     '@': {
                       // it's bad solution doing this
-                      templateUrl: "templates/home.html"
-                    }
-                  }
-                })
-                .state(namespace + '.home.selected', {
-                  url: 'selected'
-                  , views: {
-                    'selected-tab@app.home': {
-                      templateUrl: "templates/channel1.html"
-                    }
-                  }
-                })
-                .state(namespace + '.home.civilized', {
-                  url: 'civilized'
-                  , views: {
-                    'civilized-tab@app.home': {
-                      templateUrl: "templates/channel2.html"
+                      templateUrl: 'templates/home.html'
+                      , controller: 'ChannelsController as channelsController'
                     }
                   }
                 })
                 .state(namespace + '.others', {
-                  url: "/others"
+                  url: '/others'
                   , views: {
                     '@': {
-                      templateUrl: "templates/others.html"
+                      templateUrl: 'templates/others.html'
                     }
                   }
                 })
                 .state(namespace + '.termsOfService', {
-                  url: "/terms-of-service"
+                  url: '/terms-of-service'
                   , views: {
                     '@': {
-                      templateUrl: "templates/terms_of_service.html" 
+                      templateUrl: 'templates/terms_of_service.html'
                       
                     }
                   }
                 })
                 .state(namespace + '.privacyPolicy', {
-                  url: "/privacy-policy"
+                  url: '/privacy-policy'
                   , views: {
                     '@': {
-                      templateUrl: "templates/privacy_policy.html" 
+                      templateUrl: 'templates/privacy_policy.html'
                       
                     }
                   }
                 })
-                $urlRouterProvider
+          
+          channelService.getChannelStateSettings().then(function(state){
+              $stateProvider.state(state.name, state);
+              var redirect = state.url.slice(0, s.lastIndexOf('/')+1) + state.views[0].name
+              $urlRouterProvider
+                  .when('', redirect)
+                  .when('/', redirect);
+            }
+            , function(error){
+              $ionicLoading.show({ template: error, 
+                                noBackdrop: true, duration: 2000 });
+            })
+          $urlRouterProvider
                   // if none of the above states are matched, use this as the fallback
-                  .otherwise('/others');
+                .otherwise('/others');
+
 /*
     let's assume that `root` is `index.html` as well
     state `app` is `main.html`
@@ -131,7 +130,18 @@ views: {
     }
   })
 */
-
-               
-            }]);
-});
+  }])
+  .run(['$ionicLoading', '$urlRouter', 'channelService', 
+    function($ionicLoading, $urlRouter, channelService){
+      channelService.getChannelStateSettings().then(function(state){
+        appModule.$stateProviderRef.state(state.name, state);
+        $urlRouter.sync();
+        $urlRouter.listen();
+      }
+      , function(error){
+        $ionicLoading.show({ template: error, 
+                          noBackdrop: true, duration: 2000 });
+      })
+    
+  }]);
+})
