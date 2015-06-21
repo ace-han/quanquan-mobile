@@ -16,15 +16,13 @@ function (angular, module) {
     function channelService($http, $q, $window, $timeout){
         var _cache
         , PARENT_STATE = 'app.home'
-        , SELF_STATE = PARENT_STATE + '.channel'
+        //, SELF_STATE = PARENT_STATE + '.channel'
         , VIEWNAME_POSTFIX = '-tab@' + PARENT_STATE
-
 
         var service = {
             _cache: _cache
             , getChannels: getChannels
             , getChannelStateSettings: getChannelStateSettings
-            , getChannelViews: getChannelViews
         }
 
         return service;
@@ -60,16 +58,19 @@ function (angular, module) {
                         name: 'recommendation'
                         , title: 'Recommendation'
                         , templateUrl: 'templates/channel.html'
+                        , controller: 'ChannelController as channelController'
                     }
                     , {
                         name: 'civilization'
                         , title: 'Civilization'
                         , templateUrl: 'templates/channel.html'
+                        , controller: 'ChannelController as channelController'
                     }
                     , {
                         name: 'entertainment'
                         , title: 'Entertainment'
                         , templateUrl: 'templates/channel.html'
+                        , controller: 'ChannelController as channelController'
                     }
                 ];
                 deferred.resolve(result);
@@ -101,20 +102,45 @@ function (angular, module) {
             var deferred = $q.defer();
             getChannels().then(
                 function(channels){
+                    // since I found below in $ionicTabs  ionic-angular.js
+                    // this.tabMatchesState = function() {
+                    //      return this.hrefMatchesState() || this.srefMatchesState() || this.navNameMatchesState();
+                    //  };
+                    // That srefMatchesState() prevent us from sharing the same state, might as well do it in diff states
+                    /*
                     var state = {
                         name: SELF_STATE
-                        , url: '/channel/{channel:[-\w]+}'
+                        , url: '/channel/{channel:[-\\w]+}' // need double anti-slash here!!!
                         , parent: PARENT_STATE
                         , abstract: false
                         , views: {}
+                        , type: 'general' // for app/routes.js futureStateFactory
                     }
                     angular.forEach(channels, function (channel) {
                         state.views[channel.name + VIEWNAME_POSTFIX] = {
-                            templateUrl : channel.templateUrl,
+                            templateUrl : channel.templateUrl
                         };
                     });
-                    
-                    deferred.resolve(state);
+                    */
+                    var states = [];
+                    angular.forEach(channels, function (channel) {
+                        var views = {};
+                        views[ channel.name + VIEWNAME_POSTFIX ] = {
+                            templateUrl : channel.templateUrl
+                            , controller: channel.controller
+                        }
+                        var state = {
+                            name: PARENT_STATE + '.' + channel.name
+                            , title: channel.title
+                            , url: '/channel/' + channel.name
+                            , parent: PARENT_STATE
+                            , abstract: false
+                            , views: views
+                            , type: 'general' // for app/routes.js futureStateFactory
+                        }
+                        states.push(state);
+                    });
+                    deferred.resolve(states);
                 }
                 , function(error){
                     deferred.reject('Could not resolve channel settings'+error);
@@ -124,26 +150,5 @@ function (angular, module) {
             
         }
 
-        function getChannelViews(){
-            var deferred = $q.defer();
-            getChannels().then(
-                function(channels){
-                    var channelViews = [];
-                    angular.forEach(channels, function (channel) {
-                        channelViews.push({
-                            viewName: channel.name
-                            , uiSref: SELF_STATE + "({channel: '"+ channel.name + "'})"
-                            , title: channel.title
-                        });
-                    });
-                    
-                    deferred.resolve(channelViews);
-                }
-                , function(error){
-                    deferred.reject('Could not resolve channel settings'+error);
-                }
-            )
-            return deferred.promise;
-        }
     }
 });

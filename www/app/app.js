@@ -13,6 +13,7 @@ define([
     , 'ngAnimate'
     , 'ngSanitize'
     , 'ngUiRouter'
+    , 'ngUiRouterExtras'
     , 'ionicAngular'
     , './auth/module.require'
     , './account/module.require'
@@ -33,7 +34,9 @@ function (angular, namespace,
     'use strict';
 
     var app = angular.module(namespace, 
-        ['ionic', authNamespace, accountNamespace
+        ['ionic'
+        , 'ct.ui.router.extras.future', 'ct.ui.router.extras.statevis' // this two should manually add
+        , authNamespace, accountNamespace
         , contactNamespace, searchNamespace
         , groupNamespace, commonNamespace
         ])

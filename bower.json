@@ -19,6 +19,7 @@
     "ionic": "driftyco/ionic-bower#1.0.0",
     "requirejs": "2.1.16",
     "ngCordova": "~0.1.12-alpha",
-    "font-awesome": "~4.3.0"
-  }
+    "font-awesome": "~4.3.0",
+    "ui-router-extras": "~0.0.14"
+  },
 }

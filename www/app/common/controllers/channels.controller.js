@@ -17,28 +17,19 @@ function (angular, module) {
     function ChannelsController($scope, $timeout, $ionicLoading, 
                     channelService) {
         var vm = this;
-        vm.tabs = [
-                    {
-                        title: "Recommendation"
-                        , uiSref: "app.home.channel({channel: 'recommendation'})"
-                        , viewName: "recommendation-tab"
-                    }
-                    , {
-                        title: "Civilization"
-                        , uiSref: "app.home.channel({channel: 'civilization'})"
-                        , viewName: "civilization-tab"
-                    }
-                    , {
-                        title: "Test"
-                        , uiSref: "search.index"
-                        , viewName: "search-tab"
-                    }
-                ];
-        /*
-        channelService.getChannelViews()
+
+        vm.tabs = [];
+        channelService.getChannelStateSettings()
             .then(
-                function(channels){
-                vm.tabs = channels;
+                function(stateSettings){
+                    angular.forEach(stateSettings, function(state){
+                        vm.tabs.push({
+                            title: state.title
+                            , uiSref: state.name
+                            , url: state.url
+                            , viewName: state.viewName
+                        });
+                    });
             }
             , function(error){
                 $timeout(function(){
@@ -46,7 +37,7 @@ function (angular, module) {
                         noBackdrop: true, duration: 2000 });
                 }, 500); 
             })
-        */
+        
     }
 
 

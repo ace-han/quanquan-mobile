@@ -1,14 +1,17 @@
 define([
-    'app/app'
+    'angular'
+    , 'app/app'
     , './namespace'
+
 ]
-,function (appModule, namespace) {
+,function (angular, appModule, namespace) {
     'use strict';
     return appModule.config([
         '$stateProvider'
         , '$urlRouterProvider'
-        , 'auth.authService'
-        , function($stateProvider, $urlRouterProvider, channelService){
+        , '$futureStateProvider'
+        , '$stickyStateProvider'
+        , function($stateProvider, $urlRouterProvider, $futureStateProvider, $stickyStateProvider){
             $stateProvider
                 .state(namespace, {
                   abstract: true
@@ -21,16 +24,36 @@ define([
                 })
                 .state(namespace + '.home', {
                   url: ''  // it's very important that with an empty string here to make it home page
-                  
                   , views: {
                     // with this '@' means unname view at root level
                     // every submodule's root may define like this
                     '@': {
                       // it's bad solution doing this
                       templateUrl: 'templates/home.html'
+                      // but the controller still could take resolved data
                       , controller: 'ChannelsController as channelsController'
                     }
                   }
+                  // please be aware of using below on state level not view level
+                  // http://stackoverflow.com/questions/27719183/onenter-and-onexit-are-not-called-when-state-is-left-activated-in-angularjs-ui-r#answer-27721831
+                  // no necessary for the resolve section
+                  // , resolve: {
+                  //     isLoading: ['channelService']
+                  // }
+                  , onEnter: ['$state', '$ionicHistory', '$ionicLoading', 'channelService', 
+                          function ($state, $ionicHistory, $ionicLoading, channelService){
+                    channelService.getChannels().then(
+                        function success(channels){
+                            var firstChannel = channels[0];
+                            console.info('resolved 1st channel:', namespace + '.home.'+ firstChannel.name);
+                            $state.go(namespace + '.home.'+ firstChannel.name);
+                            // $state.go('app.home.a');
+                            // console.info($ionicHistory.viewHistory() );
+                        }, function error(error){
+                          $ionicLoading.show({ template: error, 
+                              noBackdrop: true, duration: 2000 });
+                        });
+                  }]
                 })
                 .state(namespace + '.others', {
                   url: '/others'
@@ -58,21 +81,54 @@ define([
                     }
                   }
                 })
+
+                // .state(namespace + '.home.a', {
+                //   url: '/channel/a'
+                //   , views: {
+                //     'a@app.home': {
+                //       templateUrl: 'templates/channel1.html'
+                      
+                //     }
+                //   }
+                // })
+                // .state(namespace + '.home.b', {
+                //   url: '/channel/b'
+                //   , views: {
+                //     'b@app.home': {
+                //       templateUrl: 'templates/channel2.html'
+                      
+                //     }
+                //   }
+                // })
+          $stickyStateProvider.enableDebug(true);
+          $futureStateProvider.stateFactory('general', generalStateFactory);
+          $futureStateProvider.addResolve(loadAndRegisterFutureStates);
+
           
-          channelService.getChannelStateSettings().then(function(state){
-              $stateProvider.state(state.name, state);
-              var redirect = state.url.slice(0, s.lastIndexOf('/')+1) + state.views[0].name
-              $urlRouterProvider
-                  .when('', redirect)
-                  .when('/', redirect);
-            }
-            , function(error){
-              $ionicLoading.show({ template: error, 
-                                noBackdrop: true, duration: 2000 });
-            })
           $urlRouterProvider
                   // if none of the above states are matched, use this as the fallback
                 .otherwise('/others');
+
+          // resolver just setting retrieval
+          loadAndRegisterFutureStates.$inject = ['channelService'];
+          function loadAndRegisterFutureStates(channelService){
+            // may change to a general url service later
+            return channelService.getChannelStateSettings().then(
+                        function(stateSettings){
+                           angular.forEach(stateSettings, function (fstate) {
+                            $futureStateProvider.futureState(fstate);
+                          });
+                        }
+                    );
+          }
+          // setFactory will actually do the new state register
+          generalStateFactory.$inject = ['$q', 'futureState'];
+
+          function generalStateFactory($q, futureState){
+            // later, we will add other url
+            // futureState's struct depends on the return value from loadAndRegisterFutureStates function
+            return $q.when(futureState);
+          }
 
 /*
     let's assume that `root` is `index.html` as well
@@ -131,17 +187,5 @@ views: {
   })
 */
   }])
-  .run(['$ionicLoading', '$urlRouter', 'channelService', 
-    function($ionicLoading, $urlRouter, channelService){
-      channelService.getChannelStateSettings().then(function(state){
-        appModule.$stateProviderRef.state(state.name, state);
-        $urlRouter.sync();
-        $urlRouter.listen();
-      }
-      , function(error){
-        $ionicLoading.show({ template: error, 
-                          noBackdrop: true, duration: 2000 });
-      })
-    
-  }]);
+  //.run();
 })
