@@ -65,6 +65,8 @@ define([
                 })
                 .state(namespace + '.termsOfService', {
                   url: '/terms-of-service'
+                  // cache setting I've decided placing them in routes.js
+                  , cache: false
                   , views: {
                     '@': {
                       templateUrl: 'templates/terms_of_service.html'
@@ -74,6 +76,7 @@ define([
                 })
                 .state(namespace + '.privacyPolicy', {
                   url: '/privacy-policy'
+                  , cache: false
                   , views: {
                     '@': {
                       templateUrl: 'templates/privacy_policy.html'

@@ -136,6 +136,7 @@ function (angular, module) {
                             , parent: PARENT_STATE
                             , abstract: false
                             , views: views
+                            //, cache: false
                             , type: 'general' // for app/routes.js futureStateFactory
                         }
                         states.push(state);

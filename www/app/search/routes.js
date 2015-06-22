@@ -17,6 +17,7 @@ function (searchModule, searchNamespace, appNamespace) {
               })
               .state(searchNamespace + '.index', {
                 url: ""
+                , cache: false
                 , views: {
                   '@': {
                     templateUrl: "app/search/templates/index.html"
