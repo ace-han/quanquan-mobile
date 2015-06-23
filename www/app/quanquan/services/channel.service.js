@@ -137,7 +137,7 @@ function (angular, module, namespace) {
                             , parent: PARENT_STATE
                             , abstract: false
                             , views: views
-                            //, cache: false
+                            , cache: false
                             , type: 'quanquan' // for quanquan/routes.js futureStateFactory
                         }
                         states.push(state);

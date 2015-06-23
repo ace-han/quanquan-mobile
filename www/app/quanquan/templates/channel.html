@@ -1,12 +1,13 @@
 <ion-view view-title="Home">
-<ion-nav-buttons side="right">
-      <button class="button button-icon button-clear ion-search" ui-sref="search.index">
-      </button>
+    <ion-nav-buttons side="right">
+        <button class="button button-icon button-clear ion-search" ui-sref="search.index">
+        </button>
     </ion-nav-buttons>
-	<ion-content >
-          <p>
-            <a class="button icon icon-right ion-chevron-right" ui-sref="{{ channelController.stateName }}">{{ channelController.stateName }}</a>
-          </p>
-          </ion-content>
-
+    <ion-content delegate-handle="ptr-content">
+        <ion-refresher on-refresh="channelController.doRefresh()">
+        </ion-refresher>
+        <ion-list>
+            <ion-item ng-repeat="item in channelController.items">{{item}}</ion-item>
+        </ion-list>
+    </ion-content>
 </ion-view>

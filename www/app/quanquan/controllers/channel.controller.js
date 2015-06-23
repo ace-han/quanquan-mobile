@@ -9,7 +9,7 @@ function (module, namespace) {
 
     module.controller(name, ChannelController);
                 
-    ChannelController.$inject = ['$scope', '$state', '$stateParams' ];
+    ChannelController.$inject = ['$scope', '$state', '$timeout', 'pullToRefreshService' ];
 
     return ChannelController;
 
@@ -29,13 +29,13 @@ function (module, namespace) {
     // $scope.$on('$ionicView.afterEnter', function(){
     //      Any thing you can think of
     // });
-    function ChannelController($scope, $state, $stateParams) {
+    function ChannelController($scope, $state, $timeout, pullToRefreshService) {
         var vm = this;
-        vm.stateName = $state.current.name;
-        if(!$scope.abc){
-            $scope.abc = ' '
-        }
-
+        var stateName = $state.current.name.slice();
+        vm.channelName = stateName.slice(stateName.lastIndexOf('.')+1);
+        // Start with an empty items array
+        vm.items = [];
+        vm.doRefresh = doRefresh;
 // no cache version
 // -> recommendation -> civilization
 // app.home.recommendation Tue Jun 23 2015 01:26:40 GMT+0800 (CST)
@@ -65,33 +65,64 @@ function (module, namespace) {
 // $ionicView.enter app.home.civilization
 // $ionicView.afterLeave app.home.recommendation
 // $ionicView.leave app.home.recommendation
-        console.info( vm.stateName + $scope.abc + new Date());
 
-        $scope.$on('$ionicView.loaded', function(){
-            console.info('$ionicView.loaded ' + vm.stateName);
-        })
-        $scope.$on('$ionicView.beforeEnter', function(){
-            console.info('$ionicView.beforeEnter ' + vm.stateName);
-        })
-        $scope.$on('$ionicView.afterEnter', function(){
-            console.info('$ionicView.afterEnter ' + vm.stateName);
-        })
-        $scope.$on('$ionicView.enter', function(){
-            console.info('$ionicView.enter ' + vm.stateName);
-        })
-        $scope.$on('$ionicView.unloaded', function(){
-            console.info('$ionicView.unloaded ' + vm.stateName);
-        })
-        $scope.$on('$ionicView.beforeLeave', function(){
-            console.info('$ionicView.beforeLeave ' + vm.stateName);
-        })
-        $scope.$on('$ionicView.afterLeave', function(){
-            console.info('$ionicView.afterLeave ' + vm.stateName);
-        })
-        $scope.$on('$ionicView.leave', function(){
-            console.info('$ionicView.leave ' + vm.stateName);
-        })
+        // $scope.$on('$ionicView.loaded', function(){
+        //     console.info('$ionicView.loaded ' + vm.channelName);
+        // })
+        // $scope.$on('$ionicView.beforeEnter', function(){
+        //     console.info('$ionicView.beforeEnter ' + vm.channelName);
+        // })
+        // $scope.$on('$ionicView.afterEnter', function(){
+        //     console.info('$ionicView.afterEnter ' + vm.channelName);
+        // })
+        // $scope.$on('$ionicView.enter', function(){
+        //     console.info('$ionicView.enter ' + vm.channelName);
+        // })
+        // $scope.$on('$ionicView.unloaded', function(){
+        //     console.info('$ionicView.unloaded ' + vm.channelName);
+        // })
+        // $scope.$on('$ionicView.beforeLeave', function(){
+        //     console.info('$ionicView.beforeLeave ' + vm.channelName);
+        // })
+        // $scope.$on('$ionicView.afterLeave', function(){
+        //     console.info('$ionicView.afterLeave ' + vm.channelName);
+        // })
+        // $scope.$on('$ionicView.leave', function(){
+        //     console.info('$ionicView.leave ' + vm.channelName);
+        // })
+
+
+
+        // Used to know whether to show ititial items or new items for a manual refresh
+        var refreshed = false;
+
+        
+        // When the view is loaded, trigger the PTR event.
+        // Use the delegate handle name from the view.
+        $scope.$on("$ionicView.loaded", function() {
+            console.log("View loaded! Triggering PTR");
+            pullToRefreshService.triggerPtr('ptr-content');
+        });
+
+        function doRefresh() {
+            console.log('Refreshing!');
+            $timeout(function() {
+                if (!refreshed) {
+                    vm.items = ['Item 1', 'Item 2', 'Item 3'];
+                    refreshed = true;
+                } else {
+                    //simulate async response
+                    vm.items.push(vm.channelName + ' New Item ' + Math.floor(Math.random() * 1000) + 4);
+
+                }
+
+                //Stop the ion-refresher from spinning
+                $scope.$broadcast('scroll.refreshComplete');
+
+            }, 1000);
+
+        };
+
+
     }
-
-
 });
