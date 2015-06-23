@@ -9,5 +9,11 @@
         <ion-list>
             <ion-item ng-repeat="item in channelController.items">{{item}}</ion-item>
         </ion-list>
+        <ion-infinite-scroll 
+        	ng-if="channelController.moreDataCanBeLoaded()" 
+        	on-infinite="channelController.loadMore()"
+        	distance="2%"
+        	>
+        </ion-infinite-scroll>
     </ion-content>
 </ion-view>

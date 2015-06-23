@@ -36,6 +36,8 @@ function (module, namespace) {
         // Start with an empty items array
         vm.items = [];
         vm.doRefresh = doRefresh;
+        vm.moreDataCanBeLoaded = moreDataCanBeLoaded;
+        vm.loadMore = loadMore;
 // no cache version
 // -> recommendation -> civilization
 // app.home.recommendation Tue Jun 23 2015 01:26:40 GMT+0800 (CST)
@@ -112,7 +114,9 @@ function (module, namespace) {
                     refreshed = true;
                 } else {
                     //simulate async response
-                    vm.items.push(vm.channelName + ' New Item ' + Math.floor(Math.random() * 1000) + 4);
+                    for(var i=0; i<10; i++){
+                        vm.items.unshift(vm.channelName + ' New Item ' + Math.floor(Math.random() * 1000) + 4);
+                    }
 
                 }
 
@@ -122,6 +126,21 @@ function (module, namespace) {
             }, 1000);
 
         };
+
+        function moreDataCanBeLoaded(){
+            // return true will trigger loadMore function
+            return vm.items.length > 10 && vm.items.length <= 30;
+        }
+
+        function loadMore(){
+            $timeout(function(){
+                console.info('loadMore')
+                for(var i=0; i<3; i++){
+                    vm.items.push(vm.channelName + ' Old Item ' + Math.floor(Math.random() * 1000) + 4);
+                }
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            }, 1000);
+        }
 
 
     }
