@@ -1,5 +1,5 @@
 define([
-    './ptr.service'
+    './channel.service'
 ], function () {
     'use strict';
 });

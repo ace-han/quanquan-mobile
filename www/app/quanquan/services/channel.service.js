@@ -1,11 +1,12 @@
 define([
     'angular'
     , '../module'
+    , '../namespace'
 ],
-function (angular, module) {
+function (angular, module, namespace) {
     'use strict';
 
-    var name = 'channelService';
+    var name = namespace + '.channelService';
 
     module.factory(name, channelService);
 
@@ -15,7 +16,7 @@ function (angular, module) {
 
     function channelService($http, $q, $window, $timeout){
         var _cache
-        , PARENT_STATE = 'app.home'
+        , PARENT_STATE = namespace + '.index'
         //, SELF_STATE = PARENT_STATE + '.channel'
         , VIEWNAME_POSTFIX = '-tab@' + PARENT_STATE
 
@@ -57,20 +58,20 @@ function (angular, module) {
                     {
                         name: 'recommendation'
                         , title: 'Recommendation'
-                        , templateUrl: 'templates/channel.html'
-                        , controller: 'ChannelController as channelController'
+                        , templateUrl: 'app/quanquan/templates/channel.html'
+                        , controller: namespace + '.ChannelController as channelController'
                     }
                     , {
                         name: 'civilization'
                         , title: 'Civilization'
-                        , templateUrl: 'templates/channel.html'
-                        , controller: 'ChannelController as channelController'
+                        , templateUrl: 'app/quanquan/templates/channel.html'
+                        , controller: namespace + '.ChannelController as channelController'
                     }
                     , {
                         name: 'entertainment'
                         , title: 'Entertainment'
-                        , templateUrl: 'templates/channel.html'
-                        , controller: 'ChannelController as channelController'
+                        , templateUrl: 'app/quanquan/templates/channel.html'
+                        , controller: namespace + '.ChannelController as channelController'
                     }
                 ];
                 deferred.resolve(result);
@@ -137,7 +138,7 @@ function (angular, module) {
                             , abstract: false
                             , views: views
                             //, cache: false
-                            , type: 'general' // for app/routes.js futureStateFactory
+                            , type: 'quanquan' // for quanquan/routes.js futureStateFactory
                         }
                         states.push(state);
                     });

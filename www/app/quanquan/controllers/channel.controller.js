@@ -1,10 +1,11 @@
 define([
-    '../module',
+    '../module'
+    , '../namespace'
 ],
-function (module) {
+function (module, namespace) {
     'use strict';
 
-    var name = 'ChannelController';
+    var name = namespace + '.ChannelController';
 
     module.controller(name, ChannelController);
                 
@@ -30,7 +31,7 @@ function (module) {
     // });
     function ChannelController($scope, $state, $stateParams) {
         var vm = this;
-        vm.viewName = $state.current.name;
+        vm.stateName = $state.current.name;
         if(!$scope.abc){
             $scope.abc = ' '
         }
@@ -64,31 +65,31 @@ function (module) {
 // $ionicView.enter app.home.civilization
 // $ionicView.afterLeave app.home.recommendation
 // $ionicView.leave app.home.recommendation
-        console.info( vm.viewName + $scope.abc + new Date());
+        console.info( vm.stateName + $scope.abc + new Date());
 
         $scope.$on('$ionicView.loaded', function(){
-            console.info('$ionicView.loaded ' + vm.viewName);
+            console.info('$ionicView.loaded ' + vm.stateName);
         })
         $scope.$on('$ionicView.beforeEnter', function(){
-            console.info('$ionicView.beforeEnter ' + vm.viewName);
+            console.info('$ionicView.beforeEnter ' + vm.stateName);
         })
         $scope.$on('$ionicView.afterEnter', function(){
-            console.info('$ionicView.afterEnter ' + vm.viewName);
+            console.info('$ionicView.afterEnter ' + vm.stateName);
         })
         $scope.$on('$ionicView.enter', function(){
-            console.info('$ionicView.enter ' + vm.viewName);
+            console.info('$ionicView.enter ' + vm.stateName);
         })
         $scope.$on('$ionicView.unloaded', function(){
-            console.info('$ionicView.unloaded ' + vm.viewName);
+            console.info('$ionicView.unloaded ' + vm.stateName);
         })
         $scope.$on('$ionicView.beforeLeave', function(){
-            console.info('$ionicView.beforeLeave ' + vm.viewName);
+            console.info('$ionicView.beforeLeave ' + vm.stateName);
         })
         $scope.$on('$ionicView.afterLeave', function(){
-            console.info('$ionicView.afterLeave ' + vm.viewName);
+            console.info('$ionicView.afterLeave ' + vm.stateName);
         })
         $scope.$on('$ionicView.leave', function(){
-            console.info('$ionicView.leave ' + vm.viewName);
+            console.info('$ionicView.leave ' + vm.stateName);
         })
     }
 

@@ -1,16 +1,16 @@
 define([
-    'angular'
-    , '../module'
+    '../module'
+    , '../namespace'
 ],
-function (angular, module) {
+function (module, namespace) {
     'use strict';
 
-    var name = 'ChannelsController';
+    var name = namespace + '.ChannelsController';
 
     module.controller(name, ChannelsController);
                 
     ChannelsController.$inject = ['$scope', '$timeout', '$ionicLoading', 
-                    'channelService' ];
+                    namespace + '.channelService' ];
 
     return ChannelsController;
 
