@@ -20,6 +20,7 @@
     "requirejs": "2.1.16",
     "ngCordova": "~0.1.12-alpha",
     "font-awesome": "~4.3.0",
-    "ui-router-extras": "~0.0.14"
+    "ui-router-extras": "~0.0.14",
+    "angular-timeline": "~1.5.2"
   }
 }

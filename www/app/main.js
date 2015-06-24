@@ -12,6 +12,7 @@ require.config({
         ,"ngSanitize": 'lib/angular-sanitize/angular-sanitize'
         ,"ngUiRouter": 'lib/angular-ui-router/release/angular-ui-router'
         ,"ngUiRouterExtras": 'lib/ui-router-extras/release/ct-ui-router-extras'
+        ,"ngTimeline": 'lib/angular-timeline/dist/angular-timeline'
 
     },
     shim: {
@@ -24,6 +25,7 @@ require.config({
         , "ngUiRouter": {deps: ['angular']}
         , "ngUiRouterExtras": {deps: ['ngUiRouter']}
         , "ionicAngular": {deps: ['ngAnimate', 'ngSanitize', 'ngUiRouter', 'ionic']}
+        , "ngTimeline": {deps: ['angular']}
     }
 });
 

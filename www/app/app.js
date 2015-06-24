@@ -16,6 +16,7 @@ define([
     , 'ngUiRouter'
     , 'ngUiRouterExtras'
     , 'ionicAngular'
+    , 'ngTimeline'
     , './auth/module.require'
     , './account/module.require'
     , './contact/module.require'
@@ -39,6 +40,7 @@ function (angular, namespace
     var app = angular.module(namespace, 
         ['ionic'
         , 'ct.ui.router.extras.future', 'ct.ui.router.extras.statevis' // this two should be manually added
+        , 'angular-timeline'
         , authNamespace, accountNamespace
         , contactNamespace, searchNamespace
         , groupNamespace, commonNamespace

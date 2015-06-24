@@ -16,11 +16,20 @@ function (searchModule, searchNamespace, appNamespace) {
                 , abstract: true
               })
               .state(searchNamespace + '.index', {
-                url: ""
+                url: ''
                 , cache: false
                 , views: {
                   '@': {
-                    templateUrl: "app/search/templates/index.html"
+                    templateUrl: 'app/search/templates/index.html'
+                  }
+                }
+              })
+              .state(searchNamespace + '.socialPath', {
+                url: '/social-path'
+                , cache: false
+                , views: {
+                  '@': {
+                    templateUrl: 'app/search/templates/social_path.html'
                   }
                 }
               });
