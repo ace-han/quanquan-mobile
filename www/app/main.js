@@ -13,6 +13,10 @@ require.config({
         ,"ngUiRouter": 'lib/angular-ui-router/release/angular-ui-router'
         ,"ngUiRouterExtras": 'lib/ui-router-extras/release/ct-ui-router-extras'
         ,"ngTimeline": 'lib/angular-timeline/dist/angular-timeline'
+        ,"moment": 'lib/moment/min/moment-with-locales'
+        ,"ngMoment": 'lib/angular-moment/angular-moment'
+        ,"ngElastic": 'lib/angular-elastic/elastic'
+        ,"AutoLinker": 'lib/Autolinker.js/dist/Autolinker'
 
     },
     shim: {
@@ -26,6 +30,9 @@ require.config({
         , "ngUiRouterExtras": {deps: ['ngUiRouter']}
         , "ionicAngular": {deps: ['ngAnimate', 'ngSanitize', 'ngUiRouter', 'ionic']}
         , "ngTimeline": {deps: ['angular']}
+        , "ngMoment": {deps: ['angular', 'moment']}
+        , "ngElastic": {deps: ['angular']}
+        , "AutoLinker": {deps: ['angular']}
     }
 });
 

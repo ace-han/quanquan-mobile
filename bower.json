@@ -21,6 +21,10 @@
     "ngCordova": "~0.1.12-alpha",
     "font-awesome": "~4.3.0",
     "ui-router-extras": "~0.0.14",
-    "angular-timeline": "~1.5.2"
+    "angular-timeline": "~1.5.2",
+    "angular-elastic": "~2.4.2",
+    "Autolinker.js": "~0.17.2",
+    "moment": "~2.10.3",
+    "angular-moment": "~0.10.1"
   }
 }

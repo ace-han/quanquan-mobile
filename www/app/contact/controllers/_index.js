@@ -1,5 +1,5 @@
 define([
-    //'./login.controller'
+    './chat.controller'
     //, './register.controller'
 ], function () {
     'use strict';

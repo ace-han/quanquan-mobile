@@ -22,6 +22,15 @@ function (contactModule, contactNamespace, appNamespace) {
                     templateUrl: 'app/contact/templates/index.html'
                   }
                 }
-              });
+              })
+              .state(contactNamespace + '.chat', {
+                url: '/chat'
+                , views: {
+                  '@': {
+                    templateUrl: 'app/contact/templates/chat.html'
+                    , controller: contactNamespace + '.ChatController as chatController'
+                  }
+                }
+              })
         }]);
 });

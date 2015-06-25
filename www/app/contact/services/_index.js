@@ -1,5 +1,5 @@
 define([
-    // './auth.service'
+    './chat.service'
     // , './register.service'
 ], function () {
     'use strict';
