@@ -16,7 +16,7 @@ function (searchModule, searchNamespace, appNamespace) {
                 , abstract: true
               })
               .state(searchNamespace + '.index', {
-                url: ''
+                url: '?q&category'
                 , cache: false
                 , views: {
                   '@': {

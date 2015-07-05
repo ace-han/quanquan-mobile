@@ -23,15 +23,14 @@ function (groupModule, groupNamespace, appNamespace) {
                   }
                 }
               })
-              /*
-              .state(groupNamespace + '.topics', {
-                url: '/topics',
+              .state(groupNamespace + '.group', {
+                url: '/group/:slug',
                 views: {
                   '@': {
-                    templateUrl: 'app/group/templates/topics.html', 
+                    templateUrl: 'app/group/templates/group.html', 
                   }
                 }
               })
-              */
+              
         }]);
 });
