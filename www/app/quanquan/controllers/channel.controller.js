@@ -103,7 +103,7 @@ function (module, namespace) {
         // Use the delegate handle name from the view.
         $scope.$on("$ionicView.loaded", function() {
             console.log("View loaded! Triggering PTR");
-            pullToRefreshService.triggerPtr('ptr-content');
+            pullToRefreshService.triggerPtr('channel-ptr-content');
         });
 
         function doRefresh() {

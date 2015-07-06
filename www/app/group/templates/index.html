@@ -1,5 +1,10 @@
 <ion-view view-title="Group" hide-back-button="true">
-    <ion-content>
+    <ion-nav-buttons side="right">
+        <button class="button button-icon ion-android-more-vertical" 
+            ng-click="groupsController.openPopover($event)">
+        </button>
+    </ion-nav-buttons>
+    <ion-content delegate-handle="groups-ptr-content">
         <div class="padding" style="padding-bottom:0;">
             <button class="button button-block icon-left ion-search button-stable button-outlined" 
             style="text-align:left;" ui-sref="search.index({category: 'group'})">
@@ -9,45 +14,24 @@
 
 		<div class="positive padding-left padding-top">Joined Groups</div>
         <ion-list>
-	        <ion-refresher on-refresh="doRefresh()">
+	        <ion-refresher on-refresh="groupsController.doRefresh()">
 	        </ion-refresher>
-            <ion-item class="item-media media-block item-icon-right" ui-sref="group.group({slug: 'a'})">
+            <ion-item ng-repeat="group in groupsController.joinedGroups" class="item-media media-block item-icon-right" 
+                    ui-sref="group.group({slug: group.slug})">
             	<div class="media-thumbnail size-md">
-            		<img src="http://ionicframework.com/img/docs/venkman.jpg" class="img64x64"/>
+            		<img ng-src="{{ group.imgSrc }}" class="img64x64"/>
             	</div>	
             	<div class="media-body box-col">
             		<div class="strong-text text-cut">
-                		A Team 
+                		 {{ group.name }}
             		</div>
                 </div>
                 <i class="icon ion-chevron-right icon-accessory"></i>
             </ion-item>
 
-            <ion-item class="item-media media-block item-icon-right" ui-sref="group.group({slug: 'b'})">
-            	<div class="media-thumbnail size-md">
-            		<img src="http://ionicframework.com/img/docs/venkman.jpg" class="img64x64"/>
-            	</div>	
-            	<div class="media-body box-col">
-            		<div class="strong-text text-cut">
-                		B Team 
-            		</div>
-                </div>
-                <i class="icon ion-chevron-right icon-accessory"></i>
-            </ion-item>
-            <ion-item class="item-media media-block item-icon-right" ui-sref="group({slug: 'c'})">
-            	<div class="media-thumbnail size-md">
-            		<img src="http://ionicframework.com/img/docs/venkman.jpg" class="img64x64"/>
-            	</div>	
-            	<div class="media-body box-col">
-            		<div class="strong-text text-cut">
-                		C Team 
-            		</div>
-                </div>
-                <i class="icon ion-chevron-right icon-accessory"></i>
-            </ion-item>
             <ion-infinite-scroll 
-	        	ng-if="channelController.moreDataCanBeLoaded()" 
-	        	on-infinite="channelController.loadMore()"
+	        	ng-if="groupsController.moreDataCanBeLoaded()" 
+	        	on-infinite="groupsController.loadMore()"
 	        	distance="2%"
 	        	>
 	        </ion-infinite-scroll>

@@ -20,6 +20,7 @@ function (groupModule, groupNamespace, appNamespace) {
                 , views: {
                   '@': {
                     templateUrl: 'app/group/templates/index.html'
+                    , controller: groupNamespace + '.GroupsController as groupsController'
                   }
                 }
               })
