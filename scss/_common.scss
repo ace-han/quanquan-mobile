@@ -84,3 +84,12 @@ input.reset-field {
   white-space: nowrap;	
 }
 
+.popover.popover-fit {
+    height: auto;
+
+    .scroll-content {
+        position: relative;
+        display: block;
+        max-height: $popover-height;
+    }
+}

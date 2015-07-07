@@ -13,28 +13,30 @@
         </div>
 
 		<div class="positive padding-left padding-top">Joined Groups</div>
-        <ion-list>
-	        <ion-refresher on-refresh="groupsController.doRefresh()">
-	        </ion-refresher>
-            <ion-item ng-repeat="group in groupsController.joinedGroups" class="item-media media-block item-icon-right" 
-                    ui-sref="group.group({slug: group.slug})">
-            	<div class="media-thumbnail size-md">
-            		<img ng-src="{{ group.imgSrc }}" class="img64x64"/>
-            	</div>	
-            	<div class="media-body box-col">
-            		<div class="strong-text text-cut">
-                		 {{ group.name }}
-            		</div>
-                </div>
-                <i class="icon ion-chevron-right icon-accessory"></i>
-            </ion-item>
 
-            <ion-infinite-scroll 
-	        	ng-if="groupsController.moreDataCanBeLoaded()" 
-	        	on-infinite="groupsController.loadMore()"
-	        	distance="2%"
-	        	>
-	        </ion-infinite-scroll>
+            <ion-list>
+    	        <ion-refresher on-refresh="groupsController.doRefresh()">
+    	        </ion-refresher>
+                <ion-item ng-repeat="group in groupsController.joinedGroups" class="item-media media-block item-icon-right" 
+                        ui-sref="group.group({slug: group.slug})">
+                	<div class="media-thumbnail size-md">
+                		<img ng-src="{{ group.imgSrc }}" class="img64x64"/>
+                	</div>	
+                	<div class="media-body box-col">
+                		<div class="strong-text text-cut">
+                    		 {{ group.name }}
+                		</div>
+                    </div>
+                    <i class="icon ion-chevron-right icon-accessory"></i>
+                </ion-item>
+
+                <ion-infinite-scroll 
+    	        	ng-if="groupsController.moreDataCanBeLoaded()" 
+    	        	on-infinite="groupsController.loadMore()"
+    	        	distance="2%"
+    	        	>
+    	        </ion-infinite-scroll>
         </ion-list>
+
     </ion-content>
 </ion-view>

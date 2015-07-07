@@ -4,53 +4,44 @@
         </button>
         <button class="button button-icon ion-android-more-vertical" ui-sref="search.index">
         </button>
-        
     </ion-nav-buttons>
-    <ion-content>
-        
+    <ion-content delegate-handle="group-ptr-content">
         <ion-list>
-	        <ion-refresher on-refresh="doRefresh()">
-	        </ion-refresher>
-            <ion-item class="item-media media-block item-icon-right" ui-sref="group.group({slug: 'a'})">
-            	<div class="media-thumbnail size-md">
-            		<img src="http://ionicframework.com/img/docs/venkman.jpg" class="img64x64"/>
-            	</div>	
-            	<div class="media-body box-col">
-            		<div class="strong-text text-cut">
-                		A Team 
-            		</div>
+            <ion-refresher on-refresh="groupController.doRefresh()">
+            </ion-refresher>
+            <div style="border-bottom: 3px solid #a2a2a2;">
+                <ion-item class="item-stable item-icon-right" ng-click="groupController.toggleGroup()" ng-class="{active: groupController.isGroupShown()}">
+                    Group {{groupController.group.name}}
+                    <i class="icon" ng-class="groupController.isGroupShown() ? 'ion-chevron-up' : 'ion-chevron-down'"></i>
+                </ion-item>
+                <ion-item class="item-accordion item-icon-right" ui-sref="group.group.info({slug: 'a'})" ng-show="groupController.isGroupShown()">
+                    Owner
+                    <span class="item-note">{{ groupController.group.owner }}</span>
+                    <i class="icon ion-chevron-right icon-accessory"></i>
+                </ion-item>
+                <ion-item class="item-accordion item-icon-right" ui-sref="group.group.info({slug: 'a'})" ng-show="groupController.isGroupShown()">
+                    Members
+                    <span class="item-note">{{ groupController.group.memberCount }}</span>
+                    <i class="icon ion-chevron-right icon-accessory"></i>
+                </ion-item>
+                <ion-item class="item-accordion item-icon-right" ui-sref="group.group.info({slug: 'a'})" ng-show="groupController.isGroupShown()">
+                    {{ groupController.group.brief }}
+                    <i class="icon ion-chevron-right icon-accessory"></i>
+                </ion-item>
+            </div>
+            <ion-item ng-repeat="group in groupController.joinedGroups" class="item-media media-block item-icon-right" ui-sref="group.group({slug: group.slug})">
+                <div class="media-thumbnail size-md">
+                    <img ng-src="{{ group.imgSrc }}" class="img64x64" />
+                </div>
+                <div class="media-body box-col">
+                    <div class="strong-text text-cut">
+                        {{ group.name }}
+                    </div>
                 </div>
                 <i class="icon ion-chevron-right icon-accessory"></i>
             </ion-item>
-
-            <ion-item class="item-media media-block item-icon-right" ui-sref="group.group({slug: 'a'})">
-            	<div class="media-thumbnail size-md">
-            		<img src="http://ionicframework.com/img/docs/venkman.jpg" class="img64x64"/>
-            	</div>	
-            	<div class="media-body box-col">
-            		<div class="strong-text text-cut">
-                		B Team 
-            		</div>
-                </div>
-                <i class="icon ion-chevron-right icon-accessory"></i>
-            </ion-item>
-            <ion-item class="item-media media-block item-icon-right" ui-sref="group({slug: 'a'})">
-            	<div class="media-thumbnail size-md">
-            		<img src="http://ionicframework.com/img/docs/venkman.jpg" class="img64x64"/>
-            	</div>	
-            	<div class="media-body box-col">
-            		<div class="strong-text text-cut">
-                		C Team 
-            		</div>
-                </div>
-                <i class="icon ion-chevron-right icon-accessory"></i>
-            </ion-item>
-            <ion-infinite-scroll 
-	        	ng-if="channelController.moreDataCanBeLoaded()" 
-	        	on-infinite="channelController.loadMore()"
-	        	distance="2%"
-	        	>
-	        </ion-infinite-scroll>
+            <ion-infinite-scroll ng-if="groupController.moreDataCanBeLoaded()" on-infinite="groupController.loadMore()" distance="2%">
+            </ion-infinite-scroll>
         </ion-list>
     </ion-content>
 </ion-view>

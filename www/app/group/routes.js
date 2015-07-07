@@ -17,6 +17,7 @@ function (groupModule, groupNamespace, appNamespace) {
               })
               .state(groupNamespace + '.index', {
                 url: ''
+                , cache: false
                 , views: {
                   '@': {
                     templateUrl: 'app/group/templates/index.html'
@@ -25,10 +26,21 @@ function (groupModule, groupNamespace, appNamespace) {
                 }
               })
               .state(groupNamespace + '.group', {
-                url: '/group/:slug',
-                views: {
+                url: '/group/:slug'
+                , cache: false
+                , views: {
                   '@': {
-                    templateUrl: 'app/group/templates/group.html', 
+                    templateUrl: 'app/group/templates/group.html'
+                    , controller: groupNamespace + '.GroupController as groupController'
+                  }
+                }
+              })
+              .state(groupNamespace + '.group.info', {
+                url: '/info'
+                , cache: false
+                , views: {
+                  '@': {
+                    templateUrl: 'app/group/templates/group_info.html'
                   }
                 }
               })

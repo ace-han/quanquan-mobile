@@ -105,10 +105,13 @@ function (module, namespace) {
 
         function moreDataCanBeLoaded(){
             // return true will trigger loadMore function
-            return vm.joinedGroups.length > 10 && vm.joinedGroups.length <= 30;
+            var result = vm.joinedGroups.length > 2 && vm.joinedGroups.length <= 30;
+            console.info('groupsController.moreDataCanBeLoaded', result);
+            return result;
         }
 
         function loadMore(){
+            console.info('groupsController.loadMore');
             $timeout(function(){
                 console.info('loadMore')
                 for(var i=0; i<3; i++){
