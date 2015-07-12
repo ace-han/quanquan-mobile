@@ -1,0 +1,34 @@
+<ion-view view-title="Topic" class="white-pane">
+    <ion-nav-buttons side="right">
+        <button class="button button-icon fa fa-pencil-square-o" ui-sref="search.index">
+        </button>
+        <button class="button button-icon ion-android-more-vertical" ng-click="topicController.openPopover($event)">
+        </button>
+    </ion-nav-buttons>
+    <ion-content>
+                
+        <button class="button button-full icon-right ion-chevron-right button-stable button-outlined text-cut" 
+            style="text-align:left; margin:0;" ui-sref="goup.group({slug: topicController.topic.groupSlug })">
+            {{ topicController.topic.groupName }}
+        </button>
+        <h3> {{ topicController.topic.title }} </h3>
+        <div class="item-media media-block">
+            <div class="media-thumbnail size-md">
+                <img src="http://ionicframework.com/img/docs/venkman.jpg" 
+                class="img64x64" style="border-radius:50%;"
+                ui-sref="search.index"/>
+            </div>  
+            <div class="media-body box-col">
+                <a class="weak-colored-text text-cut" ui-sref="search.index">
+                    {{ topicController.topic.authorName }}
+                </a>
+                {{ topicController.topic.publishedAt | amDateFormat:'YYYY-MM-DD, h:mm' }}
+            </div>
+            
+        </div>
+        <article class="padding" ng-bind-html="topicController.topic.content"></article>
+        
+        <div ui-view="topic-replies"></div>
+        
+    </ion-content>
+</ion-view>

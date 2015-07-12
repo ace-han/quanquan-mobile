@@ -57,8 +57,8 @@ function (angular, module, namespace) {
             var deferred = $q.defer();
             if(!_cache) {
                 doGetJoinedGroups().then(
-                    function(channels){
-                        _cache = channels;
+                    function(groups){
+                        _cache = groups;
                         deferred.resolve(_cache);
                     }
                     , function(error){

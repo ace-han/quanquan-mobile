@@ -29,16 +29,21 @@
                     <i class="icon ion-chevron-right icon-accessory"></i>
                 </ion-item>
             </div>
-            <ion-item ng-repeat="group in groupController.joinedGroups" class="item-media media-block item-icon-right" ui-sref="group.group({slug: group.slug})">
+            <ion-item ng-repeat="topic in groupController.topics" class="item-media media-block" ui-sref="group.topic.withReplies({id: topic.id})">
                 <div class="media-thumbnail size-md">
-                    <img ng-src="{{ group.imgSrc }}" class="img64x64" />
-                </div>
+                    <img ng-src="{{ topic.imgSrc }}" class="img64x64" />
+                </div>  
                 <div class="media-body box-col">
-                    <div class="strong-text text-cut">
-                        {{ group.name }}
-                    </div>
+                    <h2 class="media-content">{{ topic.title | limitTo: 150}} {{topic.title.length <= 150 ? '' : '...'}}</h2>
+                    <p class="footer media-other-text">
+                        <span class="">{{ topic.authorName }}</span>
+                        <span >{{ topic.publishedAt| amCalendar }}</span>
+                        <span class="pull-right">
+                        <i class="fa fa-comment-o"></i>
+                        {{ topic.replyCount }}
+                        </span>
+                    </p>
                 </div>
-                <i class="icon ion-chevron-right icon-accessory"></i>
             </ion-item>
             <ion-infinite-scroll ng-if="groupController.moreDataCanBeLoaded()" on-infinite="groupController.loadMore()" distance="2%">
             </ion-infinite-scroll>

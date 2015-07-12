@@ -9,22 +9,23 @@ function (module, namespace) {
 
     module.controller(name, GroupController);
                 
-    GroupController.$inject = ['$scope', '$timeout', '$ionicLoading', '$ionicPopover'
-            , 'pullToRefreshService' ,namespace + '.groupService' ];
+    GroupController.$inject = ['$scope', '$timeout', '$ionicLoading', '$ionicPopover', 'moment'
+            , 'pullToRefreshService' ,namespace + '.groupService', namespace + '.topicService' ];
 
     return GroupController;
 
-    function GroupController($scope, $timeout, $ionicLoading, $ionicPopover
-                , pullToRefreshService, groupService) {
+    function GroupController($scope, $timeout, $ionicLoading, $ionicPopover, Moment
+                , pullToRefreshService, groupService, topicService) {
         var vm = this;
 
-        vm.joinedGroups = [];
+        vm.topics = [];
         vm.doRefresh = doRefresh;
         vm.moreDataCanBeLoaded = moreDataCanBeLoaded;
         vm.loadMore = loadMore;
         vm.openPopover = openPopover;
         vm.closePopover = closePopover;
         vm.group = {name: 'Test'
+                    , slug: 'a'
                     , owner: 'test'
                     , memberCount: 100
                     , brief: 'test test test test test to the end!!!'}
@@ -70,37 +71,41 @@ function (module, namespace) {
             console.log('Refreshing!');
 
                 if (!refreshed) {
-                    groupService.getJoinedGroups()
-            .then(
-                function(groups){
-                    angular.forEach(groups, function(group){
-                        vm.joinedGroups.push({
-                            slug: group.slug
-                            , imgSrc: group.imgSrc
-                            , name: group.name
-                        });
-                    });
-                    refreshed = true;
-                    //Stop the ion-refresher from spinning
-                    $scope.$broadcast('scroll.refreshComplete');
-            }
-            , function(error){
-                $timeout(function(){
-                    $ionicLoading.show({ template: 'Load Failed! Retry later', 
-                        noBackdrop: true, duration: 2000 });
+                    topicService.getGroupTopics(vm.group.slug)
+                        .then(
+                            function(topics){
+                                angular.forEach(topics, function(topic){
+                                    vm.topics.push(topic);
+                                });
+                                refreshed = true;
+                                //Stop the ion-refresher from spinning
+                                $scope.$broadcast('scroll.refreshComplete');
+                        }
+                        , function(error){
+                            $timeout(function(){
+                                $ionicLoading.show({ template: 'Load Failed! Retry later', 
+                                    noBackdrop: true, duration: 2000 });
 
-                    //Stop the ion-refresher from spinning
-                    $scope.$broadcast('scroll.refreshComplete');
-                }, 500); 
-            });
+                                //Stop the ion-refresher from spinning
+                                $scope.$broadcast('scroll.refreshComplete');
+                            }, 500); 
+                        });
 
                     
                 } else {
                     //simulate async response
                     for(var i=0; i<10; i++){
-                        vm.joinedGroups.unshift({slug: i
-                                                , imgSrc: 'http://ionicframework.com/img/docs/venkman.jpg'
-                                                , name: ' New Item ' + Math.floor(Math.random() * 1000) + 4});
+                        vm.topics.unshift({
+                        id: i
+                        , title: 'Title for Topic ' + Math.floor(Math.random() * 1000)
+                        , slug: 'b'
+                        , imgSrc: 'http://ionicframework.com/img/docs/venkman.jpg'
+                        , authorName: 'Bob'
+                        , replyCount: 200
+                        , publishedAt: Moment().subtract(1, 'minutes')
+                        , groupName: 'Long long long long long long long long long long group name'
+                        , groupSlug: 'a'
+                        })
                     }
 
                     //Stop the ion-refresher from spinning
@@ -111,7 +116,7 @@ function (module, namespace) {
 
         function moreDataCanBeLoaded(){
             // return true will trigger loadMore function
-            var result = vm.joinedGroups.length > 2 && vm.joinedGroups.length <= 30;
+            var result = vm.topics.length > 2 && vm.topics.length <= 30;
             console.info('groupController.moreDataCanBeLoaded', result);
             return result;
         }
@@ -121,9 +126,17 @@ function (module, namespace) {
             $timeout(function(){
                 console.info('loadMore')
                 for(var i=0; i<3; i++){
-                    vm.joinedGroups.push({slug: i
-                                , imgSrc: 'http://ionicframework.com/img/docs/venkman.jpg'
-                                , name: ' New Item ' + Math.floor(Math.random() * 1000) + 4});
+                    vm.topics.push({
+                        id: i
+                        , title: 'Title for Topic ' + Math.floor(Math.random() * 1000)
+                        , slug: 'b'
+                        , imgSrc: 'http://ionicframework.com/img/docs/venkman.jpg'
+                        , authorName: 'Bob'
+                        , replyCount: 200
+                        , publishedAt: Moment().subtract(i, 'months')
+                        , groupName: 'Long long long long long long long long long long group name'
+                        , groupSlug: 'a'
+                        });
                 }
                 $scope.$broadcast('scroll.infiniteScrollComplete');
             }, 1000);

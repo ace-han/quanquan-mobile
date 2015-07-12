@@ -1,0 +1,30 @@
+
+<ion-list>
+    <!-- 
+    since the reply is listed by publishedAt asc
+    so the refresher is not necessary here
+    -->
+    <ion-item ng-repeat="reply in repliesController.replies" class="item-media media-block">
+        <div class="media-thumbnail size-s">
+            <img ng-src="{{ reply.authorImg }}" class="img64x64"/>
+        </div>
+        <div class="media-body box-col">
+            <h2 class="media-heading text-cut" ui-sref="search.index">{{ reply.authorName }}</h2>
+            <p class="media-other-text">
+                {{ reply.publishedAt | amTimeAgo }}
+            </p>
+            <div class="media-content">
+                {{ reply.content }}
+            </div>
+        </div>
+        <span class="plus">
+            <a class="weak-colored-text upper-right">
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </span>
+    </ion-item>
+    <ion-infinite-scroll ng-if="repliesController.moreDataCanBeLoaded()" 
+        on-infinite="repliesController.loadMore()" distance="2%">
+    </ion-infinite-scroll>
+</ion-list>
+

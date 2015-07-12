@@ -45,8 +45,28 @@ function (groupModule, groupNamespace, appNamespace) {
                   }
                 }
               })
-              //  requirement
-              // issue
+              
+              .state(groupNamespace + '.topic', {
+                url: '/topic/:id'
+                , cache: false
+                , views: {
+                  '@': {
+                    templateUrl: 'app/group/templates/topic.html'
+                    , controller: groupNamespace + '.TopicController as topicController'
+                  }
+                }
+              })
+
+              .state(groupNamespace + '.topic.withReplies', {
+                url: '/with-replies'  // here means with replies
+                , cache: false
+                , views: {
+                  'topic-replies@group.topic': {
+                    templateUrl: 'app/group/templates/reply_list.html'
+                    , controller: groupNamespace + '.RepliesController as repliesController'
+                  }
+                }
+              })
               
         }]);
 });

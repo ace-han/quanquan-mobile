@@ -1,6 +1,7 @@
 define([
     './group.service'
-    //, './register.service'
+    , './topic.service'
+    , './reply.service'
 ], function () {
     'use strict';
 });
