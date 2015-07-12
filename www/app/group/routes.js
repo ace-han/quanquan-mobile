@@ -41,9 +41,12 @@ function (groupModule, groupNamespace, appNamespace) {
                 , views: {
                   '@': {
                     templateUrl: 'app/group/templates/group_info.html'
+                    , controller: groupNamespace + '.GroupInfoController as groupInfoController'
                   }
                 }
               })
+              //  requirement
+              // issue
               
         }]);
 });
