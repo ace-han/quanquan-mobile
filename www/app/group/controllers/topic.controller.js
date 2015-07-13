@@ -1,8 +1,9 @@
 define([
-    '../module'
+    'angular'
+    , '../module'
     , '../namespace'
 ],
-function (module, namespace) {
+function (angular, module, namespace) {
     'use strict';
 
     var name = namespace + '.TopicController';
@@ -10,21 +11,48 @@ function (module, namespace) {
     module.controller(name, TopicController);
                 
     TopicController.$inject = ['$scope', '$timeout', '$ionicLoading', '$ionicPopover'
-            , '$stateParams', namespace + '.topicService'];
+            , '$ionicModal', '$stateParams', namespace + '.topicService'];
 
     return TopicController;
 
     function TopicController($scope, $timeout, $ionicLoading, $ionicPopover
-                , $stateParams, topicService) {
+                , $ionicModal, $stateParams, topicService) {
         var vm = this;
 
-
-        vm.openPopover = openPopover;
-        vm.closePopover = closePopover;
-
-        vm.group = {name: 'Group Name'
+        var attributes = {
+            group: {name: 'Group Name'
                     , slug: 'group-slug'
                     }
+            , topic: {}
+            , replyTo: ''   // for modal reply
+            , replyContent: ''
+        };
+
+        var methods = {
+            openPopover: openPopover
+            , closePopover: closePopover
+            , openModal: openModal
+            , closeModal: closeModal
+        };
+
+
+        vm = angular.extend(vm, attributes, methods);
+
+        $scope.vm = vm;
+        $ionicLoading.show({noBackdrop: true});
+
+        topicService.getTopic($stateParams.id)
+            .then(function(topic){
+                vm.topic = topic;
+                vm.replyTo = topic.title;
+                $ionicLoading.hide();
+            }
+            , function(error){
+                $timeout(function(){
+                    $ionicLoading.show({ template: 'Load Failed! Retry later', 
+                        noBackdrop: true, duration: 2000 });
+                }, 500); 
+            });
         /*
         vm.replies = [];
 
@@ -37,6 +65,12 @@ function (module, namespace) {
             $scope.popover = popover;
         });
 
+        $ionicModal.fromTemplateUrl('app/group/templates/reply_modal.html', {
+            scope: $scope
+            , animation: 'slide-in-up'
+        }).then(function(modal) {
+            $scope.modal = modal;
+        });
 
         function openPopover($event) {
             $scope.popover.show($event);
@@ -44,38 +78,25 @@ function (module, namespace) {
         function closePopover() {
             $scope.popover.hide();
         };
+
+        function openModal($event) {
+            $scope.modal.show($event);
+        };
+        function closeModal() {
+            $scope.modal.hide();
+        };
+
+        
         //Cleanup the popover when we're done with it!
         $scope.$on('$destroy', function() {
             $scope.popover.remove();
+            $scope.modal.remove();
         });
-        // Execute action on hide popover
-        $scope.$on('popover.hidden', function() {
-        // Execute action
-        });
-        // Execute action on remove popover
-        $scope.$on('popover.removed', function() {
-        // Execute action
-        });
-        // When the view is loaded, trigger the PTR event.
-        // Use the delegate handle name from the view.
-        $scope.$on("$ionicView.loaded", function() {
-            console.log("View loaded! Triggering PTR");
+        
 
-        });
 
-        $ionicLoading.show({noBackdrop: true});
 
-        topicService.getTopic($stateParams.id)
-            .then(function(topic){
-                vm.topic = topic;
-                $ionicLoading.hide();
-            }
-            , function(error){
-                $timeout(function(){
-                    $ionicLoading.show({ template: 'Load Failed! Retry later', 
-                        noBackdrop: true, duration: 2000 });
-                }, 500); 
-            });
+        
         /*
         // replies
         replyService.getTopicReplies($stateParams.id)

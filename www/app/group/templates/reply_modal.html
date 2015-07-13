@@ -1,0 +1,24 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-positive">
+        <div class="buttons">
+            <button ng-click="modal.hide()" class="button back-button buttons  button-clear header-item">
+	            <i class="icon ion-android-close"></i> 
+	            <span class="back-text" style="-webkit-transform: translate3d(0px, 0px, 0px);"></span>
+            </button>
+        </div>
+        <h1 class="title">Reply To: {{ vm.replyTo }}</h1>
+        <div class="buttons">
+        	<button ng-click="modal.hide()" class="button back-button buttons  button-clear header-item">
+	            <i class="icon ion-android-send"></i> 
+	            <span class="back-text" style="-webkit-transform: translate3d(0px, 0px, 0px);"></span>
+            </button>
+        </div>
+    </ion-header-bar>
+        
+		<textarea placeholder="Content" 
+				class="has-header padding"
+			    style="position:absolute; height:80%; width:100%"
+			    ng-model="vm.replyContent"></textarea>
+    <!-- <ion-content>
+    </ion-content> -->
+</ion-modal-view>
