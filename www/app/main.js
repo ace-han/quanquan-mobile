@@ -1,12 +1,16 @@
 
 require.config({
-    baseUrl: '/', // let's move back to 'www' folder
+    // baseUrl in this config means path relative to index.html
+    // 1. if no data-main defined then baseUrl relative to the folder where require.js lies
+    // 2. if data-main defined then baseUrl relative to the folder where data-main="xxx" lies
+    // 3. if in require.config({baseUrl: 'xxx'}) defined then base Url relative to the folder where index.html lies
+    baseUrl: './', 
     waitSeconds: 0,
     paths: {
         "ngCordova": 'lib/ngCordova/dist/ng-cordova'
         ,"cordova": 'cordova'
-        ,"ionic": 'lib/ionic/js/ionic'
-        ,"ionicAngular": 'lib/ionic/js/ionic-angular'
+        ,"ionic": 'lib/ionic/release/js/ionic'
+        ,"ionicAngular": 'lib/ionic/release/js/ionic-angular'
         ,"angular": 'lib/angular/angular'
         ,"ngAnimate": 'lib/angular-animate/angular-animate'
         ,"ngSanitize": 'lib/angular-sanitize/angular-sanitize'
@@ -45,6 +49,8 @@ require([
     ],
     function (cordova, angular, namespace) {
         angular.element(document).ready(function() {
-             angular.bootstrap(document, [namespace]);
+            // since app/app depends on a lot of other stuff (by requirejs),
+            // so we just need to bootstrap ['app'] then all stuff in this project is up
+            angular.bootstrap(document, [namespace]);
        });
     });

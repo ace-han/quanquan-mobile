@@ -43,8 +43,8 @@ function (quanquanModule, quanquanNamespace, appNamespace) {
                         console.info('resolved 1st channel:', firstState.name);
                         $state.go(firstState.name);
                         // console.info($ionicHistory.viewHistory() );
-                    }, function error(error){
-                      $ionicLoading.show({ template: error, 
+                    }, function error(err){
+                      $ionicLoading.show({ template: err, 
                           noBackdrop: true, duration: 2000 });
                     });
               }]

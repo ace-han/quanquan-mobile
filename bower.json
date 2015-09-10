@@ -16,15 +16,15 @@
     "tests"
   ],
   "dependencies": {
-    "ionic": "driftyco/ionic-bower#1.0.1",
-    "requirejs": "2.1.16",
-    "ngCordova": "~0.1.12-alpha",
-    "font-awesome": "~4.3.0",
-    "ui-router-extras": "~0.0.14",
-    "angular-timeline": "~1.5.2",
     "angular-elastic": "~2.4.2",
+    "angular-moment": "~0.10.1",
+    "angular-timeline": "~1.5.2",
     "Autolinker.js": "~0.17.2",
+    "font-awesome": "~4.3.0",
+    "ionic": "~1.1.0",
     "moment": "~2.10.3",
-    "angular-moment": "~0.10.1"
+    "ngCordova": "~0.1.12-alpha",
+    "requirejs": "2.1.16",
+    "ui-router-extras": "~0.0.14"
   }
 }
