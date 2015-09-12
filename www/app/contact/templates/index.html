@@ -5,5 +5,19 @@
     </ion-nav-buttons>
     <ion-content>
         <h1>Contacts</h1>
+        
+        <ion-list>
+                <ion-item ng-repeat="contact in contactsController.contacts" class="item-media media-block item-icon-right">
+                	<div class="media-thumbnail size-md">
+                		<img ng-src="{{ contact.imgSrc }}" class="img64x64"/>
+                	</div>	
+                	<div class="media-body box-col">
+                		<div class="strong-text text-cut">
+                    		 {{ contact.name }}
+                		</div>
+                    </div>
+                    <i class="icon ion-chevron-right icon-accessory"></i>
+                </ion-item>
+        </ion-list>
     </ion-content>
 </ion-view>

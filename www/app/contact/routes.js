@@ -20,6 +20,8 @@ function (contactModule, contactNamespace, appNamespace) {
                 , views: {
                   '@': {
                     templateUrl: 'app/contact/templates/index.html'
+                    , controller: contactNamespace + '.ContactsController as contactsController'
+                    
                   }
                 }
               })
