@@ -13,6 +13,9 @@ function (accountModule, accountNamespace, appNamespace) {
               .state(accountNamespace, {
                 url: '/account'
                 , parent: appNamespace
+                , data: {
+                  loginRequired: true
+                }
                 , abstract: true
               })
               .state(accountNamespace + '.profile', {

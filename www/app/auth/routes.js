@@ -61,5 +61,13 @@ function (authModule, authNamespace, appNamespace) {
                   }
                 }
               })
+              .state(authNamespace + '.accessDenied', {
+                url: "/change-password"
+                , views: {
+                  '@': {
+                    templateUrl: "app/auth/templates/403.html" 
+                  }
+                }
+              })
         }]);
 });

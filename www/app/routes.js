@@ -16,6 +16,14 @@ define([
             $stateProvider
                 .state(namespace, {
                   abstract: true
+                  , resolve: {
+                    authorize: ['$q', 'auth.authService', 
+                      function($q, authService) {
+                        console.info('root resolve authService.auth');
+                        return $q.all(authService.authenticate(), authService.authorize());
+                      }
+                    ]
+                  }
                   , views: {
                     'left-panel': {
                       templateUrl: 'templates/left_panel.html'

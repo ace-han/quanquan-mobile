@@ -1,3 +1,4 @@
+
 define([
     'angular'
     , '../module'
@@ -6,77 +7,70 @@ define([
 ],
 function (angular, module, namespace) {
     'use strict';
+    // Second, you need a service that checks the state the user wants to go to, 
+    // makes sure they're logged in,  and then does a role check
+    // refer to http://stackoverflow.com/questions/22537311/angular-ui-router-login-authentication
 
     var name = namespace + ".authService";
-
+    
+    
     module.factory(name, authService);
 
-    authService.$inject = ['$http', '$q', '$window' ];
+    authService.$inject = ['$rootScope', '$state', 'auth.principalService' ];
 
     return authService;
 
-    function authService($http, $q, $window){
+    function authService($rootScope, $state, principalService){
         var service = {
-            login: login
-            , logout: logout
-            , currentUser: currentUser
-            , setToken: setToken
-            , getToken: getToken
-            , deleteToken: deleteToken
+            authenticate: authenticate
+            , authorize: authorize
         }
 
         return service;
 
-        
+        function authorize(){
+            return principalService
+                .identity()
+                .then(function() {
+                    var isAuthenticated = principalService.isAuthenticated();
 
-        function login(username, password){
+                    if ($rootScope.toState.data
+                        && $rootScope.toState.data.roles 
+                        && $rootScope.toState.data.roles.length > 0 
+                        && !principalService.isInAnyRole($rootScope.toState.data.roles)) {
+                        if (isAuthenticated){
+                            $state.go('auth.accessDenied'); // user is signed in but not authorized for desired state
+                        } else {
+                            // user is not authenticated. stow the state they wanted before you
+                            // send them to the signin state, so you can return them when you're done
+                            $rootScope.returnToState = $rootScope.toState;
+                            $rootScope.returnToStateParams = $rootScope.toStateParams;
 
-            var deferred = $q.defer();
-
-            $http.post('/api/v1/auth/login/', 
-                {   username: username
-                    , password: password
-                }).success(function (response, status, headers, config) {
-                    if (response.token) {
-                        // if token means success, we can extract the payload
-                        var token = response.token;
-                        var payload = angular.fromJson( $window.atob(token.split('.')[1]) );
-                        service.setToken(response.token);
-
-                        deferred.resolve(payload);
+                            // now, send them to the signin state so they can log in
+                            $state.go('auth.login');
+                        }
                     }
-                    // for some other un-expected situation
-                    deferred.resolve(response, status, headers, config);
-                }).error(function (response, status, headers, config) {
-                    deferred.reject(response, status, headers, config);
                 });
-            return deferred.promise;
         }
 
-        function logout() {
-          service.deleteToken();
-        }
+        function authenticate(){
+            return principalService
+                .identity()
+                .then(function() {
+                    var isAuthenticated = principalService.isAuthenticated();
 
-        var _currentUser;
+                    if ($rootScope.toState.data
+                        && $rootScope.toState.data.loginRequired 
+                        && !isAuthenticated ) {
+                        // user is not authenticated. stow the state they wanted before you
+                        // send them to the signin state, so you can return them when you're done
+                        $rootScope.returnToState = $rootScope.toState;
+                        $rootScope.returnToStateParams = $rootScope.toStateParams;
 
-        function currentUser(){
-            return _currentUser;
-        }
-
-        function isAuthenticated(){
-            return !!_currentUser;
-        }
-
-        function getToken() {
-            return $window.localStorage.getItem('token');
-        }
-
-        function setToken(token) {
-            $window.localStorage.setItem('token', token);
-        }
-
-        function deleteToken() {
-            $window.localStorage.removeItem('token');
+                        // now, send them to the signin state so they can log in
+                        $state.go('auth.login');
+                    }
+                });
         }
     }
 });
