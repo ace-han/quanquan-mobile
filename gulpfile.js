@@ -9,11 +9,13 @@ var sh = require('shelljs');
 
 var replace = require('replace');
 
-var replaceFiles = ['./www/js/app.js'];
+var replaceFiles = ['./www/app/app.js'];
 
 gulp.task('add-proxy', function() {
+
+  console.info(gutil.env);
   return replace({
-    regex: "http://localhost:8090/api",
+    regex: "http://localhost:8090/api", // when matching regex, replace the regex with replacement specified
     replacement: "http://localhost:8100/api",
     paths: replaceFiles,
     recursive: false,
