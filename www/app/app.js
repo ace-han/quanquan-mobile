@@ -17,6 +17,7 @@ define([
     , 'ngUiRouterExtras'
     , 'ionicAngular'
     , 'ngMoment'
+    , 'restangular'
     , './auth/module.require'
     , './account/module.require'
     , './contact/module.require'
@@ -41,15 +42,26 @@ function (angular, namespace
         ['ionic'
         , 'ct.ui.router.extras.future', 'ct.ui.router.extras.statevis' // this two should be manually added
         , 'angularMoment'
+        , 'restangular'
         , authNamespace, accountNamespace
         , contactNamespace, searchNamespace
         , groupNamespace, commonNamespace
         , quanquanNamespace
         ])
-        .config(['$ionicConfigProvider', function($ionicConfigProvider) {
+        .config(['$ionicConfigProvider', 'RestangularProvider', 
+                function($ionicConfigProvider, RestangularProvider) {
             // remove back button text completely
             $ionicConfigProvider.backButton.previousTitleText(false).text('');
             $ionicConfigProvider.navBar.alignTitle('left');
+
+            // config global Resttagular
+            if(window.cordova){
+                // for simplicity, when cordova is available
+                RestangularProvider.setBaseUrl('http://onedegree.madeinace.com/api/v1');   
+            } else {
+                RestangularProvider.setBaseUrl('/api/v1');
+            }
+            
         }])
         .run(function () {
           

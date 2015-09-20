@@ -21,6 +21,8 @@ require.config({
         ,"ngMoment": 'lib/angular-moment/angular-moment'
         ,"ngElastic": 'lib/angular-elastic/elastic'
         ,"AutoLinker": 'lib/Autolinker.js/dist/Autolinker'
+        , 'lodash': 'lib/lodash/lodash'
+        ,'restangular': 'lib/restangular/dist/restangular'
 
     },
     shim: {
@@ -37,6 +39,7 @@ require.config({
         , "ngMoment": {deps: ['angular', 'moment']}
         , "ngElastic": {deps: ['angular']}
         , "AutoLinker": {deps: ['angular']}
+        , 'restangular': {deps: ['angular', 'lodash']}
     }
 });
 
