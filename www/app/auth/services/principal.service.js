@@ -14,14 +14,14 @@ function (angular, module, namespace) {
     
     module.factory(name, principalService);
 
-    principalService.$inject = ['$http', '$q', '$timeout' ];
+    principalService.$inject = ['$http', '$q', '$timeout', 'Restangular' ];
 
     var _identity = undefined
         , _authenticated = false;
 
     return principalService;
 
-    function principalService($http, $q, $timeout){
+    function principalService($http, $q, $timeout, Restangular){
         var service = {
             isIdentityResolved: isIdentityResolved
             , isAuthenticated: isAuthenticated
@@ -31,6 +31,7 @@ function (angular, module, namespace) {
             , identity: identity
         }
 
+        var authRestangular = Restangular.all('auth');
         return service;
 
         function isIdentityResolved(){
@@ -60,15 +61,45 @@ function (angular, module, namespace) {
             return false;
         }
 
-        function authenticate(identity) {
-            _identity = identity;
-            _authenticated = identity != null;
-        }
+        // function authenticate(identity) {
+        //     _identity = identity;
+        //     _authenticated = !!identity ;
+        // }
         
-        function identity(force) {
+        function authenticate(crefidential) {
             var deferred = $q.defer();
+            if(!! crefidential){
+                authRestangular
+                    .customPOST(
+                        crefidential // elem => post body
+                        , 'login'   //route
+                        , {}    // query parameter
+                        , {}    // headers
+                        )
+                    .then(function(response){
+                        _identity = response;
+                        _authenticated = true;
+                        deferred.resolve(_identity);
+                    }, function(response) {
+                        _identity = null;
+                        _authenticated = false;
+                        deferred.reject(_identity);
+                    })
+            } else {
+                // look up the token in the localstorage or sqlite to retrieve the user identity
+                deferred.reject(null);
+            }
+            return deferred.promise;
+        }
 
-            if (force === true) _identity = undefined;
+
+        function identity(force) {
+            // retrieve the current identity (with username, roles and stuff... )
+            var deferred = $q.defer();
+        
+            if (!!force) {
+                _identity = undefined;
+            } 
 
             // check and see if we have retrieved the identity data from the server. if we have, reuse it by immediately resolving
             if (angular.isDefined(_identity)) {
@@ -94,12 +125,14 @@ function (angular, module, namespace) {
             // fake identity. in reality,  you'll want something more like the $http request
             // commented out above. in this example, we fake looking up to find the user is
             // not logged in
-            var self = this;
-            $timeout(function() {
-              self.authenticate(null);
-              deferred.resolve(_identity);
-            }, 1000);
 
+            authenticate().then(function(identity){
+                console.info(' principalService.identity#authenticate successful');
+                deferred.resolve(identity);
+            }, function(){
+                console.info(' principalService.identity#authenticate failed');
+                deferred.resolve(null);
+            })
             return deferred.promise;
         } 
     }

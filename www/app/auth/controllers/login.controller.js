@@ -10,7 +10,7 @@ function (module, namespace) {
     module.controller(name, LoginController);
                 
     LoginController.$inject = ['$scope', '$rootScope', '$state', '$timeout', '$ionicLoading', '$ionicHistory',
-                                namespace + '.authService', namespace + '.EVENTS' ];
+                                namespace + '.principalService', namespace + '.EVENTS' ];
     
     // since we should return the module.controller returns module itself
     // we need this controller itself actually for requirejs semantic
@@ -22,7 +22,7 @@ function (module, namespace) {
     return LoginController;
 
     function LoginController($scope, $rootScope, $state, $timeout, $ionicLoading, 
-                            $ionicHistory, authService, AUTH_EVENTS) {
+                            $ionicHistory, principalService, AUTH_EVENTS) {
         var vm = this;
         vm.crefidentials = {
             username: ''
@@ -32,11 +32,10 @@ function (module, namespace) {
         vm.login = login;
         
 
-        function login(crefidentials){
+        function login(){
 
             $ionicLoading.show();
-            authService.login(crefidentials.username, 
-                crefidentials.password)
+            principalService.authenticate(vm.crefidentials)
                 .then(function(payload){
                     $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, payload);
                     if(payload.is_profile_filled){

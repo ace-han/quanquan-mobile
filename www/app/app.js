@@ -61,6 +61,18 @@ function (angular, namespace
             } else {
                 RestangularProvider.setBaseUrl('/api/v1');
             }
+            RestangularProvider
+                .setRequestSuffix('/')
+                .addResponseInterceptor(function(data, operation, what, url, response, deferred) {
+                    // .. to look for getList operations
+                    if (operation === "getList") {
+                        // add totalCount according to doc. 
+                        // refer to https://github.com/marmelab/ng-admin/blob/master/doc/API-mapping.md#total-number-of-results
+                        response.totalCount = data.count;
+                        return data.results; // so return data.result will suite our requirement
+                    }
+                    return data;
+                });
             
         }])
         .run(function () {
