@@ -31,7 +31,8 @@ function (angular, module, namespace) {
             , identity: identity
         }
 
-        var authRestangular = Restangular.all('auth');
+        var authRestangular = Restangular.all('auth'), 
+            tokenRestangular = authRestangular.all('token');
         return service;
 
         function isIdentityResolved(){
@@ -69,13 +70,14 @@ function (angular, module, namespace) {
         function authenticate(crefidential) {
             var deferred = $q.defer();
             if(!! crefidential){
-                authRestangular
-                    .customPOST(
-                        crefidential // elem => post body
-                        , 'login'   //route
-                        , {}    // query parameter
-                        , {}    // headers
-                        )
+                tokenRestangular
+                    // .costomPOST(
+                    //     crefidential // elem => post body
+                    //     , 'login'   //route
+                    //     , {}    // query parameter
+                    //     , {}    // headers
+                    //     )
+                    .post(crefidential)
                     .then(function(response){
                         _identity = response;
                         _authenticated = true;
