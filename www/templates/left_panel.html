@@ -6,22 +6,22 @@
 	  		here should be controller function to show profile page or the login page
 		-->
         <a class="item-content user-profile" ui-sref="account.profile" cmn-menu-close>
-            <img ng-src="./img/anonymous.png" style="
-				  width: 64px;
-				  height: 64px;
-				  border-radius: 50%;
-				  display: block;
-				  margin: auto;
-				  background-color: gainsboro;
-				" />
-            <div style="text-align:center" ng-bind="mainMenuController.nickname"></div>
+            <img ng-src="{{ mainMenuController.selfiePath }}" style="
+			  width: 64px;
+			  height: 64px;
+			  border-radius: 50%;
+			  display: block;
+			  margin: auto;
+			  background-color: gainsboro;
+			" />
         </a>
         <br/>
-        <div style="width:50%; 
-		  border-bottom:2px solid white;
-		  margin:auto;">
-            <i class="icon ion-ios-location-outline"></i>
-            <span style="padding:0 0.5em;">Guangzhou</span>
+        <div style="width:50%; margin:auto;">
+            <div ng-bind="mainMenuController.nickname" style="border-bottom:2px solid white;"></div>
+            <div>
+                <i class="icon ion-ios-location-outline"></i>
+                <span style="padding:0 0.5em;">Guangzhou</span>
+            </div>
         </div>
     </ion-header-bar>
     <ion-content style="position:relative;top:0;">

@@ -62,7 +62,7 @@ function (authModule, authNamespace, appNamespace) {
                 }
               })
               .state(authNamespace + '.accessDenied', {
-                url: "/change-password"
+                url: "/403"
                 , views: {
                   '@': {
                     templateUrl: "app/auth/templates/403.html" 

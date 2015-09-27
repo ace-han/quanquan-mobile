@@ -63,6 +63,7 @@ function (angular, namespace
             }
             RestangularProvider
                 .setRequestSuffix('/')
+                //.setFullResponse(true)
                 .addResponseInterceptor(function(data, operation, what, url, response, deferred) {
                     // .. to look for getList operations
                     if (operation === "getList") {

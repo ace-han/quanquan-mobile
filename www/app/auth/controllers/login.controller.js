@@ -10,7 +10,7 @@ function (module, namespace) {
     module.controller(name, LoginController);
                 
     LoginController.$inject = ['$scope', '$rootScope', '$state', '$timeout', '$ionicLoading', '$ionicHistory',
-                                namespace + '.principalService', namespace + '.EVENTS' ];
+                                namespace + '.principalService'];
     
     // since we should return the module.controller returns module itself
     // we need this controller itself actually for requirejs semantic
@@ -22,7 +22,7 @@ function (module, namespace) {
     return LoginController;
 
     function LoginController($scope, $rootScope, $state, $timeout, $ionicLoading, 
-                            $ionicHistory, principalService, AUTH_EVENTS) {
+                            $ionicHistory, principalService) {
         var vm = this;
         vm.crefidentials = {
             username: ''
@@ -37,22 +37,29 @@ function (module, namespace) {
             $ionicLoading.show();
             principalService.authenticate(vm.crefidentials)
                 .then(function(payload){
-                    $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, payload);
-                    if(payload.is_profile_filled){
-                        $ionicHistory.nextViewOptions({
+                    $ionicHistory.nextViewOptions({
                             disableBack: true
                             , historyRoot: true
                         });
-                        $state.go('app.home');
+                    if(!!$rootScope.returnToState){
+                        $state.go($rootScope.returnToState, $rootScope.returnToStateParams);
+
+                        // some clean up
+                        $timeout(function(){
+                            $rootScope.returnToState = undefined;
+                            $rootScope.returnToStateParams = undefined;
+                        }
+                        , 100   // wait for a little bit for $state setup
+                        , false); // if need to invoke apply, no need
+                    }else if(payload.is_profile_filled){
+                        $state.go('quanquan.index');
                     } else {
-                        
-                        $state.go('app.home');
+                        $state.go('quanquan.index');
                         // $state.go('account.profile');
                     }
                     vm.crefidentials.username = '';
                     
                 }, function(){
-                    $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
                     $timeout(function(){
                         $ionicLoading.show({ template: 'Login Failed!', noBackdrop: true, duration: 2000 });
                     }, 500);                    

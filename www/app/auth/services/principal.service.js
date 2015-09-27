@@ -14,14 +14,14 @@ function (angular, module, namespace) {
     
     module.factory(name, principalService);
 
-    principalService.$inject = ['$http', '$q', '$timeout', 'Restangular' ];
+    principalService.$inject = ['$http', '$q', '$timeout', '$rootScope', 'Restangular', 'localStorageService', 'base64Service', namespace + '.EVENTS' ];
 
     var _identity = undefined
         , _authenticated = false;
 
     return principalService;
 
-    function principalService($http, $q, $timeout, Restangular){
+    function principalService($http, $q, $timeout, $rootScope, Restangular, localStorageService, base64Service, AUTH_EVENTS){
         var service = {
             isIdentityResolved: isIdentityResolved
             , isAuthenticated: isAuthenticated
@@ -29,6 +29,8 @@ function (angular, module, namespace) {
             , isInAnyRole: isInAnyRole
             , authenticate: authenticate
             , identity: identity
+            , logout: logout
+            , getJwtToken: getToken
         }
 
         var authRestangular = Restangular.all('auth'), 
@@ -61,13 +63,23 @@ function (angular, module, namespace) {
 
             return false;
         }
-
-        // function authenticate(identity) {
-        //     _identity = identity;
-        //     _authenticated = !!identity ;
-        // }
         
         function authenticate(crefidential) {
+            function onSuccess(token, deferred){
+                var payload = resolvePayloadClaims(token);
+                _identity = payload;
+                _authenticated = true;
+                //console.info('authentication successful inited');
+                $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, payload);
+                deferred.resolve(_identity);
+            }
+
+            function onFailure(deferred){
+                logout();
+                $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+                deferred.reject(null);
+            }
+
             var deferred = $q.defer();
             if(!! crefidential){
                 tokenRestangular
@@ -79,17 +91,19 @@ function (angular, module, namespace) {
                     //     )
                     .post(crefidential)
                     .then(function(response){
-                        _identity = response;
-                        _authenticated = true;
-                        deferred.resolve(_identity);
+                        setToken(response.token);
+                        onSuccess(response.token, deferred);
                     }, function(response) {
-                        _identity = null;
-                        _authenticated = false;
-                        deferred.reject(_identity);
+                        onFailure(deferred);
                     })
             } else {
                 // look up the token in the localstorage or sqlite to retrieve the user identity
-                deferred.reject(null);
+                var token = getToken();
+                if(!!token){
+                    onSuccess(token, deferred);       
+                } else {
+                    onFailure(deferred);
+                }                
             }
             return deferred.promise;
         }
@@ -98,10 +112,7 @@ function (angular, module, namespace) {
         function identity(force) {
             // retrieve the current identity (with username, roles and stuff... )
             var deferred = $q.defer();
-        
-            if (!!force) {
-                _identity = undefined;
-            } 
+
 
             // check and see if we have retrieved the identity data from the server. if we have, reuse it by immediately resolving
             if (angular.isDefined(_identity)) {
@@ -109,24 +120,6 @@ function (angular, module, namespace) {
 
               return deferred.promise;
             }
-
-            // otherwise, retrieve the identity data from the server, update the identity object, and then resolve.
-            //                   $http.get('/svc/account/identity', { ignoreErrors: true })
-            //                        .success(function(data) {
-            //                            _identity = data;
-            //                            _authenticated = true;
-            //                            deferred.resolve(_identity);
-            //                        })
-            //                        .error(function () {
-            //                            _identity = null;
-            //                            _authenticated = false;
-            //                            deferred.resolve(_identity);
-            //                        });
-
-            // for the sake of the demo, fake the lookup by using a timeout to create a valid
-            // fake identity. in reality,  you'll want something more like the $http request
-            // commented out above. in this example, we fake looking up to find the user is
-            // not logged in
 
             authenticate().then(function(identity){
                 console.info(' principalService.identity#authenticate successful');
@@ -136,6 +129,26 @@ function (angular, module, namespace) {
                 deferred.resolve(null);
             })
             return deferred.promise;
-        } 
+        }
+
+        function logout(){
+            _identity = undefined;
+            _authenticated = false;
+            return localStorageService.remove('jwt_token');
+        }
+
+        function getToken(){
+            return localStorageService.get('jwt_token');
+        }
+
+        function setToken(token){
+            localStorageService.set('jwt_token', token);
+        }
+
+        function resolvePayloadClaims(token){
+            var tokens = token.split('.'); //tokens[0]->header, tokens[1]->payload, tokens[2]->signature
+            var payload = base64Service.decode(tokens[1]);
+            return JSON.parse(payload);
+        }
     }
 });

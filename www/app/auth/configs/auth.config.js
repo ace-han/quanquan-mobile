@@ -14,6 +14,7 @@ function (angular, module, namespace) {
         function($rootScope, $state, $stateParams, authService, principal) {
             $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
                 // track the state the user wants to go to; authService service needs this
+                // var loginStateName = angular.isString(toState)? toState: toState.name;
                 $rootScope.toState = toState;
                 $rootScope.toStateParams = toStateParams;
                 // check if already login on every state change
