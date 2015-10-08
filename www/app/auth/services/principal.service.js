@@ -134,7 +134,8 @@ function (angular, module, namespace) {
         function logout(){
             _identity = undefined;
             _authenticated = false;
-            return localStorageService.remove('jwt_token');
+            localStorageService.remove('jwt_token');
+            $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
         }
 
         function getToken(){

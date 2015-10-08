@@ -23,6 +23,7 @@ function (accountModule, accountNamespace, appNamespace) {
                 , views: {
                   '@': {
                     templateUrl: 'app/account/templates/profile.html'
+                    , controller: accountNamespace + '.ProfileController as profileController'
                   }
                 }
               })

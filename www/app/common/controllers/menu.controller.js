@@ -15,11 +15,11 @@ function (module) {
     function MainMenuController($scope, $state, AUTH_EVENTS, principalService) {
         var vm = this;
 
-        vm.nickname = 'Anonymous';
-        vm.selfiePath = './img/anonymous.png';
+        init();
 
         principalService.identity()
                     .then(function(payload){
+                        payload = payload || {}; // avoid empty payload
                         vm.nickname = payload.nickname || 'Anonymous';
                         vm.selfiePath = payload.selfie_path || './img/anonymous.png';
                     })
@@ -28,8 +28,17 @@ function (module) {
         
         $scope.$on(AUTH_EVENTS.loginSuccess, function(event, payload) {
             console.info(AUTH_EVENTS.loginSuccess);
-            vm.nickname = args.nickname;
+            vm.nickname = payload.nickname;
         });
+        $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {
+            console.info(AUTH_EVENTS.logoutSuccess);
+            init();
+        });
+
+        function init(){
+            vm.nickname = 'Anonymous';
+            vm.selfiePath = './img/anonymous.png';
+        }
     }
 
 
