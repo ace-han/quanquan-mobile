@@ -1,41 +1,70 @@
 <ion-view view-title="Registration" class="white-pane">
 
   <ion-content>
-    <form name="registerForm">
+    <!-- 
+      novalidate tells html5 to stop default validation to use user-defined rules 
+      form's properties in angular
+      $valid, $invalid, // if the field is valid
+      $pristine, $dirty // if the field is already being used
+      
+      how to access these properties
+      <form name>.<angular property>, eg: registerForm.$valid
+      <form name>.<input name>.<angular property>, eg: registerForm.username.$pristine
+    -->
+    <form name="registerForm" ng-submit="registerController.register()" novalidate>
       <div class="list padding">
-        <label class="item item-input no-vertical-border" style="border-top:0;align-items:baseline;">
+        <label class="item item-input no-vertical-border">
           <span class="input-label">Username</span>
-          <input type="text" ng-model="username" style="position:relative; top:10px;" required>
-          <img ng-src="http://ionicframework.com/img/docs/nevermind.jpg" ng-click="takePicture()"
-                  style="display:table-cell; max-width:10%; vertical-align:bottom; cursor:pointer;"/>
+          <input type="text" 
+            ng-model="registerController.username"
+            ng-pattern="/^[\dA-Za-z_\.\-]{,20}$/"
+            required>
+          <!-- <img ng-src="http://ionicframework.com/img/docs/nevermind.jpg" ng-click="takePicture()"
+                  style="display:table-cell; max-width:10%; vertical-align:bottom; cursor:pointer;"/> -->
+          <!-- a sample to show an error message -->
+          <!-- 
+          <p ng-show="registerForm.username.$invalid && !registerForm.username.$pristine" 
+            class="help-block">You name is required.</p>
+          -->          
           <div class="highlight highlight-positive"></div>
         </label>
         <label class="item item-input no-vertical-border">
           <span class="input-label">Password</span>
-          <input type="password" ng-model="password" placeholder="6~16 chars or numbers password" required/>
+          <input type="password" 
+            ng-model="registerController.password" 
+            placeholder="6~16 chars or numbers password"
+            ng-minlength="6"
+            ng-maxlength="16"
+            required/>
           <div class="highlight highlight-positive"></div>
         </label>
         <label class="item item-input no-vertical-border">
-          <span class="input-label">Mobile Number</span>
-          <input type="text" ng-model="mobile" placeholder="11 digits mobile number" required/>
+          <span class="input-label">Phone Number</span>
+          <input type="text" 
+            ng-model="registerController.phoneNum" 
+            placeholder="11 digits mobile number"
+            ng-maxlength="11"
+            required/>
           <div class="highlight highlight-positive"></div>
         </label>
         <label class="item item-input item-select">
           <div class="input-label">
             City
           </div>
-          <select required>
-            <option>Beijing</option>
-            <option>Shanghai</option>
-            <option selected>Guangzhou</option>
-            <option>Shenzhen</option>
-          </select>
+          <!-- 
+            for ng-options, refer to https://docs.angularjs.org/api/ng/directive/ngOptions 
+            we are now doing: select as label for value in array
+
+            since ng-model(selected) is pure string, no need to do track by here
+          -->
+          <select ng-options="item.code as item.label for item in registerController.cities" 
+                ng-model="registerController.city"></select>
         </label>
       </div>
 
       <div class="padding">
         <input type="submit" class="button button-block button-positive" 
-          value="Sign Up" ng-disabled="registerForm.$invalid" ui-sref="account.profile"/>
+          value="Sign Up" ng-disabled="registerForm.$invalid"/>
       </div>
     </form>
     <p>

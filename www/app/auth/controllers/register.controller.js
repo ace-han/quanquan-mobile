@@ -1,20 +1,53 @@
-(function () {
-  'use strict';
-/*
-  angular
-    .module('application.auth.controllers')
-    .controller('RegisterController', RegisterController);
+define([
+    'angular'
+    , '../module'
+    , '../namespace'
+],
+function (angular, module, namespace) {
+    'use strict';
 
-  RegisterController.$inject = ['Auth'];
+    var name = namespace + ".RegisterController";
 
-  function RegisterController(Auth) {
-    var vm = this;
+    module.controller(name, RegisterController);
+                
+    RegisterController.$inject = ['$timeout', '$ionicLoading', namespace+'.registerService', 'cities'];
+    
+    return RegisterController;
 
-    vm.register = register;
+    function RegisterController($timeout, $ionicLoading, registerService, cities) {
+        var vm = this;
 
-    function register() {
-      Auth.register(vm.username, vm.password, vm.email);
+        angular.extend(vm, {
+          username: ''
+          , password: ''
+          , phoneNum: ''
+          , city: cities.length? cities[0].code: 'guangzhou' // guangzhou as default  
+          , cities: cities
+
+          // methods
+          , register: register
+        });
+        
+        
+
+        function register(){
+
+            
+        }
+
+        function validate(){
+          validateUsername();
+          validatePhoneNum();
+        }
+
+        function validateUsername(){
+
+        }
+
+        function validatePhoneNum(){
+
+        }
     }
-  }
-  */
-})();
+
+
+});

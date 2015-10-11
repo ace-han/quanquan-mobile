@@ -14,14 +14,14 @@ function (angular, module, namespace) {
     
     module.factory(name, principalService);
 
-    principalService.$inject = ['$http', '$q', '$timeout', '$rootScope', 'Restangular', 'localStorageService', 'base64Service', namespace + '.EVENTS' ];
+    principalService.$inject = ['$q', '$rootScope', 'Restangular', 'localStorageService', 'base64Service', namespace + '.EVENTS' ];
 
     var _identity = undefined
         , _authenticated = false;
 
     return principalService;
 
-    function principalService($http, $q, $timeout, $rootScope, Restangular, localStorageService, base64Service, AUTH_EVENTS){
+    function principalService($q, $rootScope, Restangular, localStorageService, base64Service, AUTH_EVENTS){
         var service = {
             isIdentityResolved: isIdentityResolved
             , isAuthenticated: isAuthenticated

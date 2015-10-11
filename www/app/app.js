@@ -69,8 +69,13 @@ function (angular, namespace
                     if (operation === "getList") {
                         // add totalCount according to doc. 
                         // refer to https://github.com/marmelab/ng-admin/blob/master/doc/API-mapping.md#total-number-of-results
-                        response.totalCount = data.count;
-                        return data.results; // so return data.result will suite our requirement
+                        if ('count' in data) {
+                            response.totalCount = data.count;
+                            return data.result; // so return data.result will suite our requirement
+                        } else {
+                            response.totalCount = data.length;
+                            return data;
+                        }
                     }
                     return data;
                 });
