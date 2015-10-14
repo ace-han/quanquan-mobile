@@ -27,12 +27,12 @@ function (module) {
                                             // I might as well inject the auth.principalService for inited
         
         $scope.$on(AUTH_EVENTS.loginSuccess, function(event, payload) {
-            console.info(AUTH_EVENTS.loginSuccess);
-            vm.nickname = payload.nickname;
+            console.info('MainMenuController', AUTH_EVENTS.loginSuccess);
+            vm.nickname = payload.nickname || payload.username;            
         });
         $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {
             console.info(AUTH_EVENTS.logoutSuccess);
-            init();
+            init();            
         });
 
         function init(){
