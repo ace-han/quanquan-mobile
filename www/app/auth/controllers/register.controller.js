@@ -10,11 +10,11 @@ function (angular, module, namespace) {
 
     module.controller(name, RegisterController);
                 
-    RegisterController.$inject = ['$timeout', '$state', '$ionicLoading', namespace+'.registerService', 'cities'];
+    RegisterController.$inject = ['$timeout', '$state', '$ionicLoading',  '$ionicHistory', namespace+'.registerService', 'cities'];
     
     return RegisterController;
 
-    function RegisterController($timeout, $state, $ionicLoading, registerService, cities) {
+    function RegisterController($timeout, $state, $ionicLoading, $ionicHistory, registerService, cities) {
         var vm = this;
 
         angular.extend(vm, {
@@ -39,6 +39,10 @@ function (angular, module, namespace) {
             , phone_num: vm.phoneNum
             , city: vm.city
           }).then(function(data){
+            $ionicHistory.nextViewOptions({
+                            disableBack: true
+                            , historyRoot: true
+                        });
             if(data.is_necessary_user_info_filled){
                 $state.go('quanquan.index');
             } else {
