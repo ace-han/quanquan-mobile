@@ -36,7 +36,7 @@ function (module, namespace) {
 
             $ionicLoading.show();
             principalService.authenticate(vm.crefidentials)
-                .then(function(payload){
+                .then(function(data){
                     $ionicHistory.nextViewOptions({
                             disableBack: true
                             , historyRoot: true
@@ -51,11 +51,10 @@ function (module, namespace) {
                         }
                         , 100   // wait for a little bit for $state setup
                         , false); // if need to invoke apply, no need
-                    }else if(payload.is_profile_filled){
+                    }else if(data.is_necessary_user_info_filled){
                         $state.go('quanquan.index');
                     } else {
-                        $state.go('quanquan.index');
-                        // $state.go('account.profile');
+                        $state.go('account.profile');
                     }
                     vm.crefidentials.username = '';
                     

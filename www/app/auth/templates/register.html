@@ -17,7 +17,7 @@
           <span class="input-label">Username</span>
           <input type="text" 
             ng-model="registerController.username"
-            ng-pattern="/^[\dA-Za-z_\.\-]{,20}$/"
+            ng-pattern="/^[\w\.@+-]{8,30}$/"
             required>
           <!-- <img ng-src="http://ionicframework.com/img/docs/nevermind.jpg" ng-click="takePicture()"
                   style="display:table-cell; max-width:10%; vertical-align:bottom; cursor:pointer;"/> -->

@@ -14,11 +14,11 @@ function (angular, module, namespace) {
     
     module.factory(name, registerService);
 
-    registerService.$inject = ['Restangular'];
+    registerService.$inject = ['$q', 'Restangular', namespace+'.principalService'];
 
     return registerService;
 
-    function registerService(Restangular){
+    function registerService($q, Restangular, principalService){
         var service = {
             getCityList: getCityList
             , register: register
@@ -38,7 +38,20 @@ function (angular, module, namespace) {
         		});
         }
 
-        function register() {
+        function register(registerInfo) {
+        	var deferred = $q.defer();
+			authRestangular.customPOST(registerInfo, 'register')
+            				.then(function(response){
+            					// response = {'token': 'xxxxxxxx', is_necessary_user_info_filled: true/false}
+            					principalService.setJwtToken(response.token);
+            					principalService.onLoginSuccessful(response.token, deferred, response.is_necessary_user_info_filled);
+            				}
+            				, function(response){
+            					// getting the error
+            					console.error(response);
+            					deferred.reject(response);
+            				})
+        	return deferred.promise;
             
         }
     }

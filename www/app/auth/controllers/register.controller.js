@@ -10,11 +10,11 @@ function (angular, module, namespace) {
 
     module.controller(name, RegisterController);
                 
-    RegisterController.$inject = ['$timeout', '$ionicLoading', namespace+'.registerService', 'cities'];
+    RegisterController.$inject = ['$timeout', '$state', '$ionicLoading', namespace+'.registerService', 'cities'];
     
     return RegisterController;
 
-    function RegisterController($timeout, $ionicLoading, registerService, cities) {
+    function RegisterController($timeout, $state, $ionicLoading, registerService, cities) {
         var vm = this;
 
         angular.extend(vm, {
@@ -31,7 +31,27 @@ function (angular, module, namespace) {
         
 
         function register(){
+          $ionicLoading.show();
 
+          registerService.register({
+            username: vm.username
+            , password: vm.password
+            , phone_num: vm.phoneNum
+            , city: vm.city
+          }).then(function(data){
+            if(data.is_necessary_user_info_filled){
+                $state.go('quanquan.index');
+            } else {
+                $state.go('account.profile');
+            }
+          }, function(data){
+            $timeout(function(){
+                $ionicLoading.show({ template: data, noBackdrop: true, duration: 2000 });
+            }, 500); 
+          })
+          .finally(function(){
+            $ionicLoading.hide();
+          })
             
         }
 

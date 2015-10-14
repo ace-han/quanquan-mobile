@@ -30,11 +30,14 @@ function (angular, module, namespace) {
             , authenticate: authenticate
             , identity: identity
             , logout: logout
-            , getJwtToken: getToken
+            , getJwtToken: getJwtToken
+            , setJwtToken: setJwtToken
+            , onLoginSuccessful: onLoginSuccessful
+            , onLoginFailed: onLoginFailed
         }
 
-        var authRestangular = Restangular.all('auth'), 
-            tokenRestangular = authRestangular.all('token');
+        var authRestangular = Restangular.all('auth')
+            , tokenRestangular = authRestangular.all('token');
         return service;
 
         function isIdentityResolved(){
@@ -63,46 +66,49 @@ function (angular, module, namespace) {
 
             return false;
         }
+
+        function onLoginSuccessful(token, deferred, is_necessary_user_info_filled){
+            var payload = resolvePayloadClaims(token);
+            _identity = payload;
+            _authenticated = true;
+            //console.info('authentication successful inited');
+            $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, payload);
+            deferred.resolve({
+                payload: payload
+                , is_necessary_user_info_filled: is_necessary_user_info_filled
+            });
+        }
+
+        function onLoginFailed(deferred){
+            logout();
+            $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+            deferred.reject(null);
+        }
         
         function authenticate(crefidential) {
-            function onSuccess(token, deferred){
-                var payload = resolvePayloadClaims(token);
-                _identity = payload;
-                _authenticated = true;
-                //console.info('authentication successful inited');
-                $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, payload);
-                deferred.resolve(_identity);
-            }
-
-            function onFailure(deferred){
-                logout();
-                $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-                deferred.reject(null);
-            }
-
             var deferred = $q.defer();
             if(!! crefidential){
-                tokenRestangular
+                authRestangular
                     // .costomPOST(
                     //     crefidential // elem => post body
                     //     , 'login'   //route
                     //     , {}    // query parameter
                     //     , {}    // headers
                     //     )
-                    .post(crefidential)
+                    .customPOST(crefidential, 'login')
                     .then(function(response){
-                        setToken(response.token);
-                        onSuccess(response.token, deferred);
+                        setJwtToken(response.token);
+                        onLoginSuccessful(response.token, deferred, response.is_necessary_user_info_filled);
                     }, function(response) {
-                        onFailure(deferred);
+                        onLoginFailed(deferred);
                     })
             } else {
                 // look up the token in the localstorage or sqlite to retrieve the user identity
-                var token = getToken();
+                var token = getJwtToken();
                 if(!!token){
-                    onSuccess(token, deferred);       
+                    onLoginSuccessful(token, deferred);       
                 } else {
-                    onFailure(deferred);
+                    onLoginFailed(deferred);
                 }                
             }
             return deferred.promise;
@@ -138,11 +144,11 @@ function (angular, module, namespace) {
             $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
         }
 
-        function getToken(){
+        function getJwtToken(){
             return localStorageService.get('jwt_token');
         }
 
-        function setToken(token){
+        function setJwtToken(token){
             localStorageService.set('jwt_token', token);
         }
 
