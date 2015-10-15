@@ -34,6 +34,7 @@ function (angular, module, namespace) {
             , setJwtToken: setJwtToken
             , onLoginSuccessful: onLoginSuccessful
             , onLoginFailed: onLoginFailed
+            , verify: verify
         }
 
         var authRestangular = Restangular.all('auth')
@@ -156,6 +157,26 @@ function (angular, module, namespace) {
             var tokens = token.split('.'); //tokens[0]->header, tokens[1]->payload, tokens[2]->signature
             var payload = base64Service.decode(tokens[1]);
             return JSON.parse(payload);
+        }
+
+        function verify(){
+            // verify only cares about username and its integrity
+            // no password, nickname or city update will break the token usage
+            var token = getJwtToken();
+            tokenRestangular
+                    // .costomPOST(
+                    //     crefidential // elem => post body
+                    //     , 'login'   //route
+                    //     , {}    // query parameter
+                    //     , {}    // headers
+                    //     )
+                    .customPOST({token: token}, 'verify')
+                    .then(function(response){
+                        console.info(response);
+                    }, function(response) {
+                        console.info(response);
+                    })
+
         }
     }
 });

@@ -25,7 +25,9 @@ function (angular, module, namespace) {
     function ProfileController($scope, $state, $ionicPopup, principalService) {
         var vm = this;
         
-        angular.extend(vm, {logout: logout});
+        angular.extend(vm, 
+            {logout: logout
+            , verify: verify});
         
 
         function logout() {
@@ -42,6 +44,10 @@ function (angular, module, namespace) {
 				return result;
 			});
 		}
+
+        function verify(){
+            principalService.verify();
+        }
 	}
 
 
