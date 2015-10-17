@@ -28,7 +28,7 @@ function (module) {
         
         $scope.$on(AUTH_EVENTS.loginSuccess, function(event, payload) {
             console.info('MainMenuController', AUTH_EVENTS.loginSuccess);
-            vm.nickname = payload.nickname || payload.username;            
+            vm.nickname = payload.nickname;
         });
         $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {
             console.info(AUTH_EVENTS.logoutSuccess);
