@@ -3,34 +3,34 @@ define([
     , './namespace'
     , '../namespace'
 ],
-function (contactModule, contactNamespace, appNamespace) {
+function (contactModule, moduleNamespace, appNamespace) {
     'use strict';
     return contactModule.config([
         '$stateProvider'
         , function($stateProvider){
             $stateProvider
               // a abstract view for each module view is necessary for the time being
-              .state(contactNamespace, {
+              .state(moduleNamespace, {
                 url: '/contact'
                 , parent: appNamespace
                 , abstract: true
               })
-              .state(contactNamespace + '.index', {
+              .state(moduleNamespace + '.index', {
                 url: ''
                 , views: {
                   '@': {
                     templateUrl: 'app/contact/templates/index.html'
-                    , controller: contactNamespace + '.ContactsController as contactsController'
+                    , controller: moduleNamespace + '.ContactsController as contactsController'
                     
                   }
                 }
               })
-              .state(contactNamespace + '.chat', {
+              .state(moduleNamespace + '.chat', {
                 url: '/chat'
                 , views: {
                   '@': {
                     templateUrl: 'app/contact/templates/chat.html'
-                    , controller: contactNamespace + '.ChatController as chatController'
+                    , controller: moduleNamespace + '.ChatController as chatController'
                   }
                 }
               })

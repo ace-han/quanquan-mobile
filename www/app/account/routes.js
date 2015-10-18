@@ -3,14 +3,14 @@ define([
     , './namespace'
     , '../namespace'
 ],
-function (accountModule, accountNamespace, appNamespace) {
+function (accountModule, moduleNamespace, appNamespace) {
     'use strict';
     return accountModule.config([
         '$stateProvider'
         , function($stateProvider){
             $stateProvider
               // a abstract view for each module view is necessary for the time being
-              .state(accountNamespace, {
+              .state(moduleNamespace, {
                 url: '/account'
                 , parent: appNamespace
                 , data: {
@@ -18,20 +18,20 @@ function (accountModule, accountNamespace, appNamespace) {
                 }
                 , abstract: true
               })
-              .state(accountNamespace + '.profile', {
+              .state(moduleNamespace + '.profile', {
                 url: '/profile'
                 , views: {
                   '@': {
                     templateUrl: 'app/account/templates/profile.html'
-                    , controller: accountNamespace + '.ProfileController as profileController'
+                    , controller: moduleNamespace + '.ProfileController as profileController'
                   }
                 }
               })
-              .state(accountNamespace + '.settings', {
-                url: '/settings'
+              .state(moduleNamespace + '.accountHome', {
+                url: '/account-home'
                 , views: {
                   '@': {
-                    templateUrl: 'app/account/templates/settings.html'
+                    templateUrl: 'app/account/templates/account_home.html'
                   }
                 }
               })

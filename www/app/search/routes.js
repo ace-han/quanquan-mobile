@@ -3,19 +3,19 @@ define([
     , './namespace'
     , '../namespace'
 ],
-function (searchModule, searchNamespace, appNamespace) {
+function (searchModule, moduleNamespace, appNamespace) {
     'use strict';
     return searchModule.config([
         '$stateProvider'
         , function($stateProvider){
             $stateProvider
               // a abstract view for each module view is necessary for the time being
-              .state(searchNamespace, {
+              .state(moduleNamespace, {
                 url: '/search'
                 , parent: appNamespace
                 , abstract: true
               })
-              .state(searchNamespace + '.index', {
+              .state(moduleNamespace + '.index', {
                 url: '?q&category'
                 , cache: false
                 , views: {
@@ -24,7 +24,7 @@ function (searchModule, searchNamespace, appNamespace) {
                   }
                 }
               })
-              .state(searchNamespace + '.socialPath', {
+              .state(moduleNamespace + '.socialPath', {
                 url: '/social-path'
                 , cache: false
                 , views: {

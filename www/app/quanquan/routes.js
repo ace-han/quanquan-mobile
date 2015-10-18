@@ -3,7 +3,7 @@ define([
     , './namespace'
     , '../namespace'
 ],
-function (quanquanModule, quanquanNamespace, appNamespace) {
+function (quanquanModule, moduleNamespace, appNamespace) {
     'use strict';
     return quanquanModule.config([
         '$stateProvider'
@@ -12,12 +12,12 @@ function (quanquanModule, quanquanNamespace, appNamespace) {
         , function($stateProvider, $urlRouterProvider, $futureStateProvider){
           $stateProvider
             // it's necessary to declare this abstract one for state 'app' in app/routes.js have its direct children initialized!!!
-            .state(quanquanNamespace, { 
+            .state(moduleNamespace, { 
               url: ''  // it's very important that with an empty string here to make it home page
               , abstract: true
               , parent: appNamespace
             })
-            .state(quanquanNamespace + '.index', { 
+            .state(moduleNamespace + '.index', { 
               url: ''
               , views: {
                 // with this '@' means unname view at root level
@@ -26,7 +26,7 @@ function (quanquanModule, quanquanNamespace, appNamespace) {
                   // it's bad solution doing this
                   templateUrl: 'app/quanquan/templates/index.html'
                   // but the controller still could take resolved data
-                  , controller: quanquanNamespace + '.ChannelsController as channelsController'
+                  , controller: moduleNamespace + '.ChannelsController as channelsController'
                 }
               }
               // please be aware of using below on state level not view level
@@ -35,7 +35,7 @@ function (quanquanModule, quanquanNamespace, appNamespace) {
               // , resolve: {
               //     isLoading: ['channelService']
               // }
-              , onEnter: ['$state', '$ionicHistory', '$ionicLoading', quanquanNamespace + '.channelService', 
+              , onEnter: ['$state', '$ionicHistory', '$ionicLoading', moduleNamespace + '.channelService', 
                       function ($state, $ionicHistory, $ionicLoading, channelService){
                 channelService.getChannelStateSettings().then(
                     function success(states){
@@ -49,7 +49,7 @@ function (quanquanModule, quanquanNamespace, appNamespace) {
                     });
               }]
             })
-            .state(quanquanNamespace + '.termsOfService', {
+            .state(moduleNamespace + '.termsOfService', {
               url: '/terms-of-service'
               // cache setting I've decided placing them in routes.js
               , cache: false
@@ -60,7 +60,7 @@ function (quanquanModule, quanquanNamespace, appNamespace) {
                 }
               }
             })
-            .state(quanquanNamespace + '.privacyPolicy', {
+            .state(moduleNamespace + '.privacyPolicy', {
               url: '/privacy-policy'
               , cache: false
               , views: {
@@ -76,7 +76,7 @@ function (quanquanModule, quanquanNamespace, appNamespace) {
           $futureStateProvider.addResolve(loadAndRegisterFutureStates);
 
           // resolver just setting retrieval
-          loadAndRegisterFutureStates.$inject = [quanquanNamespace + '.channelService'];
+          loadAndRegisterFutureStates.$inject = [moduleNamespace + '.channelService'];
           function loadAndRegisterFutureStates(channelService){
             // may change to a general url service later
             return channelService.getChannelStateSettings().then(

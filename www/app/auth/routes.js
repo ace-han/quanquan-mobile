@@ -3,37 +3,37 @@ define([
     , './namespace'
     , '../namespace'
 ],
-function (authModule, authNamespace, appNamespace) {
+function (authModule, moduleNamespace, appNamespace) {
     'use strict';
     return authModule.config([
         '$stateProvider'
         , function($stateProvider){
             $stateProvider
               // a abstract view for each module view is necessary for the time being
-              .state(authNamespace, {
+              .state(moduleNamespace, {
                 url: '/auth'
                 , parent: appNamespace
                 , abstract: true
               })
-              .state(authNamespace + '.login', {
+              .state(moduleNamespace + '.login', {
                 url: '/login'
                 // there is a warning on the official website says
                 //  Warning: The controller will not be instantiated if template is not defined.
-                //controller: authNamespace + '.LoginController as loginController',
+                //controller: moduleNamespace + '.LoginController as loginController',
                 , views: {
                   '@': {
                     // found controller: 'XxxController as xxxController' is working with ionic now
                     // BUT NOT controllerAs syntax!!!
                     templateUrl: 'app/auth/templates/login.html'
-                    , controller: authNamespace + '.LoginController as loginController'
+                    , controller: moduleNamespace + '.LoginController as loginController'
                   }
                 }
               })
-              .state(authNamespace + '.register', {
+              .state(moduleNamespace + '.register', {
                 url: '/register'
                 // The resolve keyword MUST be relative to state not views (in case you use multiple views).
                 , resolve: {
-                  cities: ['$ionicLoading', authNamespace+'.registerService', function($ionicLoading, registerService){
+                  cities: ['$ionicLoading', moduleNamespace+'.registerService', function($ionicLoading, registerService){
                     return registerService.getCityList()
                             .catch(function(){
                               $ionicLoading.show({ template: 'Load City List Failed! Retry later', 
@@ -45,11 +45,11 @@ function (authModule, authNamespace, appNamespace) {
                 , views: {
                   '@': {
                     templateUrl: 'app/auth/templates/register.html'
-                    , controller: authNamespace + '.RegisterController as registerController'
+                    , controller: moduleNamespace + '.RegisterController as registerController'
                   }
                 }
               })
-              .state(authNamespace + '.resetPassword', {
+              .state(moduleNamespace + '.resetPassword', {
                 url: '/reset-password'
                 , views: {
                   '@': {
@@ -57,7 +57,7 @@ function (authModule, authNamespace, appNamespace) {
                   }
                 }
               })
-              .state(authNamespace + '.confirmResetPassword', {
+              .state(moduleNamespace + '.confirmResetPassword', {
                 url: '/confirm-reset-password'
                 , views: {
                   '@': {
@@ -65,7 +65,7 @@ function (authModule, authNamespace, appNamespace) {
                   }
                 }
               })
-              .state(authNamespace + '.changePassword', {
+              .state(moduleNamespace + '.changePassword', {
                 url: '/change-password'
                 , views: {
                   '@': {
@@ -73,7 +73,7 @@ function (authModule, authNamespace, appNamespace) {
                   }
                 }
               })
-              .state(authNamespace + '.accessDenied', {
+              .state(moduleNamespace + '.accessDenied', {
                 url: '/403'
                 , views: {
                   '@': {
