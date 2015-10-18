@@ -21,7 +21,7 @@ function (angular, module, namespace) {
           username: ''
           , password: ''
           , phoneNum: ''
-          , city: cities.length? cities[0].code: 'guangzhou' // guangzhou as default  
+          , city: cities&&cities.length? cities[0].code: 'guangzhou' // guangzhou as default  
           , cities: cities
 
           // methods
