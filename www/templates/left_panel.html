@@ -5,7 +5,7 @@
 	  		take a close look at menuClose directive so that I could inmitate the same effect
 	  		here should be controller function to show profile page or the login page
 		-->
-        <a class="item-content user-profile" ui-sref="account.profile" cmn-menu-close>
+        <a class="item-content user-profile" ng-click="mainMenuController.goAccountIndex()">
             <img ng-src="{{ mainMenuController.selfiePath }}" style="
 			  width: 64px;
 			  height: 64px;
@@ -27,6 +27,10 @@
     <ion-content style="position:relative;top:0;">
         <ion-list>
             <!-- I will manually assign this ui-sref for the time being -->
+            <ion-item id="accountIndexAnchor" class="item-light hide" 
+                nav-clear menu-close ui-sref="account.index">
+                
+            </ion-item>
             <ion-item class="item-light" nav-clear menu-close ui-sref="quanquan.index" ui-sref-active="activated">
                 <span class="fa-stack fa-lg">
                     <i class="fa fa-circle fa-stack-2x" style="color:red;"></i>
