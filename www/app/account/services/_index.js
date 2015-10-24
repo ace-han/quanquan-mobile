@@ -1,5 +1,6 @@
 define([
-    './user.service'
+    './profile.service'
+    , './basicInfo.service'
 ], function () {
     'use strict';
 });

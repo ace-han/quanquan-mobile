@@ -11,7 +11,6 @@ function (angular, module, namespace) {
 
     var name = namespace + ".registerService";
     
-    
     module.factory(name, registerService);
 
     registerService.$inject = ['$q', 'Restangular', namespace+'.principalService'];
@@ -20,23 +19,12 @@ function (angular, module, namespace) {
 
     function registerService($q, Restangular, principalService){
         var service = {
-            getCityList: getCityList
-            , register: register
+            register: register
         }
 
-        var accountRestangular = Restangular.all('account')
-            , citiesRestangular = accountRestangular.all('cities')
-            , authRestangular = Restangular.all('auth')
+        var authRestangular = Restangular.all('auth')
 
         return service;
-        
-        function getCityList() {
-        	return citiesRestangular.getList()
-        		.then(function(data){
-        			// we just need the unrestangularized data;
-        			return data.plain();
-        		});
-        }
 
         function register(registerInfo) {
         	var deferred = $q.defer();
@@ -52,7 +40,6 @@ function (angular, module, namespace) {
             					deferred.reject(response);
             				})
         	return deferred.promise;
-            
         }
     }
 });

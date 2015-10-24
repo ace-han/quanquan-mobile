@@ -33,8 +33,8 @@ function (authModule, moduleNamespace, appNamespace) {
                 url: '/register'
                 // The resolve keyword MUST be relative to state not views (in case you use multiple views).
                 , resolve: {
-                  cities: ['$ionicLoading', moduleNamespace+'.registerService', function($ionicLoading, registerService){
-                    return registerService.getCityList()
+                  cities: ['$ionicLoading', 'account.basicInfoService', function($ionicLoading, basicInfoService){
+                    return basicInfoService.getCityList()
                             .catch(function(){
                               $ionicLoading.show({ template: 'Load City List Failed! Retry later', 
                                       noBackdrop: true, duration: 1500 });
