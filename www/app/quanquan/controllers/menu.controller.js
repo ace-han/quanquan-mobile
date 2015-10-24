@@ -23,12 +23,6 @@ function (angular, module) {
           , goAccountIndex: goAccountIndex
         });
 
-        function goAccountIndex(){
-            // a little ugly here...
-            var hiddenAnchor = document.getElementById('accountIndexAnchor');
-            angular.element(hiddenAnchor).triggerHandler('click');
-        }
-
         $scope.$on(AUTH_EVENTS.loginSuccess, function(event, payload) {
             console.info('MainMenuController', AUTH_EVENTS.loginSuccess);
             vm.nickname = payload.nickname;
@@ -48,7 +42,13 @@ function (angular, module) {
                         vm.nickname = payload.nickname || 'Anonymous';
                         vm.selfiePath = payload.selfie_path || './img/anonymous.png';
                     })
-        
+
+        function goAccountIndex(){
+            // a little ugly here...
+            var hiddenAnchor = document.getElementById('accountIndexAnchor');
+            angular.element(hiddenAnchor).triggerHandler('click');
+        }
+
         function init(){
             vm.nickname = 'Anonymous';
             vm.selfiePath = './img/anonymous.png';
