@@ -23,11 +23,16 @@ function (angular, module) {
           , goAccountIndex: goAccountIndex
         });
 
-        $scope.$on(AUTH_EVENTS.loginSuccess, function(event, payload) {
-            console.info('MainMenuController', AUTH_EVENTS.loginSuccess);
-            vm.nickname = payload.nickname;
+        $scope.$on([
+            AUTH_EVENTS.loginSuccess
+            , AUTH_EVENTS.userInfoChanged
+            ].join(' ')
+            , function(event, payload) {
+            console.info('MainMenuController', event);
+            init(payload);
         });
-        $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {
+        $scope.$on(AUTH_EVENTS.logoutSuccess
+            , function(event) {
             console.info(AUTH_EVENTS.logoutSuccess);
             init();            
         });
@@ -36,12 +41,7 @@ function (angular, module) {
 
         // console.info(name + 'inited'); // it's inited after auth.config's authenticate()
                                             // I might as well inject the auth.principalService for inited
-        principalService.identity()
-                    .then(function(payload){
-                        payload = payload || {}; // avoid empty payload
-                        vm.nickname = payload.nickname || 'Anonymous';
-                        vm.selfiePath = payload.selfie_path || './img/anonymous.png';
-                    })
+        principalService.identity().then(init)
 
         function goAccountIndex(){
             // a little ugly here...
@@ -49,9 +49,10 @@ function (angular, module) {
             angular.element(hiddenAnchor).triggerHandler('click');
         }
 
-        function init(){
-            vm.nickname = 'Anonymous';
-            vm.selfiePath = './img/anonymous.png';
+        function init(payload){
+            payload = payload || {}; // avoid empty payload
+            vm.nickname = payload.nickname || 'Anonymous';
+            vm.selfiePath = payload.selfie_path || './img/anonymous.png';
         }
     }
 
