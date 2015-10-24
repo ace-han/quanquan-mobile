@@ -7,39 +7,42 @@ require.config({
     baseUrl: './', 
     waitSeconds: 0,
     paths: {
-        "ngCordova": 'lib/ngCordova/dist/ng-cordova'
-        ,"cordova": 'cordova'
-        ,"ionic": 'lib/ionic/release/js/ionic'
-        ,"ionicAngular": 'lib/ionic/release/js/ionic-angular'
-        ,"angular": 'lib/angular/angular'
-        ,"ngAnimate": 'lib/angular-animate/angular-animate'
-        ,"ngSanitize": 'lib/angular-sanitize/angular-sanitize'
-        ,"ngUiRouter": 'lib/angular-ui-router/release/angular-ui-router'
-        ,"ngUiRouterExtras": 'lib/ui-router-extras/release/ct-ui-router-extras'
-        ,"ngTimeline": 'lib/angular-timeline/dist/angular-timeline'
-        ,"moment": 'lib/moment/min/moment-with-locales'
-        ,"ngMoment": 'lib/angular-moment/angular-moment'
-        ,"ngElastic": 'lib/angular-elastic/elastic'
-        ,"AutoLinker": 'lib/Autolinker.js/dist/Autolinker'
-        , 'lodash': 'lib/lodash/lodash'
+        'ngCordova': 'lib/ngCordova/dist/ng-cordova'
+        ,'cordova': 'cordova'
+        ,'ionic': 'lib/ionic/release/js/ionic'
+        ,'ionicAngular': 'lib/ionic/release/js/ionic-angular'
+        ,'angular': 'lib/angular/angular'
+        ,'ngAnimate': 'lib/angular-animate/angular-animate'
+        ,'ngSanitize': 'lib/angular-sanitize/angular-sanitize'
+        ,'ngUiRouter': 'lib/angular-ui-router/release/angular-ui-router'
+        ,'ngUiRouterExtras': 'lib/ui-router-extras/release/ct-ui-router-extras'
+        ,'ngTimeline': 'lib/angular-timeline/dist/angular-timeline'
+        ,'moment': 'lib/moment/min/moment-with-locales'
+        ,'ngMoment': 'lib/angular-moment/angular-moment'
+        ,'ngElastic': 'lib/angular-elastic/elastic'
+        ,'AutoLinker': 'lib/Autolinker.js/dist/Autolinker'
+        ,'lodash': 'lib/lodash/lodash'
         ,'restangular': 'lib/restangular/dist/restangular'
+        //,'ng-tags-input': 'lib/ng-tags-input/ng-tags-input'
+
 
     },
     shim: {
-        "angular": {exports: 'angular'}
-        , "ngCordova": {deps: ['angular']}
-        , "cordova": {deps: ['ngCordova']}
-        , "ionic": {exports: 'ionic'}
-        , "ngAnimate": {deps: ['angular']}
-        , "ngSanitize": {deps: ['angular']}
-        , "ngUiRouter": {deps: ['angular']}
-        , "ngUiRouterExtras": {deps: ['ngUiRouter']}
-        , "ionicAngular": {deps: ['ngAnimate', 'ngSanitize', 'ngUiRouter', 'ionic']}
-        , "ngTimeline": {deps: ['angular']}
-        , "ngMoment": {deps: ['angular', 'moment']}
-        , "ngElastic": {deps: ['angular']}
-        , "AutoLinker": {deps: ['angular']}
+        'angular': {exports: 'angular'}
+        , 'ngCordova': {deps: ['angular']}
+        , 'cordova': {deps: ['ngCordova']}
+        , 'ionic': {exports: 'ionic'}
+        , 'ngAnimate': {deps: ['angular']}
+        , 'ngSanitize': {deps: ['angular']}
+        , 'ngUiRouter': {deps: ['angular']}
+        , 'ngUiRouterExtras': {deps: ['ngUiRouter']}
+        , 'ionicAngular': {deps: ['ngAnimate', 'ngSanitize', 'ngUiRouter', 'ionic']}
+        , 'ngTimeline': {deps: ['angular']}
+        , 'ngMoment': {deps: ['angular', 'moment']}
+        , 'ngElastic': {deps: ['angular']}
+        , 'AutoLinker': {deps: ['angular']}
         , 'restangular': {deps: ['angular', 'lodash']}
+        //, 'ng-tags-input': {deps: ['angular']}
     }
 });
 
