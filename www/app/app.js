@@ -54,7 +54,7 @@ function (angular, namespace
             $ionicConfigProvider.backButton.previousTitleText(false).text('');
             $ionicConfigProvider.navBar.alignTitle('left');
 
-            // config global Resttagular
+            // config global Restangular
             if(window.cordova){
                 // for simplicity, when cordova is available
                 RestangularProvider.setBaseUrl('http://onedegree.madeinace.com/api/v1');   
@@ -81,8 +81,15 @@ function (angular, namespace
                 });
             
         }])
-        .run(function () {
-          
-        })
+        .run(['Restangular', 'localStorageService', 
+                // in order to avoid dependency, I choose localStorageService over auth.principalService
+                function (Restangular, localStorageService) {
+            Restangular.addFullRequestInterceptor(function(element, operation, route, url, headers, params, httpConfig) {
+                headers.Authorization = 'JWT ' + localStorageService.get('jwt_token');
+                return {
+                    headers: headers
+                }
+            });
+        }])
     return app;
 });
