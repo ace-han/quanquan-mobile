@@ -27,6 +27,7 @@ function (angular, module, namespace) {
             , getHighSchoolList: getHighSchoolList
             , getHighSchoolChoices: getHighSchoolChoices
             , getCollegeList: getCollegeList
+            , getCollegeChoices: getCollegeChoices
             , getSchoolList:  getSchoolList
             , getSchoolChoices: getSchoolChoices
         }

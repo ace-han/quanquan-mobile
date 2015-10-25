@@ -1,42 +1,105 @@
+<!-- 
+1. modal and popup, popup is a small layer covers the screen, 
+                    one view one instance, 
+                    no more other layers could be triggered until the showing one is close
+
+2. popover, could be many layers in the current view
+3. popup/modal is more appropriate for this editing situation
+-->
 <ion-view view-title="Profile">
   <!-- no ion-nav-bar here for <ion-nav-back-button/> working-->
   <ion-content>
-    <div class="list">
-
-      <a class="item item-icon-left" href="#">
-        <i class="icon ion-email"></i>
-        Check mail
-      </a>
-
-      <a class="item item-icon-left item-icon-right" href="#">
-        <i class="icon ion-chatbubble-working"></i>
-        Call Ma
-        <i class="icon ion-ios-telephone-outline"></i>
-      </a>
-
-      <a class="item item-icon-left" href="#">
-        <i class="icon ion-mic-a"></i>
-        Record album
+    <ion-list id="userInfo" class="card">
+      <!-- using custom item-xxx css class for not vertical-algin in middle -->
+      <ion-item class="item-media media-block" 
+        ng-click="">
+        <div class="media-body box-col">
+          Photo
+        </div>
+        <div class="media-thumbnail size-md">
+          <img ng-src="{{profileController.profile.user.selfie_path}}" class="img64x64">
+        </div>
+      </ion-item>
+      <ion-item class="item-media media-block">
+        <div class="media-body box-col">
+          Nick Name
+        </div>
         <span class="item-note">
-          Grammy
+          {{profileController.profile.user.nickname}}
         </span>
-      </a>
-
-      <a class="item item-icon-left" ng-click="profileController.verify()">
-        <i class="icon ion-person-stalker"></i>
-        Friends
-        <span class="badge badge-assertive">0</span>
-      </a>
-
-    </div>
-
-    <div class="list">
-      <a class="item item-icon-left" 
-        ng-click="profileController.logout()"
-        >
-        <i class="icon ion-log-out"></i>
-        Logout
-      </a>
-    </div>
+      </ion-item>
+      <ion-item class="item-media media-block">
+        <div class="media-body box-col">
+          User ID
+        </div>
+        <span class="item-note">
+          {{::profileController.profile.user.username}}
+        </span>
+      </ion-item>
+      <!-- 
+        no needed for the time being
+      <ion-item class="item-media media-block">
+        <div class="media-body box-col">
+          QR Code
+        </div>
+        <div class="media-thumbnail size-md">
+          <img ng-src="./img/anonymous.png" class="img64x64">
+        </div>
+      </ion-item> 
+      -->
+      <div class="item item-divider">
+          &nbsp;
+      </div>
+      <ion-item class="item-media media-block" 
+        ng-click="">
+        <div class="media-body box-col">
+          Phone Number
+        </div>
+        <span class="item-note">
+          {{profileController.profile.phone_num}}
+        </span>
+      </ion-item>
+      <ion-item class="item-media media-block" 
+        ng-click="">
+        <div class="media-body box-col">
+          Gender
+        </div>
+        <span class="item-note">
+          {{profileController.profile.genderStr}}
+        </span>
+      </ion-item>
+      <ion-item class="item-media media-block">
+        <div class="media-body box-col">
+          City
+        </div>
+        <span class="item-note">
+          city1
+        </span>
+      </ion-item>
+      <ion-item class="item-media media-block">
+        <div class="media-body box-col">
+          High School
+        </div>
+        <span class="item-note">
+          {{profileController.profile.high_school.name}}
+        </span>
+      </ion-item>
+      <ion-item class="item-media media-block">
+        <div class="media-body box-col">
+          College
+        </div>
+        <span class="item-note">
+          {{profileController.profile.college.name}}
+        </span>
+      </ion-item>
+      <ion-item class="item-media media-block">
+        <div class="media-body box-col">
+          What's up
+        </div>
+        <span class="item-note">
+          {{profileController.profile.whatsup}}
+        </span>
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>

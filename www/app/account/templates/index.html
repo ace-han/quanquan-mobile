@@ -1,0 +1,32 @@
+<ion-view view-title="Me" hide-back-button="true">
+  <ion-content>
+		<ion-list id="userInfo">
+		<!-- using custom item-xxx css class for not vertical-algin in middle -->
+			<ion-item class="item-media media-block" 
+				ui-sref="account.profile">
+				<div class="media-thumbnail size-md">
+					<img ng-src="{{::indexController.userInfo.selfie_path}}" class="img64x64"/>
+				</div>
+				<div class="media-body box-col">
+					<h2 class="media-heading text-cut">
+						{{::indexController.userInfo.nickname}}
+					</h2>
+					<p class="media-content">
+						{{::indexController.userInfo.username}}
+					</p>
+				</div>
+			</ion-item>
+			<ion-item class="item-divider"></ion-item>
+			<ion-item class="item-icon-left" 
+				ui-sref="account.tags">
+				<i class="icon ion-pricetags"></i>
+				Tags
+			</ion-item>
+			<ion-item class="item-divider"></ion-item>
+			<ion-item class="item-icon-left" ng-click="indexController.logout()">
+				<i class="icon ion-log-out"></i>
+				Logout
+			</ion-item>
+		</ion-list>
+  </ion-content>
+</ion-view>

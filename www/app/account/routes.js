@@ -18,8 +18,33 @@ function (accountModule, moduleNamespace, appNamespace) {
                 }
                 , abstract: true
               })
+              .state(moduleNamespace + '.index', {
+                url: '/index'
+                , resolve: {
+                  userInfo: ['auth.principalService', function(principalService){
+                    var userInfo = principalService.getCurrentUserInfo();
+                    if(!userInfo.selfie_path){
+                      userInfo.selfie_path = './img/anonymous.png';
+                    }
+                    return userInfo;
+                  }]
+                }
+                , views: {
+                  '@': {
+                    templateUrl: 'app/account/templates/index.html'
+                    , controller: moduleNamespace + '.IndexController as indexController'
+                  }
+                }
+              })
               .state(moduleNamespace + '.profile', {
                 url: '/profile'
+                , resolve: {
+                  profile: [moduleNamespace + '.profileService', 'auth.principalService', 
+                    function(profileService, principalService){
+                      var userId = principalService.getCurrentUserInfo().user_id;
+                      return profileService.getUserProfileInfo(userId);
+                  }]
+                }
                 , views: {
                   '@': {
                     templateUrl: 'app/account/templates/profile.html'
@@ -27,13 +52,6 @@ function (accountModule, moduleNamespace, appNamespace) {
                   }
                 }
               })
-              .state(moduleNamespace + '.accountHome', {
-                url: '/account-home'
-                , views: {
-                  '@': {
-                    templateUrl: 'app/account/templates/account_home.html'
-                  }
-                }
-              })
+              
         }]);
 });
