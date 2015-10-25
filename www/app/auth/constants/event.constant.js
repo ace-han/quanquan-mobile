@@ -15,6 +15,7 @@ function (module, namespace) {
 		, sessionTimeout: 'auth-session-timeout'
 		, notAuthenticated: 'auth-not-authenticated'
 		, notAuthorized: 'auth-not-authorized'
+		, userInfoChanged: 'auth-user-info-changed'
 	};
 
     module.constant(name, EVENTS);

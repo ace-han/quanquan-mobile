@@ -81,15 +81,5 @@ function (angular, namespace
                 });
             
         }])
-        .run(['Restangular', 'localStorageService', 
-                // in order to avoid dependency, I choose localStorageService over auth.principalService
-                function (Restangular, localStorageService) {
-            Restangular.addFullRequestInterceptor(function(element, operation, route, url, headers, params, httpConfig) {
-                headers.Authorization = 'JWT ' + localStorageService.get('jwt_token');
-                return {
-                    headers: headers
-                }
-            });
-        }])
     return app;
 });

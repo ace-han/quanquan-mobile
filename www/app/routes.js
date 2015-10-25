@@ -20,6 +20,7 @@ define([
                     authorize: ['$q', 'auth.authService', 
                       function($q, authService) {
                         console.info('root resolve authService.auth');
+                        // here for the first time app open and get a token to login
                         return $q.all(authService.authenticate(), authService.authorize());
                       }
                     ]

@@ -35,10 +35,13 @@ function (angular, module, namespace) {
             , onLoginSuccessful: onLoginSuccessful
             , onLoginFailed: onLoginFailed
             , verify: verify
+            , getCurrentUserInfo: getCurrentUserInfo
+            , updateCurrentUserInfo: updateCurrentUserInfo
         }
 
         var authRestangular = Restangular.all('auth')
-            , tokenRestangular = authRestangular.all('token');
+            , tokenRestangular = authRestangular.all('token')
+            , userRestangular = authRestangular.all('users');
         return service;
 
         function isIdentityResolved(){
@@ -69,11 +72,12 @@ function (angular, module, namespace) {
         }
 
         function onLoginSuccessful(token, deferred, is_necessary_user_info_filled){
-            var payload = resolvePayloadClaims(token);
+            var payload = _resolvePayloadClaims(token);
             _identity = payload;
             _authenticated = true;
             //console.info('authentication successful inited');
-            $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, payload);
+            $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, 
+                angular.extend(payload, {nickname: payload.nickname||payload.username}) );
             deferred.resolve({
                 payload: payload
                 , is_necessary_user_info_filled: is_necessary_user_info_filled
@@ -153,12 +157,6 @@ function (angular, module, namespace) {
             localStorageService.set('jwt_token', token);
         }
 
-        function resolvePayloadClaims(token){
-            var tokens = token.split('.'); //tokens[0]->header, tokens[1]->payload, tokens[2]->signature
-            var payload = base64Service.decode(tokens[1]);
-            return JSON.parse(payload);
-        }
-
         function verify(){
             // verify only cares about username and its integrity
             // no password, nickname or city update will break the token usage
@@ -177,6 +175,37 @@ function (angular, module, namespace) {
                         console.info(response);
                     })
 
+        }
+
+        function getCurrentUserInfo(){
+            // never return null
+            var token = getJwtToken();
+            if(!token){
+                return {}
+            }
+            var payload = _resolvePayloadClaims(token);
+            return payload;
+        }
+
+        function updateCurrentUserInfo(userInfo){
+            userRestangular.patch()
+                .then(function(response){
+                    // update the token part
+                    var token = getJwtToken();
+                    var payload = _resolvePayloadClaims(token);
+                    angular.extend(payload, response);
+                    token.replace(/\..+\./, '.'+base64Service.encode(payload)+'.');
+                    if(!payload.nickname){
+                        payload.nickname = payload.username;
+                    }
+                    $rootScope.$broadcast(AUTH_EVENTS.userInfoChanged, payload);
+                })
+        }
+
+        function _resolvePayloadClaims(token){
+            var tokens = token.split('.'); //tokens[0]->header, tokens[1]->payload, tokens[2]->signature
+            var payload = base64Service.decode(tokens[1]);
+            return JSON.parse(payload);
         }
     }
 });
