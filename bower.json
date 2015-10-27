@@ -25,6 +25,7 @@
     "moment": "~2.10.3",
     "ngCordova": "~0.1.12-alpha",
     "requirejs": "2.1.16",
-    "ui-router-extras": "~0.0.14"
+    "ui-router-extras": "~0.0.14",
+    "restangular": "~1.5.1"
   }
 }
