@@ -57,7 +57,11 @@ function (angular, namespace
             // config global Restangular
             if(window.cordova){
                 // for simplicity, when cordova is available
-                RestangularProvider.setBaseUrl('http://onedegree.madeinace.com/api/v1');   
+		if(window.cordova.env == 'qa'){
+			RestangularProvider.setBaseUrl('http://onedegree-qa.madeinace.com/api/v1');
+		} else {
+                	RestangularProvider.setBaseUrl('http://onedegree.madeinace.com/api/v1');   
+                }
             } else {
                 RestangularProvider.setBaseUrl('/api/v1');
             }
