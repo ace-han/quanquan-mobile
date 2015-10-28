@@ -41,18 +41,20 @@ function (module, namespace) {
                             disableBack: true
                             , historyRoot: true
                         });
-                    if(!!$rootScope.returnToState){
-                        $state.go($rootScope.returnToState, $rootScope.returnToStateParams);
 
-                        // some clean up
-                        $timeout(function(){
-                            $rootScope.returnToState = undefined;
-                            $rootScope.returnToStateParams = undefined;
+                    if(data.is_necessary_user_info_filled){
+                        if(!!$rootScope.returnToState){
+                            $state.go($rootScope.returnToState, $rootScope.returnToStateParams);
+                            // some clean up
+                            $timeout(function(){
+                                $rootScope.returnToState = undefined;
+                                $rootScope.returnToStateParams = undefined;
+                            }
+                            , 100   // wait for a little bit for $state setup
+                            , false); // if need to invoke apply, no need
+                        } else {
+                            $state.go('quanquan.index');
                         }
-                        , 100   // wait for a little bit for $state setup
-                        , false); // if need to invoke apply, no need
-                    }else if(data.is_necessary_user_info_filled){
-                        $state.go('quanquan.index');
                     } else {
                         $state.go('account.profile');
                     }
