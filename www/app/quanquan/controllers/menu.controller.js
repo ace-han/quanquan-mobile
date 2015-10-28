@@ -23,12 +23,14 @@ function (angular, module) {
           , goAccountIndex: goAccountIndex
         });
 
-        $scope.$on([
-            AUTH_EVENTS.loginSuccess
-            , AUTH_EVENTS.userInfoChanged
-            ].join(' ')
+        $scope.$on(AUTH_EVENTS.loginSuccess
             , function(event, payload) {
-            console.info('MainMenuController', event);
+            console.info('MainMenuController, AUTH_EVENTS.loginSuccess', event);
+            init(payload);
+        });
+        $scope.$on(AUTH_EVENTS.userInfoChanged
+            , function(event, payload) {
+            console.info('userInfoChanged, AUTH_EVENTS.userInfoChanged', event);
             init(payload);
         });
         $scope.$on(AUTH_EVENTS.logoutSuccess
