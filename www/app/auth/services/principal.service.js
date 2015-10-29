@@ -188,11 +188,11 @@ function (angular, module, namespace) {
         }
 
         function updateCurrentUserInfo(userInfo){
-            userRestangular.patch()
+            var token = getJwtToken();
+            var payload = _resolvePayloadClaims(token);
+            return authRestangular.one('users', payload.user_id).patch(userInfo)
                 .then(function(response){
                     // update the token part
-                    var token = getJwtToken();
-                    var payload = _resolvePayloadClaims(token);
                     angular.extend(payload, response);
                     token.replace(/\..+\./, '.'+base64Service.encode(payload)+'.');
                     if(!payload.nickname){

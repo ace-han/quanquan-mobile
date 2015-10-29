@@ -20,7 +20,8 @@
           <img ng-src="{{profileController.profile.user.selfie_path}}" class="img64x64">
         </div>
       </ion-item>
-      <ion-item class="item-media media-block">
+      <ion-item class="item-media media-block"
+        ng-click="profileController.openEditModal('nickname')">
         <div class="media-body box-col">
           Nick Name
         </div>
@@ -60,7 +61,7 @@
         </span>
       </ion-item>
       <ion-item class="item-media media-block" 
-        ng-click="">
+        ng-click="profileController.openEditModal('gender')">
         <div class="media-body box-col">
           Gender
         </div>
@@ -96,10 +97,54 @@
         <div class="media-body box-col">
           What's up
         </div>
-        <span class="item-note">
-          {{profileController.profile.whatsup}}
+        <span class="item-note" 
+          ng-bind-html="profileController.profile.whatsup">
         </span>
       </ion-item>
     </ion-list>
+
+    <!-- modal template -->
+    <script id="account-profile-edit-nickname-modal.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar class="bar-positive">
+          <button class="button button-icon ion ion-arrow-left-c" ng-click="vm.closeEditModal()"></button>
+          <h1 class="title">Edit Nick Name</h1>
+          <button class="button button-balanced" 
+            ng-disabled="editNicknameForm.$valid"
+            ng-click="vm.saveUserInfo('nickname')">Save</button>
+        </ion-header-bar>
+        <ion-content>
+          <form name="editNicknameForm" novalidate>
+            <div class="list">
+              <label class="item item-input no-vertical-border">
+                <input type="text" 
+                  ng-model="vm.profile.user.nickname" 
+                  placeholder="Nick Name"
+                  ng-minlength="1"
+                  ng-maxlength="30"
+                  cmn-focus-me="true"
+                  required/>
+                <div class="highlight highlight-positive"></div>
+              </label>
+              <div ng-show="!vm.modalErrMsg" class="padding placeholder-icon">Pick a cool name</div>
+              <div class="padding assertive" ng-show="vm.modalErrMsg">{{vm.modalErrMsg}}</div>
+            </div>
+          </form>
+        </ion-content>
+      </ion-modal-view>
+    </script>
+    <!-- sth like this id -->
+    <script id="account-profile-edit-xxx-modal.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar class="bar-positive">
+          <button class="button button-icon ion ion-arrow-left-c" ng-click="vm.closeEditModal()"></button>
+          <h1 class="title">My Modal dialog</h1>
+          <button class="button button-balanced" ng-click="vm.closeEditModal()">Save</button>
+        </ion-header-bar>
+        <ion-content>
+          {{vm.profile.whatsup}}}
+        </ion-content>
+      </ion-modal-view>
+    </script>
   </ion-content>
 </ion-view>
