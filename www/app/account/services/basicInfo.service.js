@@ -47,7 +47,10 @@ function (angular, module, namespace) {
             return genderRestangular.getList()
                 .then(function(data){
                     // we just need the unrestangularized data;
-                    return data.plain();
+                    // only apply for male or female;
+                    return data.plain().filter(function(e){
+                        return e.value != null;
+                    });
                 });
         }
 
@@ -96,12 +99,13 @@ function (angular, module, namespace) {
             return getSchoolList(params)
                     .then(function(data){
                         var result = []
-                        for(school in data){
+                        for(var i in data){
                             result.push({
-                                label: school.name
-                                , value: school.id
+                                label: data[i].name
+                                , value: data[i].id
                             })
                         }
+                        return result;
                     })
         }
 

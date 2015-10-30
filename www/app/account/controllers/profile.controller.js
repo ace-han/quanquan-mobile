@@ -43,7 +43,7 @@ function (angular, module, namespace) {
         });
         
         $scope.vm = vm;
-        var modalRef = null;
+        var modalRef = null, school;
         init();
 
         
@@ -68,21 +68,18 @@ function (angular, module, namespace) {
 
 
         function openEditModal(fieldName){
-            // var widget;
-            // if(fieldName == 'gender'){
-            //     widget = {}
-            // }
 
-            // if(widgetType == 'text'){
 
-            // } else if(widgetType == 'select'){
-
-            // } else {
-            //     // maybe imageType
-            // }
-
+            if(fieldName=='high_school' || fieldName=='college'){
+                // since school is {id:,name:,}, schoolChoice is {value:,label:,}
+                // properties just don't match
+                vm.modalSchool = {
+                    value: vm.profile[fieldName].id
+                    , label: vm.profile[fieldName].name
+                }
+            }
             // determine which template to be show up
-            $ionicModal.fromTemplateUrl('account-profile-edit-'+fieldName+'-modal.html', {
+            $ionicModal.fromTemplateUrl('app/account/templates/'+fieldName+'_edit_modal.html', {
                 scope: $scope, // this one needs the one with $new() method
                 animation: 'slide-in-up'
             }).then(function(modal) {
@@ -96,10 +93,11 @@ function (angular, module, namespace) {
         function closeEditModal(){
             modalRef.hide();
             modalRef.remove();
+            vm.modalErrMsg = '';
         }
 
-        function saveUserInfo(){
-            principalService.updateCurrentUserInfo(vm.profile.user)
+        function saveUserInfo(userInfoField){
+            principalService.updateCurrentUserInfo(vm.profile.user, [userInfoField])
                 .then(function(){
                     vm.closeEditModal();
                 },function(response){
@@ -108,26 +106,83 @@ function (angular, module, namespace) {
                 })
         }
 
-        function saveProfileInfo(){
-
+        function saveProfileInfo(profileInfoField){
+            // if not success the modal won't close, so pre-assign the value is okay
+            switch(profileInfoField){
+                case 'gender':
+                    angular.forEach(vm.genderChoices, function(choice, index){
+                        if(vm.profile.gender == choice.value){
+                            vm.genderStr = choice.label;
+                            return false;
+                        }
+                    });
+                    break;
+                case 'city':
+                    angular.forEach(vm.cityChoices, function(choice, index){
+                        if(vm.profile.city == choice.value){
+                            vm.cityStr = choice.label;
+                            return false;
+                        }
+                    });
+                    break;
+                case 'high_school':
+                    angular.forEach(vm.highSchoolChoices, function(choice, index){
+                        if(vm.modalSchool.value == choice.value){
+                            vm.profile.high_school= {
+                                id: choice.value
+                                , name: choice.label
+                            }
+                            return false;
+                        }
+                    });
+                    break;
+                case 'college':
+                    angular.forEach(vm.collegeChoices, function(choice, index){
+                        if(vm.modalSchool.value == choice.value){
+                            vm.profile.college= {
+                                id: choice.value
+                                , name: choice.label
+                            }
+                            return false;
+                        }
+                    });
+                    break;
+                default:
+                    ;
+            }
+            profileService.updateUserProfileInfo(vm.profile, [profileInfoField])
+                .then(function(){
+                    vm.closeEditModal();
+                }, function(response){
+                    console.error(response.status, response.statusText);
+                    vm.modalErrMsg = 'Server error, retry it later';
+                });
         }
 
         function init(){
             vm.profile.user.nickname = vm.profile.user.nickname || vm.profile.user.username;
             vm.profile.user.selfie_path = vm.profile.user.selfie_path || './img/anonymous.png';
-            vm.profile.genderStr = 'Unknown';
+            vm.genderStr = 'Unknown';
+            vm.modalSchool = null; // for school edit in the modal only
             basicInfoService.getGenderChoices()
                 .then(function(choices){
                     vm.genderChoices = choices;
                     angular.forEach(choices, function(choice, index){
-                        if(vm.gender == choice.value){
+                        if(vm.profile.gender == choice.value){
                             vm.genderStr = choice.label;
+                            return false;
                         }
                     });
                 });
             basicInfoService.getCityChoices()
                 .then(function(choices){
                     vm.cityChoices = choices;
+                    angular.forEach(choices, function(choice, index){
+                        if(vm.profile.city == choice.value){
+                            vm.cityStr = choice.label;
+                            return false;
+                        }
+                    });
                 });
             basicInfoService.getHighSchoolChoices()
                 .then(function(choices){

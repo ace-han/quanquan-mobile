@@ -1,0 +1,27 @@
+<ion-modal-view>
+	<ion-header-bar class="bar-positive">
+	  <button class="button button-icon ion ion-chevron-left" ng-click="vm.closeEditModal()"></button>
+	  <h1 class="title">Edit Phone Number</h1>
+	  <button class="button button-balanced" 
+	    ng-disabled="editPhoneNumForm.$invalid"
+	    ng-click="vm.saveProfileInfo('phone_num')">Save</button>
+	</ion-header-bar>
+	<ion-content>
+	  <form name="editPhoneNumForm" novalidate>
+	    <div class="list">
+	      <label class="item item-input no-vertical-border">
+	        <input type="text" 
+	          ng-model="vm.profile.phone_num" 
+	          placeholder="Phone Number"
+	          ng-minlength="1"
+	          ng-maxlength="30"
+	          cmn-focus-me="true"
+	          required/>
+	        <div class="highlight highlight-positive"></div>
+	      </label>
+	      <div ng-show="!vm.modalErrMsg" class="padding placeholder-icon">Change your phone number</div>
+	      <div class="padding assertive" ng-show="vm.modalErrMsg">{{vm.modalErrMsg}}</div>
+	    </div>
+	  </form>
+	</ion-content>
+</ion-modal-view>

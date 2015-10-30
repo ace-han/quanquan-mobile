@@ -52,7 +52,7 @@
           &nbsp;
       </div>
       <ion-item class="item-media media-block" 
-        ng-click="">
+        ng-click="profileController.openEditModal('phone_num')">
         <div class="media-body box-col">
           Phone Number
         </div>
@@ -66,18 +66,20 @@
           Gender
         </div>
         <span class="item-note">
-          {{profileController.profile.genderStr}}
+          {{profileController.genderStr}}
         </span>
       </ion-item>
-      <ion-item class="item-media media-block">
+      <ion-item class="item-media media-block" 
+        ng-click="profileController.openEditModal('city')">
         <div class="media-body box-col">
           City
         </div>
         <span class="item-note">
-          city1
+          {{profileController.cityStr}}
         </span>
       </ion-item>
-      <ion-item class="item-media media-block">
+      <ion-item class="item-media media-block" 
+        ng-click="profileController.openEditModal('high_school')">
         <div class="media-body box-col">
           High School
         </div>
@@ -85,7 +87,8 @@
           {{profileController.profile.high_school.name}}
         </span>
       </ion-item>
-      <ion-item class="item-media media-block">
+      <ion-item class="item-media media-block" 
+        ng-click="profileController.openEditModal('college')">
         <div class="media-body box-col">
           College
         </div>
@@ -93,7 +96,8 @@
           {{profileController.profile.college.name}}
         </span>
       </ion-item>
-      <ion-item class="item-media media-block">
+      <ion-item class="item-media media-block" 
+        ng-click="profileController.openEditModal('whatsup')">
         <div class="media-body box-col">
           What's up
         </div>
@@ -102,49 +106,5 @@
         </span>
       </ion-item>
     </ion-list>
-
-    <!-- modal template -->
-    <script id="account-profile-edit-nickname-modal.html" type="text/ng-template">
-      <ion-modal-view>
-        <ion-header-bar class="bar-positive">
-          <button class="button button-icon ion ion-arrow-left-c" ng-click="vm.closeEditModal()"></button>
-          <h1 class="title">Edit Nick Name</h1>
-          <button class="button button-balanced" 
-            ng-disabled="editNicknameForm.$valid"
-            ng-click="vm.saveUserInfo('nickname')">Save</button>
-        </ion-header-bar>
-        <ion-content>
-          <form name="editNicknameForm" novalidate>
-            <div class="list">
-              <label class="item item-input no-vertical-border">
-                <input type="text" 
-                  ng-model="vm.profile.user.nickname" 
-                  placeholder="Nick Name"
-                  ng-minlength="1"
-                  ng-maxlength="30"
-                  cmn-focus-me="true"
-                  required/>
-                <div class="highlight highlight-positive"></div>
-              </label>
-              <div ng-show="!vm.modalErrMsg" class="padding placeholder-icon">Pick a cool name</div>
-              <div class="padding assertive" ng-show="vm.modalErrMsg">{{vm.modalErrMsg}}</div>
-            </div>
-          </form>
-        </ion-content>
-      </ion-modal-view>
-    </script>
-    <!-- sth like this id -->
-    <script id="account-profile-edit-xxx-modal.html" type="text/ng-template">
-      <ion-modal-view>
-        <ion-header-bar class="bar-positive">
-          <button class="button button-icon ion ion-arrow-left-c" ng-click="vm.closeEditModal()"></button>
-          <h1 class="title">My Modal dialog</h1>
-          <button class="button button-balanced" ng-click="vm.closeEditModal()">Save</button>
-        </ion-header-bar>
-        <ion-content>
-          {{vm.profile.whatsup}}}
-        </ion-content>
-      </ion-modal-view>
-    </script>
   </ion-content>
 </ion-view>
