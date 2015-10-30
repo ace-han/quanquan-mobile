@@ -187,10 +187,20 @@ function (angular, module, namespace) {
             return payload;
         }
 
-        function updateCurrentUserInfo(userInfo){
+        function updateCurrentUserInfo(userInfo, fields){
+            var params = {}
+            if(fields && fields.length){
+                angular.forEach(fields, function(field, i){
+                    if(field in userInfo){
+                        params[field] = userInfo[field];
+                    }
+                });
+            } else {
+                params = userInfo;
+            }
             var token = getJwtToken();
             var payload = _resolvePayloadClaims(token);
-            return authRestangular.one('users', payload.user_id).patch(userInfo)
+            return authRestangular.one('users', payload.user_id).patch(params)
                 .then(function(response){
                     // update the token part
                     angular.extend(payload, response);
