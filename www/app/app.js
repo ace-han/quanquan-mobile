@@ -77,7 +77,7 @@ function (angular, namespace
                         // refer to https://github.com/marmelab/ng-admin/blob/master/doc/API-mapping.md#total-number-of-results
                         if ('count' in data) {
                             response.totalCount = data.count;
-                            return data.result; // so return data.result will suite our requirement
+                            return data.results; // so return data.results will suite our requirement
                         } else {
                             response.totalCount = data.length;
                             return data;
