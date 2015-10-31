@@ -18,6 +18,7 @@ define([
     , 'ionicAngular'
     , 'ngMoment'
     , 'restangular'
+    , 'angular-loading-bar'
     , './auth/module.require'
     , './account/module.require'
     , './contact/module.require'
@@ -43,6 +44,7 @@ function (angular, namespace
         , 'ct.ui.router.extras.future', 'ct.ui.router.extras.statevis' // this two should be manually added
         , 'angularMoment'
         , 'restangular'
+        , 'angular-loading-bar'
         , authNamespace, accountNamespace
         , contactNamespace, searchNamespace
         , groupNamespace, commonNamespace
