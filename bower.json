@@ -26,6 +26,7 @@
     "ngCordova": "~0.1.12-alpha",
     "requirejs": "2.1.16",
     "ui-router-extras": "~0.0.14",
-    "restangular": "~1.5.1"
+    "restangular": "~1.5.1",
+    "angular-loading-bar": "~0.8.0"
   }
 }
