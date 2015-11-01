@@ -17,6 +17,7 @@ function (authModule, moduleNamespace, appNamespace) {
               })
               .state(moduleNamespace + '.login', {
                 url: '/login'
+                , cache: false
                 // there is a warning on the official website says
                 //  Warning: The controller will not be instantiated if template is not defined.
                 //controller: moduleNamespace + '.LoginController as loginController',
@@ -31,6 +32,7 @@ function (authModule, moduleNamespace, appNamespace) {
               })
               .state(moduleNamespace + '.register', {
                 url: '/register'
+                , cache: false
                 // The resolve keyword MUST be relative to state not views (in case you use multiple views).
                 , resolve: {
                   cities: ['$ionicLoading', 'account.basicInfoService', function($ionicLoading, basicInfoService){

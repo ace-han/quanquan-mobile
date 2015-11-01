@@ -20,6 +20,7 @@ function (accountModule, moduleNamespace, appNamespace) {
               })
               .state(moduleNamespace + '.index', {
                 url: '/index'
+                , cache: false
                 , resolve: {
                   userInfo: ['auth.principalService', function(principalService){
                     var userInfo = principalService.getCurrentUserInfo();
@@ -38,6 +39,7 @@ function (accountModule, moduleNamespace, appNamespace) {
               })
               .state(moduleNamespace + '.profile', {
                 url: '/profile'
+                , cache: false
                 , resolve: {
                   profile: [moduleNamespace + '.profileService', 'auth.principalService', 
                     function(profileService, principalService){
