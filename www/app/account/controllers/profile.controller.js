@@ -73,9 +73,10 @@ function (angular, module, namespace) {
             if(fieldName=='high_school' || fieldName=='college'){
                 // since school is {id:,name:,}, schoolChoice is {value:,label:,}
                 // properties just don't match
+                var school = vm.profile[fieldName];
                 vm.modalSchool = {
-                    value: vm.profile[fieldName].id
-                    , label: vm.profile[fieldName].name
+                    value: school? school.id: ''
+                    , label: school? school.name: ''
                 }
             }
             // determine which template to be show up

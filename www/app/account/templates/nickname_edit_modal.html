@@ -1,27 +1,27 @@
 <ion-modal-view>
-  <ion-header-bar class="bar-positive">
-    <button class="button button-icon ion ion-chevron-left" ng-click="vm.closeEditModal()"></button>
-    <h1 class="title">Edit Nick Name</h1>
-    <button class="button button-balanced" 
-      ng-disabled="editNicknameForm.$invalid"
-      ng-click="vm.saveUserInfo('nickname')">Save</button>
-  </ion-header-bar>
-  <ion-content>
-    <form name="editNicknameForm" novalidate>
-      <div class="list">
-        <label class="item item-input no-vertical-border">
-          <input type="text" 
-            ng-model="vm.profile.user.nickname" 
-            placeholder="Nick Name"
-            ng-minlength="1"
-            ng-maxlength="30"
-            cmn-focus-me="true"
-            required/>
-          <div class="highlight highlight-positive"></div>
-        </label>
-        <div ng-show="!vm.modalErrMsg" class="padding placeholder-icon">Pick a cool name</div>
-        <div class="padding assertive" ng-show="vm.modalErrMsg">{{vm.modalErrMsg}}</div>
-      </div>
-    </form>
-  </ion-content>
+  <form name="editNicknameForm" novalidate>
+    <ion-header-bar class="bar-positive">
+      <button class="button button-icon ion ion-chevron-left" ng-click="vm.closeEditModal()"></button>
+      <h1 class="title">Edit Nick Name</h1>
+      <button class="button button-balanced" 
+        ng-disabled="editNicknameForm.$invalid"
+        ng-click="vm.saveUserInfo('nickname')">Save</button>
+    </ion-header-bar>
+    <ion-content>
+        <div class="list">
+          <label class="item item-input no-vertical-border">
+            <input type="text" 
+              ng-model="vm.profile.user.nickname" 
+              placeholder="Nick Name"
+              ng-minlength="1"
+              ng-maxlength="30"
+              cmn-focus-me="true"
+              required/>
+            <div class="highlight highlight-positive"></div>
+          </label>
+          <div ng-show="!vm.modalErrMsg" class="padding placeholder-icon">Pick a cool name</div>
+          <div class="padding assertive" ng-show="vm.modalErrMsg">{{vm.modalErrMsg}}</div>
+        </div>
+    </ion-content>
+  </form>
 </ion-modal-view>

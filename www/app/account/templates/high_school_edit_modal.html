@@ -1,23 +1,26 @@
 <ion-modal-view>
-  <ion-header-bar class="bar-positive">
-    <button class="button button-icon ion ion-chevron-left" ng-click="vm.closeEditModal()"></button>
-    <h1 class="title">Choose A High School</h1>
-    <button class="button button-balanced" 
-      ng-disabled="editHighSchoolForm.$invalid"
-      ng-click="vm.saveProfileInfo('high_school')">Save</button>
-  </ion-header-bar>
-  <ion-content>
-    <form name="editHighSchoolForm" novalidate>
-      <div class="list">
-        <label class="item item-radio" ng-repeat="choice in vm.highSchoolChoices">
-          <input type="radio" name="high_school" ng-model="vm.modalSchool.value" ng-value="choice.value"/>
-          <div class="item-content">
-            {{choice.label}}
-          </div>
-          <i class="radio-icon ion-checkmark"></i>
-        </label>
-        <div class="padding assertive" ng-show="vm.modalErrMsg">{{vm.modalErrMsg}}</div>
-      </div>
-    </form>
-  </ion-content>
+  <form name="editHighSchoolForm" novalidate>
+    <ion-header-bar class="bar-positive">
+      <button class="button button-icon ion ion-chevron-left" ng-click="vm.closeEditModal()"></button>
+      <h1 class="title">Choose A High School</h1>
+      <button class="button button-balanced" 
+        ng-disabled="editHighSchoolForm.$invalid"
+        ng-click="vm.saveProfileInfo('high_school')">Save</button>
+    </ion-header-bar>
+    <ion-content>
+      
+        <div class="list">
+          <label class="item item-radio" ng-repeat="choice in vm.highSchoolChoices">
+            <input type="radio" name="high_school" required
+              ng-model="vm.modalSchool.value" 
+              ng-value="choice.value"/>
+            <div class="item-content">
+              {{choice.label}}
+            </div>
+            <i class="radio-icon ion-checkmark"></i>
+          </label>
+          <div class="padding assertive" ng-show="vm.modalErrMsg">{{vm.modalErrMsg}}</div>
+        </div>
+    </ion-content>
+  </form>
 </ion-modal-view>
