@@ -10,7 +10,9 @@
 		<ion-content>
 		    <div class="list">
 		      <label class="item item-radio" ng-repeat="choice in vm.genderChoices">
-		        <input type="radio" name="gender" ng-model="vm.profile.gender" ng-value="choice.value"/>
+		        <input type="radio" name="gender" required
+		        	ng-model="vm.profile.gender" 
+		        	ng-value="choice.value"/>
 		        <div class="item-content">
 		          {{choice.label}}
 		        </div>
