@@ -17,7 +17,7 @@ a {
 	background-color: white;
 }
 
-@each $size in 16,32,48,64 {
+@each $size in 16,32,48,64,128 {
 	.img#{$size}x#{$size} {
  		@include sized-img(#{$size}px, #{$size}px);
 	}
@@ -92,4 +92,16 @@ input.reset-field {
         display: block;
         max-height: $popover-height;
     }
+}
+
+@each $percentage in 0.1,0.15,0.2 {
+	.padding-#{$percentage*100} {
+ 		@include padding($percentage,$percentage,$percentage,$percentage);
+	}
+	.padding-horizontal-#{$percentage*100} {
+ 		@include padding-horizontal($percentage);
+	}
+	.padding-vertical-#{$percentage*100} {
+ 		@include padding-vertical($percentage);
+	}
 }

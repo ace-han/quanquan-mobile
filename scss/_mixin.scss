@@ -5,5 +5,22 @@
  	max-height: $height;
  	width:100%;
  	height:100%;
+}
 
+@mixin padding($top, $right, $bottom, $left) {
+	// in percentage
+	padding-top: percentage($top);
+	padding-right: percentage($right);
+	padding-bottom: percentage($bottom);
+	padding-left: percentage($left);
+}
+
+@mixin padding-horizontal($percentage) {
+	// in percentage
+	padding: 0 percentage($percentage);
+}
+
+@mixin padding-vertical($percentage) {
+	// in percentage
+	padding: percentage($percentage) 0;
 }
