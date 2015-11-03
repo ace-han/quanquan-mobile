@@ -1,0 +1,54 @@
+<ion-view view-title="Home" hide-back-button="true">
+  <ion-content>
+		<ion-list>			
+			<ion-item class="item-divider" ng-bind="::tagsController.profile.user.displayName"></ion-item>
+			<ion-item class="padding-horizontal-10 responsive-sm">
+				
+				<div class="selfie padding">
+					<img class="item img128x128" ng-src="{{::tagsController.profile.user.selfie_path}}"
+						style="border-radius: 50%;
+							    display: block;
+							    margin: auto;
+							    background-color: gainsboro;"/>
+				</div>
+				
+				<div class="item-body">
+					<span class="label energized-bg">{{::tagsController.profile.city}} </span>
+					<span class="label energized-bg">{{::tagsController.profile.city}} </span>
+					<span class="label energized-bg">{{::tagsController.profile.city}} </span>
+					<span class="label energized-bg">{{::tagsController.profile.city}} </span>
+					<span class="label energized-bg">{{::tagsController.profile.city}} </span>
+					<span class="label energized-bg">{{::tagsController.profile.city}} </span>
+					<span class="label energized-bg">{{::tagsController.profile.city}} </span>
+					<span class="label energized-bg">{{::tagsController.profile.city}} </span>
+					<span class="label energized-bg">{{::tagsController.profile.city}} </span>
+
+					<div class="positive-bg" style="height:1px; margin:2px;"></div>
+
+					<span class="label balanced-bg" 
+						ng-repeat="tag in tagsController.profile.tags"
+						ng-bind="::tag.name"></span>
+					<div class="text-center padding-top">
+						<a class="button button-icon button-clear fa fa-pencil-square-o"
+							style="font-size:xx-large; min-height:auto;"
+							ui-sref="account.profile.tags.edit({profileId: tagsController.profile.id})"
+							ng-if="tagsController.isCurrentUserHimself()"></a>
+						<a class="button button-icon button-clear fa fa-pencil-square-o"
+							style="font-size:xx-large; min-height:auto;"
+							ui-sref="account.profile.tags.friendEdit({profileId: tagsController.profile.id})"
+							ng-if="!tagsController.isCurrentUserHimself()"></a>
+					</div>
+				</div>
+				
+				
+				
+			</ion-item>
+			<ion-item class="item-divider">1°</ion-item>
+			<ion-item class="padding">
+				<div class="one-degree-tags item-body">
+					<span class="label calm-bg">xyzxyz </span>
+				</div>
+			</ion-item>
+		</ion-list>
+  </ion-content>
+</ion-view>

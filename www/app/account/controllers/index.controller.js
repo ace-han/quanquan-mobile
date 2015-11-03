@@ -10,7 +10,7 @@ function (angular, module, namespace) {
 
     module.controller(name, IndexController);
                 
-    IndexController.$inject = ['$state', '$ionicPopup', 'auth.principalService', 'userInfo'];
+    IndexController.$inject = ['$state', '$ionicPopup', namespace+'.profileService', 'userInfo'];
     
     // since we should return the module.controller returns module itself
     // we need this controller itself actually for requirejs semantic
@@ -21,15 +21,16 @@ function (angular, module, namespace) {
     // })
     return IndexController;
 
-    function IndexController($state, $ionicPopup, principalService, userInfo) {
+    function IndexController($state, $ionicPopup, profileService, userInfo) {
         var vm = this;
         
         angular.extend(vm, {
             userInfo: userInfo
+            , profileId: 0
             , logout: logout
             , verify: verify});
         
-
+        init();
         function logout() {
 			var confirmPopup = $ionicPopup.confirm({
 				title: 'OneDegree'
@@ -47,6 +48,13 @@ function (angular, module, namespace) {
 
         function verify(){
             principalService.verify();
+        }
+
+        function init(){
+            profileService.getUserProfileInfo(userInfo.user_id, {fields: 'id'})
+                .then(function(profile){
+                    vm.profileId = profile.id;
+                })
         }
 	}
 

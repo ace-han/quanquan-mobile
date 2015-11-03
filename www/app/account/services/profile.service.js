@@ -1,8 +1,9 @@
 define([
-    '../module'
+    'angular'
+    , '../module'
     , '../namespace'
 ],
-function (module, namespace) {
+function (angular, module, namespace) {
     'use strict';
 
     var name = namespace + ".profileService";
@@ -16,6 +17,7 @@ function (module, namespace) {
     function profileService($q, Restangular, principalService){
         var service = {
             getUserProfileInfo: getUserProfileInfo
+            , getProfileInfo: getProfileInfo
             , updateUserProfileInfo: updateUserProfileInfo
         }
 
@@ -23,13 +25,21 @@ function (module, namespace) {
             , profileRestangular = accountRestangular.all('user-profiles');
         return service;
 
-        function getUserProfileInfo(userId) {
+        function getUserProfileInfo(userId, kwargs) {
             var deferred = $q.defer();
-            profileRestangular.customGET('x/userwise/', {user_id: userId})
+            var params = {user_id: userId}
+            if(angular.isDefined(kwargs) ){
+                angular.extend(params, kwargs)
+            }
+            profileRestangular.customGET('x/userwise/', params)
                             .then(function(response){
                                 deferred.resolve(response);
                             })
             return deferred.promise;
+        }
+
+        function getProfileInfo(profileId){
+            return accountRestangular.one('user-profiles', profileId).get();
         }
 
         function updateUserProfileInfo(profileInfo, fields){

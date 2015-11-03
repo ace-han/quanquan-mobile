@@ -8,19 +8,20 @@ function (accountModule, moduleNamespace, appNamespace) {
     return accountModule.config([
         '$stateProvider'
         , function($stateProvider){
+
             $stateProvider
               // a abstract view for each module view is necessary for the time being
               .state(moduleNamespace, {
                 url: '/account'
                 , parent: appNamespace
-                , data: {
-                  loginRequired: true
-                }
                 , abstract: true
               })
               .state(moduleNamespace + '.index', {
                 url: '/index'
                 , cache: false
+                , data: {
+                  loginRequired: true
+                }
                 , resolve: {
                   userInfo: ['auth.principalService', function(principalService){
                     var userInfo = principalService.getCurrentUserInfo();
@@ -38,22 +39,78 @@ function (accountModule, moduleNamespace, appNamespace) {
                 }
               })
               .state(moduleNamespace + '.profile', {
-                url: '/profile'
+                url: '/profile/:profileId'
                 , cache: false
+                , abstract: true
                 , resolve: {
-                  profile: [moduleNamespace + '.profileService', 'auth.principalService', 
-                    function(profileService, principalService){
-                      var userId = principalService.getCurrentUserInfo().user_id;
-                      return profileService.getUserProfileInfo(userId);
+                  profile: ['$stateParams', moduleNamespace + '.profileService', 
+                    function($stateParams, profileService){
+                      return profileService.getProfileInfo($stateParams.profileId);
                   }]
+                  , currentUser: ['auth.principalService', function(principalService){
+                    var userInfo = principalService.getCurrentUserInfo();
+                    return userInfo;
+                  }]
+                }
+              })
+              .state(moduleNamespace + '.profile.edit', {
+                url: '/edit'
+                , cache: false
+                , data: {
+                  loginRequired: true
                 }
                 , views: {
                   '@': {
-                    templateUrl: 'app/account/templates/profile.html'
+                    templateUrl: 'app/account/templates/profile_edit.html'
                     , controller: moduleNamespace + '.ProfileController as profileController'
                   }
                 }
               })
-              
+              .state(moduleNamespace + '.profile.home', {
+                url: '/home'
+                , cache: false
+                , views: {
+                  '@': {
+                    templateUrl: 'app/account/templates/tag_list.html'
+                    , controller: moduleNamespace + '.TagsController as tagsController'
+                  }
+                }
+              })
+              .state(moduleNamespace + '.profile.tags', {
+                url: '/tags'
+                , cache: false
+                , views: {
+                  '@': {
+                    templateUrl: 'app/account/templates/tag_list.html'
+                    , controller: moduleNamespace + '.TagsController as tagsController'
+                  }
+                }
+              })
+              .state(moduleNamespace + '.profile.tags.edit', {
+                url: '/edit'
+                , cache: false
+                , data: {
+                  loginRequired: true
+                }
+                , views: {
+                  '@': {
+                    templateUrl: 'app/account/templates/tag_owner_edit.html'
+                    , controller: moduleNamespace + '.TagsController as tagsController'
+                  }
+                }
+              })
+              .state(moduleNamespace + '.profile.tags.friendEdit', {
+                url: '/edit/friend'
+                , cache: false
+                , data: {
+                  loginRequired: true
+                }
+                , views: {
+                  '@': {
+                    templateUrl: 'app/account/templates/tag_friend_edit.html'
+                    , controller: moduleNamespace + '.TagsController as tagsController'
+                  }
+                }
+              })
         }]);
 });

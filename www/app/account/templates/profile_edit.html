@@ -9,7 +9,7 @@
 <ion-view view-title="Profile">
   <!-- no ion-nav-bar here for <ion-nav-back-button/> working-->
   <ion-content>
-    <ion-list id="userInfo" class="card">
+    <ion-list class="card">
       <!-- using custom item-xxx css class for not vertical-algin in middle -->
       <ion-item class="item-media media-block" 
         ng-click="">
@@ -25,16 +25,14 @@
         <div class="media-body box-col">
           Nick Name
         </div>
-        <span class="item-note">
-          {{profileController.profile.user.nickname}}
+        <span class="item-note" ng-bind="profileController.profile.user.nickname">
         </span>
       </ion-item>
       <ion-item class="item-media media-block">
         <div class="media-body box-col">
           User ID
         </div>
-        <span class="item-note">
-          {{::profileController.profile.user.username}}
+        <span class="item-note" ng-bind="::profileController.profile.user.username">
         </span>
       </ion-item>
       <!-- 
@@ -56,8 +54,7 @@
         <div class="media-body box-col">
           Phone Number
         </div>
-        <span class="item-note">
-          {{profileController.profile.phone_num}}
+        <span class="item-note" ng-bind="profileController.profile.phone_num">
         </span>
       </ion-item>
       <ion-item class="item-media media-block" 
@@ -65,8 +62,7 @@
         <div class="media-body box-col">
           Gender
         </div>
-        <span class="item-note">
-          {{profileController.genderStr}}
+        <span class="item-note" ng-bind="profileController.genderStr">
         </span>
       </ion-item>
       <ion-item class="item-media media-block" 
@@ -74,8 +70,7 @@
         <div class="media-body box-col">
           City
         </div>
-        <span class="item-note">
-          {{profileController.cityStr}}
+        <span class="item-note" ng-bind="profileController.cityStr">
         </span>
       </ion-item>
       <ion-item class="item-media media-block" 
@@ -83,8 +78,7 @@
         <div class="media-body box-col">
           High School
         </div>
-        <span class="item-note">
-          {{profileController.profile.high_school.name}}
+        <span class="item-note" ng-bind="profileController.profile.high_school.name">
         </span>
       </ion-item>
       <ion-item class="item-media media-block" 
@@ -92,8 +86,7 @@
         <div class="media-body box-col">
           College
         </div>
-        <span class="item-note">
-          {{profileController.profile.college.name}}
+        <span class="item-note" ng-bind="profileController.profile.college.name">
         </span>
       </ion-item>
       <ion-item class="item-media media-block" 
@@ -101,8 +94,20 @@
         <div class="media-body box-col">
           What's up
         </div>
-        <span class="item-note" 
-          ng-bind-html="profileController.profile.whatsup">
+        <span class="item-note" ng-bind="profileController.profile.whatsup">
+        </span>
+      </ion-item>
+      <ion-item class="item-media media-block" 
+        ng-click="">
+        <div class="media-body box-col">
+          Occupations
+        </div>
+        <span class="item-note">
+          <span ng-repeat="occupation in profileController.profile.occupations" 
+            >
+            {{occupation.name}}
+            <span ng-show="!$last">,</span>
+          </span>
         </span>
       </ion-item>
     </ion-list>
