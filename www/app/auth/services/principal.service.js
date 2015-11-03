@@ -76,8 +76,7 @@ function (angular, module, namespace) {
             _identity = payload;
             _authenticated = true;
             //console.info('authentication successful inited');
-            $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, 
-                angular.extend(payload, {nickname: payload.nickname||payload.username}) );
+            $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, payload);
             deferred.resolve({
                 payload: payload
                 , is_necessary_user_info_filled: is_necessary_user_info_filled
@@ -215,7 +214,9 @@ function (angular, module, namespace) {
         function _resolvePayloadClaims(token){
             var tokens = token.split('.'); //tokens[0]->header, tokens[1]->payload, tokens[2]->signature
             var payload = base64Service.decode(tokens[1]);
-            return JSON.parse(payload);
+            payload = JSON.parse(payload)
+            payload.displayName = payload.nickname || payload.username;
+            return payload;
         }
     }
 });

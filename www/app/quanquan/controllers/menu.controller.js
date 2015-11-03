@@ -53,7 +53,7 @@ function (angular, module) {
 
         function init(payload){
             payload = payload || {}; // avoid empty payload
-            vm.nickname = payload.nickname || 'Anonymous';
+            vm.displayName = payload.displayName || 'Anonymous';
             vm.selfiePath = payload.selfie_path || './img/anonymous.png';
         }
     }
