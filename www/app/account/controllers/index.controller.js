@@ -10,7 +10,7 @@ function (angular, module, namespace) {
 
     module.controller(name, IndexController);
                 
-    IndexController.$inject = ['$state', '$ionicPopup', namespace+'.profileService', 'userInfo'];
+    IndexController.$inject = ['$state', '$ionicPopup', 'auth.principalService', namespace+'.profileService', 'userInfo'];
     
     // since we should return the module.controller returns module itself
     // we need this controller itself actually for requirejs semantic
@@ -21,7 +21,7 @@ function (angular, module, namespace) {
     // })
     return IndexController;
 
-    function IndexController($state, $ionicPopup, profileService, userInfo) {
+    function IndexController($state, $ionicPopup, principalService, profileService, userInfo) {
         var vm = this;
         
         angular.extend(vm, {

@@ -10,7 +10,7 @@ function (module, namespace) {
     module.controller(name, LoginController);
                 
     LoginController.$inject = ['$scope', '$rootScope', '$state', '$timeout', '$ionicLoading', '$ionicHistory',
-                                namespace + '.principalService'];
+                                namespace + '.principalService', 'account.profileService'];
     
     // since we should return the module.controller returns module itself
     // we need this controller itself actually for requirejs semantic
@@ -22,7 +22,7 @@ function (module, namespace) {
     return LoginController;
 
     function LoginController($scope, $rootScope, $state, $timeout, $ionicLoading, 
-                            $ionicHistory, principalService) {
+                            $ionicHistory, principalService, profileService) {
         var vm = this;
         vm.crefidentials = {
             username: ''
@@ -56,7 +56,11 @@ function (module, namespace) {
                             $state.go('quanquan.index');
                         }
                     } else {
-                        $state.go('account.profile');
+                        profileService.getUserProfileInfo(data.payload.user_id, {'fields': 'id'})
+                                .then(function(response){
+                                    $state.go('account.profile.edit', {profileId: response.id});
+                                })
+                        
                     }
                     vm.crefidentials.username = '';
                     

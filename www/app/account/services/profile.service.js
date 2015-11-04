@@ -31,7 +31,10 @@ function (angular, module, namespace) {
             if(angular.isDefined(kwargs) ){
                 angular.extend(params, kwargs)
             }
-            profileRestangular.customGET('x/userwise/', params)
+            profileRestangular.customGET('x/userwise/'
+                            , params
+                            // avoid 403 error
+                            , {Authorization: 'JWT ' + principalService.getJwtToken()})
                             .then(function(response){
                                 deferred.resolve(response);
                             })
