@@ -1,6 +1,6 @@
 define([
     './chat.controller'
-    , './contacts.controller'
+    , './friends.controller'
     //, './register.controller'
     //, './register.controller'
 ], function () {

@@ -1,6 +1,6 @@
 define([
     './chat.service'
-    // , './register.service'
+    , './friend.service'
 ], function () {
     'use strict';
 });

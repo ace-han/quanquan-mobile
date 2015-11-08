@@ -4,5 +4,5 @@ define([
     /* 
     	Sepacial for contact management
     */
-    return 'contact';
+    return 'friend';
 });

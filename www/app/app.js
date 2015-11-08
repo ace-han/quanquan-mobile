@@ -4,7 +4,7 @@ define([
     // add necessary app as you wish
     , './auth/namespace'
     , './account/namespace'
-    , './contact/namespace'
+    , './friend/namespace'
     , './search/namespace'
     , './group/namespace'
     , './common/namespace'
@@ -22,7 +22,7 @@ define([
     , 'ng-tags-input'
     , './auth/module.require'
     , './account/module.require'
-    , './contact/module.require'
+    , './friend/module.require'
     , './search/module.require'
     , './group/module.require'
     , './common/module.require'
@@ -30,7 +30,7 @@ define([
 ],
 function (angular, namespace
     , authNamespace, accountNamespace
-    , contactNamespace, searchNamespace
+    , friendNamespace, searchNamespace
     , groupNamespace, commonNamespace
     , quanquanNamespace) {
     
@@ -48,7 +48,7 @@ function (angular, namespace
         , 'angular-loading-bar'
         , 'ngTagsInput'
         , authNamespace, accountNamespace
-        , contactNamespace, searchNamespace
+        , friendNamespace, searchNamespace
         , groupNamespace, commonNamespace
         , quanquanNamespace
         ])

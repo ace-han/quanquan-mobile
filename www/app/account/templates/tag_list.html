@@ -44,7 +44,7 @@
 						<button class="button button-icon button-clear fa fa-pencil-square-o"
 							style="font-size:xx-large; min-height:auto;"
 							ng-click="tagsController.openTagEditModal()"
-							ng-if="!tagsController.isCurrentUserHimself()"></button>
+							ng-if="!tagsController.isCurrentUserHimself()&&tagsController.hasFriendship"></button>
 					</div>
 				</div>
 			</ion-item>
