@@ -21,12 +21,13 @@
     "angular-timeline": "~1.5.2",
     "Autolinker.js": "~0.17.2",
     "font-awesome": "4.4.0",
-    "ionic": "~1.1.0",
+    "ionic": "~1.1.1",
     "moment": "~2.10.3",
     "ngCordova": "~0.1.12-alpha",
     "requirejs": "2.1.16",
     "ui-router-extras": "~0.0.14",
     "restangular": "~1.5.1",
-    "angular-loading-bar": "~0.8.0"
+    "angular-loading-bar": "~0.8.0",
+    "ng-tags-input": "~3.0.0"
   }
 }

@@ -22,6 +22,9 @@ bower list -r
 3. copy anything that is necessary from bower.json.bak to bower.json
 4. remove bower.json.bak
 
+or just simply
+bower install -S [name]
+
 please refer to http://stackoverflow.com/questions/20279792/how-to-update-bower-json-with-installed-packages
 
 # fresh setup on another machine
