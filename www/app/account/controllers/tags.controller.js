@@ -134,7 +134,8 @@ function (angular, module, namespace) {
                         }
                     });
                 });
-            basicInfoService.getCollegeList()
+            if(vm.profile.college){
+                basicInfoService.getCollegeList()
                 .then(function(list){
                     angular.forEach(list, function(e, i){
                         if(vm.profile.college.id = e.id){
@@ -143,7 +144,9 @@ function (angular, module, namespace) {
                         }
                     });
                 });
-            basicInfoService.getHighSchoolList()
+            }
+            if(vm.profile.high_school){
+                basicInfoService.getHighSchoolList()
                 .then(function(list){
                     angular.forEach(list, function(e, i){
                         if(vm.profile.high_school.id = e.id){
@@ -152,6 +155,8 @@ function (angular, module, namespace) {
                         }
                     });
                 });
+            }
+            
             friendService.hasFriendship(vm.profile.id)
                 .then(function(isFriend){
                     vm.hasFriendship = isFriend;
