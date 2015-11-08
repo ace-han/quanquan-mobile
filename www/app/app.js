@@ -19,6 +19,7 @@ define([
     , 'ngMoment'
     , 'restangular'
     , 'angular-loading-bar'
+    , 'ng-tags-input'
     , './auth/module.require'
     , './account/module.require'
     , './contact/module.require'
@@ -45,6 +46,7 @@ function (angular, namespace
         , 'angularMoment'
         , 'restangular'
         , 'angular-loading-bar'
+        , 'ngTagsInput'
         , authNamespace, accountNamespace
         , contactNamespace, searchNamespace
         , groupNamespace, commonNamespace

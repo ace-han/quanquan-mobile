@@ -23,3 +23,12 @@ a.label:hover,a.label:focus {
     text-decoration: none;
     cursor: pointer
 }
+
+/* temp solution for ngTagsInput on mobile stuff */
+.host {
+    .tags {
+        .input {
+            width: 100% !important;
+        }
+    }
+}

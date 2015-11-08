@@ -1,4 +1,4 @@
-<ion-view view-title="Home" hide-back-button="true">
+<ion-view view-title="Home Page">
   <ion-content>
 		<ion-list>			
 			<ion-item class="item-divider" ng-bind="::tagsController.profile.user.displayName"></ion-item>
@@ -13,15 +13,23 @@
 				</div>
 				
 				<div class="item-body">
-					<span class="label energized-bg">{{::tagsController.profile.city}} </span>
-					<span class="label energized-bg">{{::tagsController.profile.city}} </span>
-					<span class="label energized-bg">{{::tagsController.profile.city}} </span>
-					<span class="label energized-bg">{{::tagsController.profile.city}} </span>
-					<span class="label energized-bg">{{::tagsController.profile.city}} </span>
-					<span class="label energized-bg">{{::tagsController.profile.city}} </span>
-					<span class="label energized-bg">{{::tagsController.profile.city}} </span>
-					<span class="label energized-bg">{{::tagsController.profile.city}} </span>
-					<span class="label energized-bg">{{::tagsController.profile.city}} </span>
+					<span class="label energized-bg" 
+						ng-bind="tagsController.profile.cityStr"
+						ng-if="tagsController.profile.cityStr"></span>
+					<span class="label energized-bg" 
+						ng-bind="tagsController.profile.age"
+						ng-if="tagsController.profile.age != -1 "></span>
+					<span class="label energized-bg" 
+						ng-bind="tagsController.profile.collegeStr"
+						ng-if="tagsController.profile.collegeStr"></span>
+					<span class="label energized-bg" 
+						ng-bind="tagsController.profile.highSchoolStr"
+						ng-if="tagsController.profile.highSchoolStr"></span>
+					
+					<span class="label energized-bg" 
+						ng-repeat="occupation in tagsController.profile.occupations"
+						ng-bind="::occupation.name"
+						ng-if="tagsController.profile.occupations"></span>
 
 					<div class="positive-bg" style="height:1px; margin:2px;"></div>
 
@@ -29,19 +37,16 @@
 						ng-repeat="tag in tagsController.profile.tags"
 						ng-bind="::tag.name"></span>
 					<div class="text-center padding-top">
-						<a class="button button-icon button-clear fa fa-pencil-square-o"
+						<button class="button button-icon button-clear fa fa-pencil-square-o"
 							style="font-size:xx-large; min-height:auto;"
-							ui-sref="account.profile.tags.edit({profileId: tagsController.profile.id})"
-							ng-if="tagsController.isCurrentUserHimself()"></a>
-						<a class="button button-icon button-clear fa fa-pencil-square-o"
+							ng-click="tagsController.openTagEditModal()"
+							ng-if="tagsController.isCurrentUserHimself()"></button>
+						<button class="button button-icon button-clear fa fa-pencil-square-o"
 							style="font-size:xx-large; min-height:auto;"
-							ui-sref="account.profile.tags.friendEdit({profileId: tagsController.profile.id})"
-							ng-if="!tagsController.isCurrentUserHimself()"></a>
+							ng-click="tagsController.openTagEditModal()"
+							ng-if="!tagsController.isCurrentUserHimself()"></button>
 					</div>
 				</div>
-				
-				
-				
 			</ion-item>
 			<ion-item class="item-divider">1°</ion-item>
 			<ion-item class="padding">

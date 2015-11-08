@@ -19,6 +19,7 @@ function (angular, module, namespace) {
             getUserProfileInfo: getUserProfileInfo
             , getProfileInfo: getProfileInfo
             , updateUserProfileInfo: updateUserProfileInfo
+            , addTags: addTags
         }
 
         var accountRestangular = Restangular.all('account')
@@ -60,17 +61,34 @@ function (angular, module, namespace) {
             }
             for(var key in params){
                 var value = params[key];
-                if(angular.isObject(value)){
+                // for simple handling here
+                if(key == 'tags'){
+                    // only need id or name
+                    params[key] = []
+                    angular.forEach(value, function(tag, i){
+                        if('id' in tag){
+
+                        }
+                        params[key].push( ('id' in tag? {id: tag.id}: {name: tag.name}) );
+                    })
+                } else if(angular.isObject(value)){
                     // for simple id update in complex object field
                     //params[key] = value.id;
                     // for the record we need to customize an update method in the server
                     params[key] = {id: value.id}; 
                 }
             }
-            var payload = principalService.getCurrentUserInfo();
             return accountRestangular.one('user-profiles', profileInfo.id)
-                        .patch(params);
+                        .patch(params
+                            , null
+                            , {Authorization: 'JWT ' + principalService.getJwtToken()}
+                        );
 
+        }
+
+        function addTags(profileId, tags){
+            // TODO wrongly coded method!!!
+            return updateUserProfileInfo({id: profileId, tags: tags}, ['tags']);
         }
     }
 });

@@ -4,8 +4,8 @@ define([
 //    , './controllers/_index'
 //    , './directives/_index'
 //    , './filters/_index'
-//    , './services/_index'
     './routes'
+   , './services/_index'
 ], function () {
     'use strict';
 
