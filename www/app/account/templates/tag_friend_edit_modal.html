@@ -1,0 +1,45 @@
+
+<ion-modal-view>
+  <!-- no ion-nav-bar here for <ion-nav-back-button/> working-->
+	<form name="tagsFriendForm" novalidate>
+		<ion-header-bar class="bar-positive">
+			<button class="button button-icon ion ion-close-round" 
+				ng-click="vm.closeTagEditModal()"></button>
+			<h1 class="title" ng-bind="::'Edit '+vm.profile.user.displayName+'\'s Tags'"></h1>
+			<button class="button button-balanced" 
+		        ng-disabled="tagsFriendForm.$invalid||vm.tagsToBeAdded.length<1"
+		        ng-click="vm.addTags()">Save</button>
+		</ion-header-bar>
+		<ion-content class="padding">			
+			<!-- 
+				keyProperty should not be used for arbitary input, 
+				since empty string for key-property="id" share the same hash value
+
+				min-length and max-length are necessary for tag selection from autocomplete
+			-->
+			<tags-input 
+				name="tags"
+				ng-model="vm.tagsToBeAdded"
+				display-property="name"
+				min-length="1"
+				max-length="100"
+				on-invalid-tag="vm.onInvalidTag($tag)">
+				<auto-complete
+					source="vm.loadTags($query)"
+					min-length="1"
+					display-property="name"
+					>
+					</auto-complete>
+			</tags-input>
+			<div ng-show="vm.modalErrMsg" ng-bind="vm.modalErrMsg"></div>
+			<br/>
+			<h5>Existed Tags</h5>
+			<div>
+				<span class="label balanced-bg" 
+						ng-repeat="tag in vm.profile.tags"
+						ng-bind="::tag.name"></span>
+			</div>
+			
+		</ion-content>
+	</form>
+</ion-modal-view>

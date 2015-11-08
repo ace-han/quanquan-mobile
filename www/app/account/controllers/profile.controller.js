@@ -10,11 +10,11 @@ function (angular, module, namespace) {
 
     module.controller(name, ProfileController);
                 
-    ProfileController.$inject = ['$scope', '$ionicModal',
+    ProfileController.$inject = ['$scope', '$ionicModal', '$ionicLoading',
                                 'auth.principalService',  // since auth will be treated as a very special 
                                 namespace + '.basicInfoService', 
                                 namespace + '.profileService', 
-                                'profile'];
+                                'profile', 'currentUser'];
     
     // since we should return the module.controller returns module itself
     // we need this controller itself actually for requirejs semantic
@@ -25,12 +25,13 @@ function (angular, module, namespace) {
     // })
     return ProfileController;
 
-    function ProfileController($scope, $ionicModal, principalService,
-                                basicInfoService, profileService, profile) {
+    function ProfileController($scope, $ionicModal, $ionicLoading, principalService,
+                                basicInfoService, profileService, profile, currentUser) {
         var vm = this;
         
         angular.extend(vm, {
             profile: profile
+            , currentUser: currentUser
             , genderChoices: []
             , cityChoices: []
             , highSchoolChoices: []
@@ -40,6 +41,7 @@ function (angular, module, namespace) {
             , closeEditModal: closeEditModal
             , saveUserInfo: saveUserInfo
             , saveProfileInfo: saveProfileInfo
+            , isCurrentUserHimself: isCurrentUserHimself
         });
         
         $scope.vm = vm;
@@ -68,7 +70,10 @@ function (angular, module, namespace) {
 
 
         function openEditModal(fieldName){
-
+            if(!isCurrentUserHimself()){
+                $ionicLoading.show({ template: 'Not Authorized!', noBackdrop: true, duration: 1000 });
+                return;
+            }
 
             if(fieldName=='high_school' || fieldName=='college'){
                 // since school is {id:,name:,}, schoolChoice is {value:,label:,}
@@ -160,6 +165,10 @@ function (angular, module, namespace) {
                 });
         }
 
+        function isCurrentUserHimself() {
+            return vm.currentUser.user_id == profile.user.id;
+        }
+
         function init(){
             vm.profile.user.nickname = vm.profile.user.nickname || vm.profile.user.username;
             vm.profile.user.selfie_path = vm.profile.user.selfie_path || './img/anonymous.png';
@@ -192,7 +201,9 @@ function (angular, module, namespace) {
             basicInfoService.getCollegeChoices()
                 .then(function(choices){
                     vm.collegeChoices = choices;
-                });   
+                });
+
+
         }
 	}
 

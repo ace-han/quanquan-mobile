@@ -66,9 +66,6 @@ function (angular, module, namespace) {
                     // only need id or name
                     params[key] = []
                     angular.forEach(value, function(tag, i){
-                        if('id' in tag){
-
-                        }
                         params[key].push( ('id' in tag? {id: tag.id}: {name: tag.name}) );
                     })
                 } else if(angular.isObject(value)){
@@ -87,8 +84,17 @@ function (angular, module, namespace) {
         }
 
         function addTags(profileId, tags){
-            // TODO wrongly coded method!!!
-            return updateUserProfileInfo({id: profileId, tags: tags}, ['tags']);
+            // var elem = {tags: []};
+            // angular.forEach(tags, function(tag, i){
+            //     elem['tags'].push( ('id' in tag? {id: tag.id}: {name: tag.name}) );
+            // })
+            var elem = {tags: tags};
+            return accountRestangular.one('user-profiles', profileId)
+                    .customPOST(elem
+                        , 'add-tags'
+                        , null
+                        , {Authorization: 'JWT ' + principalService.getJwtToken()}
+                    )
         }
     }
 });

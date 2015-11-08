@@ -11,13 +11,15 @@ function (angular, module, namespace) {
     module.controller(name, TagsController);
                 
     TagsController.$inject = ['$q', '$timeout', '$scope', '$ionicModal', 
-        'search.tagService', namespace+'.basicInfoService', namespace+'.profileService',
+        'search.tagService', 'friend.friendService',
+        namespace+'.basicInfoService', namespace+'.profileService',
         'profile', 'currentUser'];
     
     return TagsController;
 
     function TagsController($q, $timeout, $scope, $ionicModal, 
-            tagService, basicInfoService, profileService,
+            tagService, friendService, 
+            basicInfoService, profileService,
             profile, currentUser) {
         var vm = this;
         
@@ -26,6 +28,7 @@ function (angular, module, namespace) {
             , currentUser: currentUser
             , modalErrMsg: ''
             , tagsToBeAdded: []
+            , hasFriendship: false
             , isCurrentUserHimself: isCurrentUserHimself
             , openTagEditModal: openTagEditModal
             , closeTagEditModal: closeTagEditModal
@@ -62,10 +65,22 @@ function (angular, module, namespace) {
 
         function saveTags(){
             return profileService.updateUserProfileInfo(vm.profile, ['tags'])
+                        .then(function(){
+                            vm.closeTagEditModal();
+                        }, function(error){
+                            vm.modalErrMsg = error.status + ' ' + error.statusText;
+                        })
         }
 
         function addTags(){
-
+            return profileService.addTags(vm.profile.id, vm.tagsToBeAdded)
+                    .then(function(response){
+                        vm.profile.tags = response;
+                        vm.tagsToBeAdded = [];
+                        vm.closeTagEditModal();
+                    }, function(error){
+                        vm.modalErrMsg = error.status + ' ' + error.statusText;
+                    })
         }
 
         function loadTags($query){
@@ -137,6 +152,10 @@ function (angular, module, namespace) {
                         }
                     });
                 });
+            friendService.hasFriendship(vm.profile.id)
+                .then(function(isFriend){
+                    vm.hasFriendship = isFriend;
+                }) 
 
         }
 	}
