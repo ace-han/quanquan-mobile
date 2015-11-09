@@ -29,6 +29,7 @@ function (angular, module, namespace) {
             , modalErrMsg: ''
             , tagsToBeAdded: []
             , hasFriendship: false
+            , friendTags: []
             , isCurrentUserHimself: isCurrentUserHimself
             , openTagEditModal: openTagEditModal
             , closeTagEditModal: closeTagEditModal
@@ -160,7 +161,12 @@ function (angular, module, namespace) {
             friendService.hasFriendship(vm.profile.id)
                 .then(function(isFriend){
                     vm.hasFriendship = isFriend;
-                }) 
+                })
+
+            friendService.get1DegreeFriendTags(vm.profile.user.id)
+                .then(function(tags){
+                    vm.friendTags = tags;
+                })
 
         }
 	}

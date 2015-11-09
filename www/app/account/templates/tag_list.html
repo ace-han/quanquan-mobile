@@ -2,7 +2,7 @@
   <ion-content>
 		<ion-list>			
 			<ion-item class="item-divider" ng-bind="::tagsController.profile.user.displayName"></ion-item>
-			<ion-item class="padding-horizontal-10 responsive-sm">
+			<ion-item class="padding-horizontal-10">
 				
 				<div class="selfie padding">
 					<img class="item img128x128" ng-src="{{::tagsController.profile.user.selfie_path}}"
@@ -48,10 +48,12 @@
 					</div>
 				</div>
 			</ion-item>
-			<ion-item class="item-divider">1°</ion-item>
-			<ion-item class="padding">
+			<ion-item class="item-divider" ng-if="tagsController.friendTags.length>0">1°</ion-item>
+			<ion-item class="padding-horizontal-10" ng-if="tagsController.friendTags.length>0">
 				<div class="one-degree-tags item-body">
-					<span class="label calm-bg">xyzxyz </span>
+					<span class="label calm-bg" 
+						ng-repeat="tag in tagsController.friendTags"
+						ng-bind="::tag.name"></span>
 				</div>
 			</ion-item>
 		</ion-list>

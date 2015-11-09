@@ -86,31 +86,5 @@ function (accountModule, moduleNamespace, appNamespace) {
                   }
                 }
               })
-              // .state(moduleNamespace + '.profile.tags.edit', {
-              //   url: '/edit'
-              //   , cache: false
-              //   , data: {
-              //     loginRequired: true
-              //   }
-              //   , views: {
-              //     '@': {
-              //       templateUrl: 'app/account/templates/tag_owner_edit.html'
-              //       , controller: moduleNamespace + '.TagsController as tagsController'
-              //     }
-              //   }
-              // })
-              // .state(moduleNamespace + '.profile.tags.friendEdit', {
-              //   url: '/edit/friend'
-              //   , cache: false
-              //   , data: {
-              //     loginRequired: true
-              //   }
-              //   , views: {
-              //     '@': {
-              //       templateUrl: 'app/account/templates/tag_friend_edit.html'
-              //       , controller: moduleNamespace + '.TagsController as tagsController'
-              //     }
-              //   }
-              // })
         }]);
 });

@@ -17,6 +17,7 @@ define([
         function friendService($q, Restangular, principalService) {
             var service = {
                 hasFriendship: hasFriendship
+                , get1DegreeFriendTags: get1DegreeFriendTags
             }
             var friendRestangular = Restangular.all('friend');
             
@@ -33,6 +34,14 @@ define([
                         })
 
                 return deferred.promise;
+            }
+
+            function get1DegreeFriendTags(userId){
+                return friendRestangular.one('users', userId)
+                    .customGETLIST('tags')
+                    .then(function(response){
+                        return response.plain();
+                    })
             }
 
 
