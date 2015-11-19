@@ -28,6 +28,7 @@
     "ui-router-extras": "~0.0.14",
     "restangular": "~1.5.1",
     "angular-loading-bar": "~0.8.0",
-    "ng-tags-input": "~3.0.0"
+    "ng-tags-input": "~3.0.0",
+    "angular-ui-router": "~0.2.15"
   }
 }
