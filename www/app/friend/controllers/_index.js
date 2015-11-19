@@ -1,8 +1,8 @@
 define([
     './chat.controller'
     , './friends.controller'
-    //, './register.controller'
-    //, './register.controller'
+    , './phoneContacts.controller'
+    , './alumni.controller'
 ], function () {
     'use strict';
 });

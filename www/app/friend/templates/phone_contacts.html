@@ -1,0 +1,12 @@
+<ion-view view-title="1°">
+    <ion-nav-buttons side="right">
+        <button class="button button-icon button-clear ion-search" ui-sref="search.index">
+        </button>
+    </ion-nav-buttons>
+    <!-- delegate-handle could not accept expression  -->
+    <ion-content delegate-handle="phone-contacts-ptr-content">
+        <ion-list>
+            <ion-item ng-repeat="contact in phoneContactsController.contacts">{{::contact.name}}</ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

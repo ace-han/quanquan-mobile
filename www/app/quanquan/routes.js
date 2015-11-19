@@ -7,6 +7,7 @@ function (quanquanModule, moduleNamespace, appNamespace) {
     'use strict';
     config.$inject = ['$stateProvider', '$urlRouterProvider', '$futureStateProvider'];
     function config($stateProvider, $urlRouterProvider, $futureStateProvider){
+      // this redirection is necessary for quanquan.index
       $urlRouterProvider.when('', '/');
       $stateProvider
         // it's necessary to declare this abstract one for state 'app' in app/routes.js have its direct children initialized!!!
@@ -25,7 +26,7 @@ function (quanquanModule, moduleNamespace, appNamespace) {
               // it's bad solution doing this
               templateUrl: 'app/quanquan/templates/index.html'
               // but the controller still could take resolved data
-              , controller: moduleNamespace + '.ChannelsController as channelsController'
+              //, controller: moduleNamespace + '.ChannelsController as channelsController'
             }
           }
           //, redirectTo: 'quanquan.index.recommendation'
@@ -98,16 +99,7 @@ function (quanquanModule, moduleNamespace, appNamespace) {
       //   return $q.when(futureState);
       // }
   }
-  // run.$inject = ['$rootScope', '$state'];
-  // function run($rootScope, $state) {
-  //   $rootScope.$on('$stateChangeStart', function(evt, to, params) {
-  //     if (to.redirectTo) {
-  //       evt.preventDefault();
-  //       $state.go(to.redirectTo, params)
-  //     }
-  //   });
-  // }
+
   quanquanModule.config(config);
-                //.run(run);
   return config;
 })

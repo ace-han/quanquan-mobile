@@ -1,0 +1,18 @@
+<ion-view view-title="1°">
+    <ion-nav-buttons side="right">
+        <button class="button button-icon button-clear ion-search" ui-sref="search.index">
+        </button>
+    </ion-nav-buttons>
+    <!-- delegate-handle could not accept expression  -->
+    <ion-content delegate-handle="college-alumni-ptr-content">
+        <ion-list>
+            <ion-item ng-repeat="alumnus in alumniController.alumni">{{::alumnus.name}}</ion-item>
+        </ion-list>
+        <ion-infinite-scroll 
+            ng-if="alumniController.moreDataCanBeLoaded()" 
+            on-infinite="alumniController.loadMore()"
+            distance="2%"
+            >
+        </ion-infinite-scroll>
+    </ion-content>
+</ion-view>

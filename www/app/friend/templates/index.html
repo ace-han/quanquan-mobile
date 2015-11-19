@@ -1,26 +1,28 @@
-<ion-view view-title="Contacts" hide-back-button="true">
-    <ion-nav-buttons side="right">
-        <button class="button button-icon button-clear ion-search" ui-sref="search.index">
-        </button>
-    </ion-nav-buttons>
-    <ion-content>
-        <h1>Contacts</h1>
+<ion-view view-title="Friends" hide-back-button="true">
+    <!-- <ion-tabs class="tabs-striped tabs-top tabs-color-positive">
+        <ion-tab ng-repeat="tab in friendsController.tabs" 
+            title="{{ ::tab.title }}" 
+            ui-sref="{{ ::tab.uiSref }}" 
+        >
+            <ion-nav-view name="friend-tab"></ion-nav-view>
+        </ion-tab>
         
-        <ion-list>
-            <ion-item ng-repeat="contact in contactsController.contacts" class="item-media media-block item-icon-right">
-            	<div class="media-thumbnail size-md">
-            		<img ng-src="{{ contact.imgSrc }}" class="img64x64"/>
-            	</div>
-            	<div class="media-body box-col">
-            		<div class="strong-text text-cut">
-                		 {{ contact.name }}
-            		</div>
-                     <div class="strong-text text-cut">
-                		 {{ contact.phone }}
-            		</div>
-                </div>
-                <i class="icon ion-chevron-right icon-accessory"></i>
-            </ion-item>
-        </ion-list>
-    </ion-content>
+    </ion-tabs> -->
+    <!-- might manually write all the 3 tabs and diff view name -->
+
+    <ion-tabs class="tabs-striped tabs-top tabs-color-positive">  
+
+        <ion-tab title="Phone Contacts" ui-sref="friend.index.phoneContacts">
+        <ion-nav-view name="phone-contacts"></ion-nav-view>
+        </ion-tab>
+
+        <ion-tab title="College Alumni" ui-sref="friend.index.college">
+        <ion-nav-view name="college"></ion-nav-view>
+        </ion-tab>
+
+        <ion-tab title="High School Alumni" ui-sref="friend.index.highSchool">
+        <ion-nav-view name="high-school"></ion-nav-view>
+        </ion-tab>
+
+    </ion-tabs>
 </ion-view>

@@ -1,49 +1,35 @@
 define([
-    '../module'
+    'angular'
+    , '../module'
     , '../namespace'
 ],
-function (module, namespace) {
+function (angular, module, namespace) {
     'use strict';
 
-    var name = namespace + '.ContactsController';
+    var name = namespace + '.FriendsController';
 
-    module.controller(name, ContactsController);
+    module.controller(name, FriendsController);
                 
-    ContactsController.$inject = ['$scope', '$timeout'];
+    FriendsController.$inject = [];
 
-    return ContactsController;
+    return FriendsController;
 
-    function ContactsController($scope, $timeout) {
+    function FriendsController() {
         var vm = this;
 
+        angular.extend(vm, {
+            tabs: []
+        })
         vm.contacts = [];
         
-        if (navigator == null || navigator == undefined || navigator.contacts == undefined)
-        {
-            for(var i=0; i<3; i++){
-                console.log('push contacts');
-                vm.contacts.push({slug: i
-                            , imgSrc: 'http://ionicframework.com/img/docs/venkman.jpg'
-                            , name: ' New Item ' + Math.floor(Math.random() * 1000) + 4});
-            }
+        init();
+
+        function init(){
+            vm.tabs.push({title: 'Phone Contacts', uiSref: 'friend.index.phoneContacts'});
+            vm.tabs.push({title: 'College Alumni', uiSref: 'friend.index.college'});
+            vm.tabs.push({title: 'High School Alumni', uiSref: 'friend.index.highSchool'});
         }
-        else
-        {
-            console.log("start to read contacts");
-            var fields = ["displayName", "name", "phoneNumbers"];
-            navigator.contacts.find(fields, OnReadContactsSucc);
-        }
-                                    
-        function OnReadContactsSucc(contacts)
-        {
-            console.log("read contacts successfully");
-            for(var i = 0; i < contacts.length; i++){
-                vm.contacts.push({slug: i
-                            , imgSrc: 'http://ionicframework.com/img/docs/venkman.jpg'
-                            , name: contacts[i].name.givenName
-                            , phone: contacts[i].phoneNumbers[0].value});
-            }
-        }
+        
     }
 
 });
