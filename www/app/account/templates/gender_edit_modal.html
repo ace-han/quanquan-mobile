@@ -13,10 +13,12 @@
 		        <input type="radio" name="gender" required
 		        	ng-model="vm.profile.gender" 
 		        	ng-value="choice.value"/>
-		        <div class="item-content">
-		          {{choice.label}}
-		        </div>
-		        <i class="radio-icon ion-checkmark"></i>
+		        <div class="radio-content">
+	              <div class="item-content">
+	                {{choice.label}}
+	              </div>
+	              <i class="radio-icon ion-checkmark"></i>
+	            </div>
 		      </label>
 		      <div class="padding assertive" ng-show="vm.modalErrMsg">{{vm.modalErrMsg}}</div>
 		    </div>

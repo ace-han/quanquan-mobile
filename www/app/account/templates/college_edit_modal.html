@@ -13,10 +13,12 @@
             <input type="radio" name="college" required
               ng-model="vm.modalSchool.value" 
               ng-value="choice.value"/>
-            <div class="item-content">
-              {{choice.label}}
+            <div class="radio-content">
+              <div class="item-content">
+                {{choice.label}}
+              </div>
+              <i class="radio-icon ion-checkmark"></i>
             </div>
-            <i class="radio-icon ion-checkmark"></i>
           </label>
           <div class="padding assertive" ng-show="vm.modalErrMsg">{{vm.modalErrMsg}}</div>
         </div>
