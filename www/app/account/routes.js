@@ -39,13 +39,13 @@ function (accountModule, moduleNamespace, appNamespace) {
                 }
               })
               .state(moduleNamespace + '.profile', {
-                url: '/profile/:profileId'
+                url: '/:userId/profile'
                 , cache: false
                 , abstract: true
                 , resolve: {
                   profile: ['$stateParams', moduleNamespace + '.profileService', 
                     function($stateParams, profileService){
-                      return profileService.getProfileInfo($stateParams.profileId);
+                      return profileService.getUserProfileInfo($stateParams.userId);
                   }]
                   , currentUser: ['auth.principalService', function(principalService){
                     var userInfo = principalService.getCurrentUserInfo();

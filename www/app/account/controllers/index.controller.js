@@ -26,11 +26,15 @@ function (angular, module, namespace) {
         
         angular.extend(vm, {
             userInfo: userInfo
-            , profileId: 0
             , logout: logout
             , verify: verify});
         
         init();
+
+        function init(){
+            
+        }
+        
         function logout() {
 			var confirmPopup = $ionicPopup.confirm({
 				title: 'OneDegree'
@@ -50,12 +54,7 @@ function (angular, module, namespace) {
             principalService.verify();
         }
 
-        function init(){
-            profileService.getUserProfileInfo(userInfo.user_id, {fields: 'id'})
-                .then(function(profile){
-                    vm.profileId = profile.id;
-                })
-        }
+        
 	}
 
 

@@ -3,7 +3,7 @@
 		<ion-list id="userInfo">
 		<!-- using custom item-xxx css class for not vertical-algin in middle -->
 			<ion-item class="item-media media-block" 
-				ui-sref="account.profile.edit({profileId: indexController.profileId})">
+				ui-sref="account.profile.edit({userId: indexController.userInfo.user_id})">
 				<div class="media-thumbnail size-md">
 					<img ng-src="{{::indexController.userInfo.selfie_path}}" class="img64x64"/>
 				</div>
@@ -18,7 +18,7 @@
 			</ion-item>
 			<ion-item class="item-divider"></ion-item>
 			<ion-item class="item-icon-left" 
-				ui-sref="account.profile.tags({profileId: indexController.profileId})">
+				ui-sref="account.profile.tags({userId: indexController.userInfo.user_id})">
 				<i class="icon ion-pricetags"></i>
 				Tags
 			</ion-item>
