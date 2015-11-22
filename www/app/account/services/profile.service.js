@@ -27,6 +27,7 @@ function (angular, module, namespace) {
         return service;
 
         function getUserProfileInfo(userId, kwargs) {
+            // kwargs especially useful for retrieval by specific fields to reduce network loading
             var deferred = $q.defer();
             var params = {user_id: userId}
             if(angular.isDefined(kwargs) ){

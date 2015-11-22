@@ -110,7 +110,12 @@ function (angular, module, namespace) {
                 // look up the token in the localstorage or sqlite to retrieve the user identity
                 var token = getJwtToken();
                 if(!!token){
-                    onLoginSuccessful(token, deferred);       
+                    try{
+                        onLoginSuccessful(token, deferred);  
+                    } catch(e){
+                        // in case token in localStorage is compromised
+                        onLoginFailed(deferred);
+                    }
                 } else {
                     onLoginFailed(deferred);
                 }                
@@ -141,11 +146,13 @@ function (angular, module, namespace) {
             return deferred.promise;
         }
 
-        function logout(){
+        function logout(quiet){
             _identity = undefined;
             _authenticated = false;
             localStorageService.remove('jwt_token');
-            $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
+            if(!quiet){
+                $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
+            }
         }
 
         function getJwtToken(){
@@ -182,7 +189,8 @@ function (angular, module, namespace) {
             if(!token){
                 return {}
             }
-            var payload = _resolvePayloadClaims(token);
+            
+            var payload = _resolvePayloadClaimsQuietly(token);
             return payload;
         }
 
@@ -198,15 +206,13 @@ function (angular, module, namespace) {
                 params = userInfo;
             }
             var token = getJwtToken();
-            var payload = _resolvePayloadClaims(token);
+            var payload = _resolvePayloadClaimsQuietly(token);
             return authRestangular.one('users', payload.user_id).patch(params)
                 .then(function(response){
                     // update the token part
-                    angular.extend(payload, response);
-                    token.replace(/\..+\./, '.'+base64Service.encode(payload)+'.');
-                    if(!payload.nickname){
-                        payload.nickname = payload.username;
-                    }
+                    token = token.replace(/\..+\./, '.'+base64Service.encode(payload)+'.');
+                    setJwtToken(token);
+                    payload = _resolvePayloadClaims(token);
                     $rootScope.$broadcast(AUTH_EVENTS.userInfoChanged, payload);
                 })
         }
@@ -216,6 +222,17 @@ function (angular, module, namespace) {
             var payload = base64Service.decode(tokens[1]);
             payload = JSON.parse(payload)
             payload.displayName = payload.nickname || payload.username;
+            return payload;
+        }
+
+        function _resolvePayloadClaimsQuietly(token){
+            var payload;
+            try {
+                payload = _resolvePayloadClaims(token);
+            } catch(e) {
+                logout(true);
+                payload = {}
+            }
             return payload;
         }
     }

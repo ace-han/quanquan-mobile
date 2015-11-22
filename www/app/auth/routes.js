@@ -16,7 +16,7 @@ function (authModule, moduleNamespace, appNamespace) {
                 , abstract: true
               })
               .state(moduleNamespace + '.login', {
-                url: '/login'
+                url: '/login?reason'
                 , cache: false
                 // there is a warning on the official website says
                 //  Warning: The controller will not be instantiated if template is not defined.
@@ -76,10 +76,12 @@ function (authModule, moduleNamespace, appNamespace) {
                 }
               })
               .state(moduleNamespace + '.accessDenied', {
-                url: '/403'
+                url: '/403?reason'
+                , cache: false
                 , views: {
                   '@': {
                     templateUrl: 'app/auth/templates/403.html' 
+                    , controller: moduleNamespace + '.AccessDeniedController as accessDeniedController'
                   }
                 }
               })

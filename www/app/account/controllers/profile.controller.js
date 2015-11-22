@@ -36,7 +36,9 @@ function (angular, module, namespace) {
             , cityChoices: []
             , highSchoolChoices: []
             , collegeChoices: []
+            , genderStr: 'Unknown'
             , modalErrMsg: ''
+            , modalSchool: null
             , openEditModal: openEditModal
             , closeEditModal: closeEditModal
             , saveUserInfo: saveUserInfo
@@ -45,7 +47,7 @@ function (angular, module, namespace) {
         });
         
         $scope.vm = vm;
-        var modalRef = null, school;
+        var modalRef = null;
         init();
 
         
@@ -172,8 +174,6 @@ function (angular, module, namespace) {
         function init(){
             vm.profile.user.nickname = vm.profile.user.nickname || vm.profile.user.username;
             vm.profile.user.selfie_path = vm.profile.user.selfie_path || './img/anonymous.png';
-            vm.genderStr = 'Unknown';
-            vm.modalSchool = null; // for school edit in the modal only
             basicInfoService.getGenderChoices()
                 .then(function(choices){
                     vm.genderChoices = choices;

@@ -4,7 +4,7 @@ define([
 //    './constants/_index',
 //    './filters/_index',
     , './services/_index'
-//    , './interceptors/_index'
+    , './interceptors/_index'
 ], function () {
     'use strict';
 
