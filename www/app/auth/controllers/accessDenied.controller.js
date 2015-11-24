@@ -6,15 +6,15 @@ define([
 function (angular, module, namespace) {
     'use strict';
 
-    var name = namespace + ".accessDeniedController";
+    var name = namespace + ".AccessDeniedController";
 
-    module.controller(name, accessDeniedController);
+    module.controller(name, AccessDeniedController);
                 
-    accessDeniedController.$inject = ['$stateParams'];
+    AccessDeniedController.$inject = ['$stateParams'];
     
-    return accessDeniedController;
+    return AccessDeniedController;
 
-    function accessDeniedController($stateParams) {
+    function AccessDeniedController($stateParams) {
         var vm = this;
 
         angular.extend(vm, $stateParams, {});
