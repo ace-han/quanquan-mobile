@@ -23,11 +23,11 @@ define([
             
             return service;            
 
-            function hasFriendship(profileId) {
+            function hasFriendship(userId) {
                 
                 var deferred = $q.defer();
                 friendRestangular.customGET('has-friendship'
-                        , {profile_id: profileId}
+                        , {user_id: userId}
                         , {Authorization: 'JWT ' + principalService.getJwtToken()}
                         ).then(function(response){
                             deferred.resolve(response.is_friend);

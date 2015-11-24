@@ -158,7 +158,7 @@ function (angular, module, namespace) {
                 });
             }
             
-            friendService.hasFriendship(vm.profile.id)
+            friendService.hasFriendship(vm.profile.user.id)
                 .then(function(isFriend){
                     vm.hasFriendship = isFriend;
                 })
