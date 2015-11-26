@@ -10,14 +10,16 @@ function (angular, module, namespace) {
 
     module.controller(name, TagsController);
                 
-    TagsController.$inject = ['$q', '$timeout', '$scope', '$ionicModal', 
+    TagsController.$inject = ['$window', '$q', '$timeout', '$scope', 
+        '$ionicModal',
         'search.tagService', 'friend.friendService',
         namespace+'.basicInfoService', namespace+'.profileService',
         'profile', 'currentUser'];
     
     return TagsController;
 
-    function TagsController($q, $timeout, $scope, $ionicModal, 
+    function TagsController($window, $q, $timeout, $scope, 
+            $ionicModal,
             tagService, friendService, 
             basicInfoService, profileService,
             profile, currentUser) {
@@ -37,6 +39,8 @@ function (angular, module, namespace) {
             , addTags: addTags
             , loadTags: loadTags
             , onInvalidTag: onInvalidTag
+            , goBack: goBack
+            // , canGoBack: canGoBack
         });
         $scope.vm = vm;
         var modalRef = null
@@ -103,29 +107,40 @@ function (angular, module, namespace) {
                 // any tips
                 vm.modalErrMsg = invalidTag.name + ' not a valid tag';
             }, 500);
-            console.info('tag', tag, 'arguments', arguments);
+            console.info('tag', tag);
         }
-        // a modal will broadcast 'modal.shown', 'modal.hidden', and 'modal.removed' 
-        // events from its originating scope, passing in itself as an event argument.
-        $scope.$on('$destroy', function() {
-            if(modalRef){
-                modalRef.remove();
-            }
-        });
-        // Execute action on hide modal
-        $scope.$on('modal.hidden', function() {
-        // Execute action
-        });
-        // Execute action on remove modal
-        $scope.$on('modal.removed', function() {
-        // Execute action
-        });
+
+        function goBack(){
+            // Currently found this work
+            // Don't use ionic $ionicHistory.goBack(); it does not work on tab view...
+            $window.history.back();
+        }
+
+        // function canGoBack(){
+        //     return !!$window.history.previous
+        // }
 
         function init(){
             if(profile.user){
                 profile.user.displayName = profile.user.nickname || profile.user.username;
                 profile.user.selfie_path = profile.user.selfie_path || './img/anonymous.png';
             }
+
+            // a modal will broadcast 'modal.shown', 'modal.hidden', and 'modal.removed' 
+            // events from its originating scope, passing in itself as an event argument.
+            $scope.$on('$destroy', function() {
+                if(modalRef){
+                    modalRef.remove();
+                }
+            });
+            // Execute action on hide modal
+            $scope.$on('modal.hidden', function() {
+            // Execute action
+            });
+            // Execute action on remove modal
+            $scope.$on('modal.removed', function() {
+            // Execute action
+            });
             basicInfoService.getCityList()
                 .then(function(list){
                     angular.forEach(list, function(e, i){
@@ -170,6 +185,4 @@ function (angular, module, namespace) {
 
         }
 	}
-
-
 });

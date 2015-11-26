@@ -1,5 +1,22 @@
 <ion-view view-title="Home Page">
-  <ion-content>
+
+	<ion-nav-buttons side="left">
+		<!-- 
+			this might need an extra directive to enable back button from tab view
+			http://stackoverflow.com/questions/26980222/ionic-no-back-button-when-navigating-away-from-tab-view
+		-->
+    	<button class="button button-icon button-clear" 
+    		ng-click="tagsController.goBack()"
+    		>
+    		<i class="icon ion-arrow-left-c" ></i>
+        </button>
+        <!-- <button class="button button-icon button-clear ion-navicon" menu-toggle="left"
+    		ng-hide="tagsController.canGoBack()">
+        </button> -->
+
+
+	</ion-nav-buttons>
+ 	<ion-content>
 		<ion-list>			
 			<ion-item class="item-divider" ng-bind="::tagsController.profile.user.displayName"></ion-item>
 			<ion-item class="padding-horizontal-10">
