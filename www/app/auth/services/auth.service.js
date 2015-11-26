@@ -39,7 +39,7 @@ function (angular, module, namespace) {
                         && $rootScope.toState.data.roles.length > 0 
                         && !principalService.isInAnyRole($rootScope.toState.data.roles)) {
                         if (isAuthenticated){
-                            $state.go('auth.accessDenied'); // user is signed in but not authorized for desired state
+                            $state.go('auth.accessDenied', {reason: 'Not Authorized'}); // user is signed in but not authorized for desired state
                         } else {
                             // user is not authenticated. stow the state they wanted before you
                             // send them to the signin state, so you can return them when you're done
