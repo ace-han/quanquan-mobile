@@ -28,6 +28,21 @@ function (friendModule, moduleNamespace, appNamespace) {
     .state(moduleNamespace + '.index', {
       url: ''
       //, redirectTo: moduleNamespace + '.index.phoneContacts'
+      , data: {
+        // data in parent state is inheritated by children state
+        loginRequired: true
+      }
+      , resolve: {
+        profile: ['auth.principalService', 'account.profileService', 
+          function(principalService, profileService){
+            var userInfo = principalService.getCurrentUserInfo();
+            return profileService.getUserProfileInfo(userInfo.user_id, {fields: 'id,college,high_school'});
+        }]
+        , currentUser: ['auth.principalService', function(principalService){
+          var userInfo = principalService.getCurrentUserInfo();
+          return userInfo;
+        }]
+      }
       , cache: false
       , views: {
         '@': {
@@ -66,7 +81,7 @@ function (friendModule, moduleNamespace, appNamespace) {
       url: '/high-school'
       , cache: false
       , resolve:{
-        schoolType: function(){ return 'highSchool'; }
+        schoolType: function(){ return 'high_school'; }
       }
       , views: {
         'high-school@friend.index': {

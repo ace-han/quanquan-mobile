@@ -1,4 +1,5 @@
-<ion-view view-title="1°">
+
+<ion-view view-title="1° - {{ ::alumniController.getSchoolName() }}">
     <ion-nav-buttons side="right">
         <button class="button button-icon button-clear ion-search" ui-sref="search.index">
         </button>
@@ -6,8 +7,62 @@
     <!-- delegate-handle could not accept expression  -->
     <ion-content delegate-handle="highSchool-alumni-ptr-content">
         <ion-list>
-            <ion-item ng-repeat="alumnus in alumniController.alumni">{{::alumnus.name}}</ion-item>
+            <ion-item class="item-media media-block" 
+                ui-sref="account.profile.home({userId: alumnus.user.id})"
+                collection-repeat="alumnus in alumniController.alumni">
+                <div class="media-thumbnail size-lg">
+                    <img ng-src="{{::alumnus.user.selfie_path}}" 
+                    ng-show="::alumnus.user.selfie_path" 
+                    class="img128x128"/>
+                    <img src="./img/anonymous.png" 
+                    ng-hide="::alumnus.user.selfie_path" 
+                    class="img128x128"/>
+                </div>
+                <div class="media-body box-col">
+                    <h2 class="media-heading text-cut">
+                        <span ng-bind="::alumnus.user.display_name"></span>
+                        &nbsp;
+                        <i class="icon {{::alumniController.resolveGenderIconClass(alumnus.gender)}}"></i>
+                    </h2>
+                    <div class="media-content">
+                        <span class="label energized-bg" 
+                        ng-bind="::alumnus.city"
+                        ng-if="alumnus.city"></span>
+                        <span class="label energized-bg" 
+                            ng-bind="alumnus.age"
+                            ng-if="alumnus.age"></span>
+                        <span class="label energized-bg" 
+                            ng-bind="alumnus.college"
+                            ng-if="alumnus.college"></span>
+                        <span class="label energized-bg" 
+                            ng-bind="alumnus.highSchool"
+                            ng-if="alumnus.highSchool"></span>
+
+                        <span class="label energized-bg" 
+                            ng-bind="::occupation"
+                            ng-repeat="occupation in ::alumnus.occupations"
+                            ng-if="alumnus.occupations.length"></span>
+
+                        <div class="positive-bg" style="height:1px; margin:2px;"></div>
+
+                        <span class="label balanced-bg" 
+                            ng-repeat="tag in alumnus.tags"
+                            ng-bind="::tag">
+                        </span>
+                    </div>
+
+                        
+                </div>
+            </ion-item>
         </ion-list>
+
+        <div class="card"
+            ng-hide="alumniController.hasJoinedSchool()">
+            <div class="item item-text-wrap" ng-click="alumniController.openEditModal()">
+                No associated school yet. Click to choose one
+            </div>
+        </div>
+
         <ion-infinite-scroll 
             ng-if="alumniController.moreDataCanBeLoaded()" 
             on-infinite="alumniController.loadMore()"

@@ -18,8 +18,10 @@ define([
             var service = {
                 hasFriendship: hasFriendship
                 , get1DegreeFriendTags: get1DegreeFriendTags
+                , getAlumni: getAlumni
             }
-            var friendRestangular = Restangular.all('friend');
+            var friendRestangular = Restangular.all('friend')
+            , alumniRestangular = friendRestangular.all('alumni')
             
             return service;            
 
@@ -44,6 +46,36 @@ define([
                     })
             }
 
+            function getAlumni(schoolType, q, page, pageSize){
+                /*
+                    params: schoolType, q(for query string), page, pageSize
 
+                    return response = {
+                        results: []
+                        count: n
+                    }
+                    let's align with drf's return format as much as possible
+
+                    controller should be two layers, one for search, the other for normal scroll
+                */
+                var params = {
+                    page: page? page: 1
+                    , page_size: pageSize? pageSize: 20
+                }
+                if(schoolType){
+                    params['school_type'] = schoolType;
+                }
+                if(q){
+                    params['q'] = q;
+                }
+                return alumniRestangular.getList(params)
+                    .then(function(response){
+                        // let's align with drf's return format as much as possible
+                        return {
+                            results: response.plain()
+                            , count: response.count
+                        }
+                    })
+            }
         }
     });

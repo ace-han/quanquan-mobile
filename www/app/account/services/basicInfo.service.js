@@ -30,6 +30,8 @@ function (angular, module, namespace) {
             , getCollegeChoices: getCollegeChoices
             , getSchoolList:  getSchoolList
             , getSchoolChoices: getSchoolChoices
+            , resolveGender: resolveGender
+            , resolveGenderIconClass: resolveGenderIconClass
         }
 
         var accountRestangular = Restangular.all('account')
@@ -107,6 +109,27 @@ function (angular, module, namespace) {
                         }
                         return result;
                     })
+        }
+
+        function resolveGender(nGender){
+            if(nGender === 0){
+                return 'female';
+            } else if (nGender === 1){
+                return 'male';
+            } else {
+                return 'unknown';
+            }
+        }
+
+        function resolveGenderIconClass(nGender){
+            if(nGender === 0){
+                return 'ion-female';
+            } else if (nGender === 1){
+                return 'ion-male';
+            } else {
+                //return 'fa-genderless';
+                return 'hide';
+            }
         }
 
     }
