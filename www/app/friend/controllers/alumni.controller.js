@@ -77,16 +77,19 @@ function (angular, module, namespace) {
         }
 
         function _initAlumni(){
+            // should be a variable recording the last refresh time
+            // and a delta duration for force the refresh from the very begining like one hour/day
             friendService.getAlumni(schoolType, '', page, pageSize)
                 .then(function(response){
                     Array.prototype.push.apply(vm.alumni, response.results);
                     alumniTotalCount = response.count;
+                    page++;
                 });
             
         }
         
         function moreDataCanBeLoaded(){
-            return page*pageSize<alumniTotalCount;
+            return (page-1)*pageSize < alumniTotalCount;
         }
 
         function loadMore(){

@@ -61,6 +61,7 @@ define([
                 var params = {
                     page: page? page: 1
                     , page_size: pageSize? pageSize: 20
+                    , ordering: 'user__nickname,user__username'
                 }
                 if(schoolType){
                     params['school_type'] = schoolType;

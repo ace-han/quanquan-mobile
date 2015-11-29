@@ -9,7 +9,7 @@
         <ion-list>
             <ion-item class="item-media media-block" 
                 ui-sref="account.profile.home({userId: alumnus.user.id})"
-                collection-repeat="alumnus in alumniController.alumni">
+                ng-repeat="alumnus in alumniController.alumni">
                 <div class="media-thumbnail size-lg">
                     <img ng-src="{{::alumnus.user.selfie_path}}" 
                     ng-show="::alumnus.user.selfie_path" 
@@ -69,5 +69,11 @@
             distance="2%"
             >
         </ion-infinite-scroll>
+        <div ng-show="alumniController.hasJoinedSchool() && !alumniController.moreDataCanBeLoaded()"
+            class="item item-text-wrap stable-bg">
+            <p style="text-align:center;">
+                No more items
+            </p>
+        </div>
     </ion-content>
 </ion-view>
