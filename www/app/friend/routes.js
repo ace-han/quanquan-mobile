@@ -24,23 +24,26 @@ function (friendModule, moduleNamespace, appNamespace) {
       url: '/friend'
       , parent: appNamespace
       , abstract: true
+      , data: {
+        // data in parent state is inheritated by children state
+        // https://github.com/angular-ui/ui-router/wiki/Nested-States-and-Nested-Views
+        loginRequired: true
+      }
+      , resolve: {
+        currentUser: ['auth.principalService', function(principalService){
+          var userInfo = principalService.getCurrentUserInfo();
+          return userInfo;
+        }]
+      }
     })
     .state(moduleNamespace + '.index', {
       url: ''
       //, redirectTo: moduleNamespace + '.index.phoneContacts'
-      , data: {
-        // data in parent state is inheritated by children state
-        loginRequired: true
-      }
       , resolve: {
         profile: ['auth.principalService', 'account.profileService', 
           function(principalService, profileService){
             var userInfo = principalService.getCurrentUserInfo();
             return profileService.getUserProfileInfo(userInfo.user_id, {fields: 'id,college,high_school'});
-        }]
-        , currentUser: ['auth.principalService', function(principalService){
-          var userInfo = principalService.getCurrentUserInfo();
-          return userInfo;
         }]
       }
       , cache: false
@@ -88,6 +91,27 @@ function (friendModule, moduleNamespace, appNamespace) {
           templateUrl: 'app/friend/templates/high_school_alumni.html'
           , controller: moduleNamespace + '.AlumniController as alumniController'
           
+        }
+      }
+    })
+    // since go back button is really tricky in ionic v1.x (clained to be fixed in v2.0)
+    // may as well define another page just for handling go-back issue 
+    // refer to https://github.com/driftyco/ionic/issues/437
+    // solution would be separated pages in search.xxx(default behavior) and friend.xxx(manually back button)
+    .state(moduleNamespace + '.alumniSearch', {
+      url: '/alumni/search?schoolType'
+      , resolve: {
+        profile: ['auth.principalService', 'account.profileService', 
+          function(principalService, profileService){
+            var userInfo = principalService.getCurrentUserInfo();
+            return profileService.getUserProfileInfo(userInfo.user_id, {fields: 'id,college,high_school'});
+        }]
+      }
+      , cache: false
+      , views: {
+        '@': {
+          templateUrl: 'app/friend/templates/alumni_search.html'
+          , controller: moduleNamespace + '.AlumniSearchController as alumniSearchController'
         }
       }
     })
