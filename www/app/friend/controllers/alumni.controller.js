@@ -25,6 +25,7 @@ function (angular, module, namespace) {
 
         angular.extend(vm, {
             alumni: []
+            , schoolType: schoolType
             , moreDataCanBeLoaded: moreDataCanBeLoaded
             , loadMore: loadMore
             , hasJoinedSchool: hasJoinedSchool
@@ -38,12 +39,13 @@ function (angular, module, namespace) {
             , closeEditModal: closeEditModal
             , saveProfileInfo: saveProfileInfo
             , resolveGenderIconClass: resolveGenderIconClass
+            , getAlumniTotalCount: getAlumniTotalCount
         });
 
         var modalRef = null
         , page = 1
         , pageSize = 20
-        , alumniTotalCount=0;
+        , alumniTotalCount = 0.1 //avoid displaying No more items label, alumniTotalCount: 0.1 //avoid displaying No more items sign
         init();
 
         function init(){
@@ -116,6 +118,10 @@ function (angular, module, namespace) {
             return basicInfoService.resolveGenderIconClass(nGender);
         }
 
+        function getAlumniTotalCount(){
+            // since it would be 0.1...
+            return parseInt( alumniTotalCount );
+        }
         // school edit modal setup...
         function openEditModal(){
             var school = profile[schoolType];
