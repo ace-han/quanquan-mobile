@@ -11,27 +11,27 @@ function (angular, module, namespace) {
     module.controller(name, AlumniSearchController);
                 
     AlumniSearchController.$inject = ['$scope', '$stateParams'
-                                , namespace+'.friendService'
-                                , 'profile', 'currentUser'];
+                                , 'account.basicInfoService', 'friend.friendService'
+                                , 'currentUser'];
 
     return AlumniSearchController;
 
     function AlumniSearchController($scope, $stateParams
-                            , friendService
-                            , profile, currentUser) {
+                            , basicInfoService, friendService
+                            , currentUser) {
         var vm = this;
 
         angular.extend(vm, {
             alumni: []
+            , alumniTotalCount: 0
             , moreDataCanBeLoaded: moreDataCanBeLoaded
             , loadMore: loadMore
-            , hasJoinedSchool: hasJoinedSchool
-            , getSchoolName: getSchoolName            
+            , resolveGenderIconClass: resolveGenderIconClass    
         });
 
         var page = 1
         , pageSize = 20
-        , alumniTotalCount = 0.1 //avoid displaying No more items label, alumniTotalCount: 0.1 //avoid displaying No more items sign
+        //, alumniTotalCount = 0 //avoid displaying No more items label, alumniTotalCount: 0.1 //avoid displaying No more items sign
         , schoolType = $stateParams.schoolType;
         init();
 
@@ -47,7 +47,7 @@ function (angular, module, namespace) {
             friendService.getAlumni(schoolType, '', page, pageSize)
                 .then(function(response){
                     Array.prototype.push.apply(vm.alumni, response.results);
-                    alumniTotalCount = response.count;
+                    vm.alumniTotalCount = response.count;
                     page++;
                 });
             
@@ -62,28 +62,17 @@ function (angular, module, namespace) {
             friendService.getAlumni(schoolType, '', page, pageSize)
                 .then(function(response){
                     Array.prototype.push.apply(vm.alumni, response.results);
-                    alumniTotalCount = response.count;
+                    vm.alumniTotalCount = response.count;
                     page++;
                     $scope.$broadcast('scroll.infiniteScrollComplete');
                 });
         }
 
-        function hasJoinedSchool(){
-            return !!profile[schoolType];
-        }
-
-        function getSchoolName(){
-            return profile[schoolType]? profile[schoolType].name: 'Unknown';
-        }
 
         function resolveGenderIconClass(nGender){
             return basicInfoService.resolveGenderIconClass(nGender);
         }
 
-        function getAlumniTotalCount(){
-            // since it would be 0.1...
-            return parseInt( alumniTotalCount );
-        }
         
     }
 

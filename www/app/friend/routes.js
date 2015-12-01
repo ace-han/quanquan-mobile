@@ -98,23 +98,7 @@ function (friendModule, moduleNamespace, appNamespace) {
     // may as well define another page just for handling go-back issue 
     // refer to https://github.com/driftyco/ionic/issues/437
     // solution would be separated pages in search.xxx(default behavior) and friend.xxx(manually back button)
-    .state(moduleNamespace + '.alumniSearch', {
-      url: '/alumni/search?schoolType'
-      , resolve: {
-        profile: ['auth.principalService', 'account.profileService', 
-          function(principalService, profileService){
-            var userInfo = principalService.getCurrentUserInfo();
-            return profileService.getUserProfileInfo(userInfo.user_id, {fields: 'id,college,high_school'});
-        }]
-      }
-      , cache: false
-      , views: {
-        '@': {
-          templateUrl: 'app/friend/templates/alumni_search.html'
-          , controller: moduleNamespace + '.AlumniSearchController as alumniSearchController'
-        }
-      }
-    })
+    
     .state(moduleNamespace + '.chat', {
       url: '/chat'
       , views: {

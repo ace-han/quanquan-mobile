@@ -1,13 +1,10 @@
 <ion-view view-title="Search">
     <ion-nav-buttons side="left">
-        <button class="button button-icon button-clear" 
-            ng-click="alumniSearchController.goBack()"
-            >
-            <i class="icon ion-arrow-left-c" ></i>
-        </button>
+        <cmn-back-button></cmn-back-button>
     </ion-nav-buttons>
     <!-- delegate-handle could not accept expression  -->
     <ion-content delegate-handle="alumni-search-ptr-content">
         {{ ::alumniSearchController.getSchoolName() }}
+        {{ alumniSearchController.canGoBack() }}
     </ion-content>
 </ion-view>

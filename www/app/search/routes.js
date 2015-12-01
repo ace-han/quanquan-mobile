@@ -14,6 +14,12 @@ function (searchModule, moduleNamespace, appNamespace) {
                 url: '/search'
                 , parent: appNamespace
                 , abstract: true
+                , resolve: {
+                  currentUser: ['auth.principalService', function(principalService){
+                    var userInfo = principalService.getCurrentUserInfo();
+                    return userInfo;
+                  }]
+                }
               })
               .state(moduleNamespace + '.index', {
                 url: '?q&category'
@@ -21,6 +27,19 @@ function (searchModule, moduleNamespace, appNamespace) {
                 , views: {
                   '@': {
                     templateUrl: 'app/search/templates/index.html'
+                  }
+                }
+              })
+              .state(moduleNamespace + '.alumniSearch', {
+                url: '/alumni/search?schoolType'
+                , data: {
+                  loginRequired: true
+                }
+                , cache: false
+                , views: {
+                  '@': {
+                    templateUrl: 'app/search/templates/alumni_search.html'
+                    , controller: moduleNamespace + '.AlumniSearchController as alumniSearchController'
                   }
                 }
               })

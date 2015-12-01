@@ -1,5 +1,5 @@
 define([
-    //'./login.controller'
+    './alumniSearch.controller'
     //, './register.controller'
 ], function () {
     'use strict';
