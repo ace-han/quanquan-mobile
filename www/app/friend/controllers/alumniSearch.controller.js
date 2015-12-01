@@ -10,13 +10,13 @@ function (angular, module, namespace) {
 
     module.controller(name, AlumniSearchController);
                 
-    AlumniSearchController.$inject = ['$window', '$scope', '$stateParams'
+    AlumniSearchController.$inject = ['$scope', '$stateParams'
                                 , namespace+'.friendService'
                                 , 'profile', 'currentUser'];
 
     return AlumniSearchController;
 
-    function AlumniSearchController($window, $scope, $stateParams
+    function AlumniSearchController($scope, $stateParams
                             , friendService
                             , profile, currentUser) {
         var vm = this;
@@ -26,9 +26,7 @@ function (angular, module, namespace) {
             , moreDataCanBeLoaded: moreDataCanBeLoaded
             , loadMore: loadMore
             , hasJoinedSchool: hasJoinedSchool
-            , getSchoolName: getSchoolName
-            , goBack: goBack
-            
+            , getSchoolName: getSchoolName            
         });
 
         var page = 1
@@ -76,12 +74,6 @@ function (angular, module, namespace) {
 
         function getSchoolName(){
             return profile[schoolType]? profile[schoolType].name: 'Unknown';
-        }
-        
-        function goBack(){
-            // Currently found this work
-            // Don't use ionic $ionicHistory.goBack(); it does not work on tab view...
-            $window.history.back();
         }
 
         function resolveGenderIconClass(nGender){

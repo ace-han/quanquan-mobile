@@ -10,16 +10,16 @@ function (angular, module, namespace) {
 
     module.controller(name, TagsController);
                 
-    TagsController.$inject = ['$window', '$q', '$timeout', '$scope', 
-        '$ionicModal',
+    TagsController.$inject = ['$q', '$timeout', '$scope', 
+        '$ionicModal', 
         'search.tagService', 'friend.friendService',
         namespace+'.basicInfoService', namespace+'.profileService',
         'profile', 'currentUser'];
     
     return TagsController;
 
-    function TagsController($window, $q, $timeout, $scope, 
-            $ionicModal,
+    function TagsController($q, $timeout, $scope, 
+            $ionicModal, 
             tagService, friendService, 
             basicInfoService, profileService,
             profile, currentUser) {
@@ -39,8 +39,6 @@ function (angular, module, namespace) {
             , addTags: addTags
             , loadTags: loadTags
             , onInvalidTag: onInvalidTag
-            , goBack: goBack
-            // , canGoBack: canGoBack
         });
         $scope.vm = vm;
         var modalRef = null
@@ -109,16 +107,6 @@ function (angular, module, namespace) {
             }, 500);
             console.info('tag', tag);
         }
-
-        function goBack(){
-            // Currently found this work
-            // Don't use ionic $ionicHistory.goBack(); it does not work on tab view...
-            $window.history.back();
-        }
-
-        // function canGoBack(){
-        //     return !!$window.history.previous
-        // }
 
         function init(){
             if(profile.user){

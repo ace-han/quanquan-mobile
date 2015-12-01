@@ -4,6 +4,7 @@ define([
     , './focus-me.directive'
     , './dynamic-nav-view.directive'
     , './autolinker.directive'
+    , './back-button.directive'
 ], function () {
     'use strict';
 });
