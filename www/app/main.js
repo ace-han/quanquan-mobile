@@ -25,7 +25,7 @@ require.config({
         ,'restangular': 'lib/restangular/dist/restangular'
         ,'angular-loading-bar': 'lib/angular-loading-bar/build/loading-bar'
         ,'ng-tags-input': 'lib/ng-tags-input/ng-tags-input'
-
+        ,'ionic-filter-bar': 'lib/ionic-filter-bar/dist/ionic.filter.bar'
 
     },
     shim: {
@@ -45,6 +45,7 @@ require.config({
         , 'restangular': {deps: ['angular', 'lodash']}
         , 'angular-loading-bar': {deps: ['angular']}
         , 'ng-tags-input': {deps: ['angular']}
+        , 'ionic-filter-bar': {deps: ['ionic']}
     }
 });
 

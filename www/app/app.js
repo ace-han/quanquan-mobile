@@ -20,6 +20,7 @@ define([
     , 'restangular'
     , 'angular-loading-bar'
     , 'ng-tags-input'
+    , 'ionic-filter-bar'
     , './auth/module.require'
     , './account/module.require'
     , './friend/module.require'
@@ -47,6 +48,7 @@ function (angular, namespace
         , 'restangular'
         , 'angular-loading-bar'
         , 'ngTagsInput'
+        , 'jett.ionic.filter.bar'
         , authNamespace, accountNamespace
         , friendNamespace, searchNamespace
         , groupNamespace, commonNamespace
@@ -93,6 +95,14 @@ function (angular, namespace
                     return data;
                 });
             
+        }])
+        .run(['$window', '$ionicPlatform', function ($window, $ionicPlatform) {
+            $ionicPlatform.ready(function () {
+                if ($window.cordova && $window.cordova.plugins.Keyboard) {
+                    $window.cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+                    $window.cordova.plugins.Keyboard.disableScroll(true);
+                }
+            });
         }])
     return app;
 });
