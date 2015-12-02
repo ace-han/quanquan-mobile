@@ -10,59 +10,86 @@ function (angular, module, namespace) {
 
     module.controller(name, AlumniSearchController);
                 
-    AlumniSearchController.$inject = ['$scope', '$stateParams'
+    AlumniSearchController.$inject = ['$window', '$scope', '$stateParams', '$timeout'
+                                , '$ionicFilterBar'
                                 , 'account.basicInfoService', 'friend.friendService'
                                 , 'currentUser'];
 
     return AlumniSearchController;
 
-    function AlumniSearchController($scope, $stateParams
+    function AlumniSearchController($window, $scope, $stateParams, $timeout
+                            , $ionicFilterBar
                             , basicInfoService, friendService
                             , currentUser) {
         var vm = this;
 
         angular.extend(vm, {
-            alumni: []
-            , alumniTotalCount: 0
+            q: $stateParams.q || ''
+            , items: []
+            , mayShowNoMore: false
+            , matchCount: 0
+            , schoolType: $stateParams.schoolType
             , moreDataCanBeLoaded: moreDataCanBeLoaded
             , loadMore: loadMore
-            , resolveGenderIconClass: resolveGenderIconClass    
+            , resolveGenderIconClass: resolveGenderIconClass
+            , goBack: goBack
         });
 
         var page = 1
         , pageSize = 20
-        //, alumniTotalCount = 0 //avoid displaying No more items label, alumniTotalCount: 0.1 //avoid displaying No more items sign
+        , filterBarInstance = null
         , schoolType = $stateParams.schoolType;
         init();
 
         function init(){
-            console.log('init', schoolType);
-            _initAlumni();
             
+            $scope.$on('$ionicView.leave', function(){
+                console.info('$ionicView.leave');
+                if (filterBarInstance) {
+                    filterBarInstance(); // this is some sort of clean handler
+                    filterBarInstance = null;
+                }
+            })
+
+            $scope.$on('scroll.infiniteScrollComplete', function(){
+                vm.mayShowNoMore = true;
+            });
+
+            $timeout(function(){
+                filterBarInstance = $ionicFilterBar.show({
+                    debounce: true
+                    , items: vm.items // dont care if it is an empty list
+                    , search: function(filterText){
+                        vm.q = filterText;
+                        return friendService.getAlumni(schoolType, filterText, 1, pageSize)
+                            .then(function(response){
+                                page = 2; // direct jump to next page for ifiniteLoad
+                                vm.mayShowNoMore = false;
+                                vm.matchCount = response.count;
+                                return response.results;
+                            })
+
+                    }
+                    , update: function (filteredItems, filterText) {
+                        // we'd better keep the reference the same instead of an
+                        vm.items = filteredItems;
+                    }
+                    , cancel: function(){
+                        vm.goBack();
+                    }
+                });
+            }, 200);
         }
 
-        function _initAlumni(){
-            // should be a variable recording the last refresh time
-            // and a delta duration for force the refresh from the very begining like one hour/day
-            friendService.getAlumni(schoolType, '', page, pageSize)
-                .then(function(response){
-                    Array.prototype.push.apply(vm.alumni, response.results);
-                    vm.alumniTotalCount = response.count;
-                    page++;
-                });
-            
-        }
-        
         function moreDataCanBeLoaded(){
-            return (page-1)*pageSize < alumniTotalCount;
+            return ((page-1)||1)*pageSize < vm.matchCount;
         }
 
         function loadMore(){
-            console.log('loadMore', schoolType);
-            friendService.getAlumni(schoolType, '', page, pageSize)
+            friendService.getAlumni(schoolType, vm.q, page, pageSize)
                 .then(function(response){
-                    Array.prototype.push.apply(vm.alumni, response.results);
-                    vm.alumniTotalCount = response.count;
+                    Array.prototype.push.apply(vm.items, response.results);
+                    vm.matchCount = response.count;
                     page++;
                     $scope.$broadcast('scroll.infiniteScrollComplete');
                 });
@@ -73,7 +100,10 @@ function (angular, module, namespace) {
             return basicInfoService.resolveGenderIconClass(nGender);
         }
 
-        
+        function goBack(){
+            // TODO buggy way!!! 
+            $window.history.back();
+        }
     }
 
 });

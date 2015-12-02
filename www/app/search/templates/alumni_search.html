@@ -1,10 +1,78 @@
-<ion-view view-title="Search">
-    <ion-nav-buttons side="left">
-        <cmn-back-button></cmn-back-button>
-    </ion-nav-buttons>
+<ion-view view-title="Search Alumni">
     <!-- delegate-handle could not accept expression  -->
     <ion-content delegate-handle="alumni-search-ptr-content">
-        {{ ::alumniSearchController.getSchoolName() }}
-        {{ alumniSearchController.canGoBack() }}
+        <div ng-show="!alumniSearchController.items.length && !alumniSearchController.q"
+            class="item item-text-wrap stable-bg">
+            <p style="text-align:center;">
+                Input to search alumni <span ng-if="alumniSearchController.schoolType">in </span><span ng-bind="::alumniSearchController.schoolType"></span> 
+            </p>
+        </div>
+        <div ng-show="!alumniSearchController.items.length && alumniSearchController.q"
+            class="item item-text-wrap stable-bg">
+            <p style="text-align:center;">
+                No match result ...
+            </p>
+        </div>
+        <ion-list>
+            <ion-item class="item-media media-block" 
+                ui-sref="account.profile.home({userId: alumnus.user.id})"
+                ng-repeat="alumnus in alumniSearchController.items">
+                <div class="media-thumbnail size-lg">
+                    <img ng-src="{{::alumnus.user.selfie_path}}" 
+                    ng-show="::alumnus.user.selfie_path" 
+                    class="img128x128"/>
+                    <img src="./img/anonymous.png" 
+                    ng-hide="::alumnus.user.selfie_path" 
+                    class="img128x128"/>
+                </div>
+                <div class="media-body box-col">
+                    <h2 class="media-heading text-cut">
+                        <span ng-bind="::alumnus.user.display_name"></span>
+                        &nbsp;
+                        <i class="icon {{::alumniSearchController.resolveGenderIconClass(alumnus.gender)}}"></i>
+                    </h2>
+                    <div class="media-content">
+                        <span class="label energized-bg" 
+                        ng-bind="::alumnus.city"
+                        ng-if="alumnus.city"></span>
+                        <span class="label energized-bg" 
+                            ng-bind="::alumnus.age"
+                            ng-if="alumnus.age"></span>
+                        <span class="label energized-bg" 
+                            ng-bind="::alumnus.college"
+                            ng-if="alumnus.college"></span>
+                        <span class="label energized-bg" 
+                            ng-bind="::alumnus.highSchool"
+                            ng-if="alumnus.highSchool"></span>
+
+                        <span class="label energized-bg" 
+                            ng-bind="::occupation"
+                            ng-repeat="occupation in ::alumnus.occupations"
+                            ng-if="alumnus.occupations.length"></span>
+
+                        <div class="positive-bg" style="height:1px; margin:2px;"></div>
+
+                        <span class="label balanced-bg" 
+                            ng-repeat="tag in alumnus.tags"
+                            ng-bind="::tag">
+                        </span>
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
+
+        <ion-infinite-scroll 
+            ng-if="alumniSearchController.moreDataCanBeLoaded()" 
+            on-infinite="alumniSearchController.loadMore()"
+            distance="2%"
+            >
+        </ion-infinite-scroll>
+        
+        <div ng-show="alumniSearchController.mayShowNoMore && !alumniSearchController.moreDataCanBeLoaded()"
+            class="item item-text-wrap stable-bg">
+            <p style="text-align:center;">
+                No more items, total: {{alumniSearchController.matchCount}}
+            </p>
+        </div>
     </ion-content>
 </ion-view>
