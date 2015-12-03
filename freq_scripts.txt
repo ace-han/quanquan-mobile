@@ -9,6 +9,10 @@ ionic platform rm android
 ionic plugin add cordova-plugin-contacts
 ionic platform update android@5.0.0
 ionic platform list	
+ionic run android --target=<device_id>
+adb devices
+adb kill-server
+adb start-server
 
 # ionic state feature
 # This will be incredibly useful for folks checking out your Ionic project from a source control repository

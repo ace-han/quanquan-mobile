@@ -64,7 +64,10 @@ function (angular, namespace
             if(window.cordova){
                 // for simplicity, when cordova is available
                 // RestangularProvider.setBaseUrl('http://192.168.56.1:8090/api/v1');
-                if(window.cordova.env == 'qa'){
+                if(window.LiveReload){
+                    // local dev time!!!
+                    RestangularProvider.setBaseUrl(window.location.origin+'/api/v1');
+                }else if(window.cordova.env == 'qa'){
                     RestangularProvider.setBaseUrl('http://onedegree-qa.madeinace.com/api/v1');
                 } else {
                 	RestangularProvider.setBaseUrl('http://onedegree.madeinace.com/api/v1');   
