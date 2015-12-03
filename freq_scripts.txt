@@ -1,5 +1,30 @@
 
 freq_scripts
+# project related
+npm install -g cordova ionic
+ionic platform add ios
+ionic build ios
+ionic emulate ios
+ionic platform rm android
+ionic plugin add cordova-plugin-contacts
+ionic platform update android@5.0.0
+ionic platform list	
+
+# ionic state feature
+# This will be incredibly useful for folks checking out your Ionic project from a source control repository
+ionic state restore
+
+# save what's current in platform and plugin
+# with -nosave then not to package.json
+ionic state save
+ionic state save –nosave 
+
+# remove everything / wipe all (almost never use it)
+ionic state clear
+
+# ionic state clear and restore
+ionic state reset
+
 # install the latest plugins this one would flush all other plugins into one
 # bower install [component1] [component2] [component3] ... -S 
 bower install ionic --save
