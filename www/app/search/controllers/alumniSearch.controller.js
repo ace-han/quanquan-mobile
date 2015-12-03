@@ -10,14 +10,14 @@ function (angular, module, namespace) {
 
     module.controller(name, AlumniSearchController);
                 
-    AlumniSearchController.$inject = ['$window', '$scope', '$stateParams', '$timeout'
+    AlumniSearchController.$inject = ['$window', '$scope', '$state', '$stateParams', '$timeout'
                                 , '$ionicFilterBar'
                                 , 'account.basicInfoService', 'friend.friendService'
                                 , 'currentUser'];
 
     return AlumniSearchController;
 
-    function AlumniSearchController($window, $scope, $stateParams, $timeout
+    function AlumniSearchController($window, $scope, $state, $stateParams, $timeout
                             , $ionicFilterBar
                             , basicInfoService, friendService
                             , currentUser) {
@@ -38,7 +38,8 @@ function (angular, module, namespace) {
         var page = 1
         , pageSize = 20
         , filterBarInstance = null
-        , schoolType = $stateParams.schoolType;
+        , schoolType = $stateParams.schoolType
+        , currentStateName = $state.current.name;
         init();
 
         function init(){
@@ -101,8 +102,12 @@ function (angular, module, namespace) {
         }
 
         function goBack(){
-            // TODO buggy way!!! 
-            $window.history.back();
+            // only go back from the current page, not from an already left page from this current page
+            $timeout(function(){
+                if(currentStateName != $state.current.name){return;}
+                $window.history.back();
+            }, 100)
+            
         }
     }
 
