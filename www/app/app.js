@@ -98,7 +98,7 @@ function (angular, namespace
         }])
         .run(['$window', '$ionicPlatform', function ($window, $ionicPlatform) {
             $ionicPlatform.ready(function () {
-                if ($window.cordova && $window.cordova.plugins.Keyboard) {
+                if ($window.cordova && $window.cordova.plugins && $window.cordova.plugins.Keyboard) {
                     $window.cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
                     $window.cordova.plugins.Keyboard.disableScroll(true);
                 }

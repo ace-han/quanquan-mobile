@@ -98,7 +98,7 @@ function (module) {
 						if(shouldShowCmnBackBtn){
 							$element.removeClass('hide');
 						}
-					}, 500
+					}, 1000
 				)
 				
 			}
