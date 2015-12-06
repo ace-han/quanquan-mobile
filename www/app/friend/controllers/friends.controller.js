@@ -20,7 +20,6 @@ function (angular, module, namespace) {
         angular.extend(vm, {
             tabs: []
         })
-        vm.contacts = [];
         
         init();
 

@@ -1,4 +1,4 @@
-<ion-view view-title="1°">
+<ion-view view-title="1° - Phone Contacts">
     <ion-nav-buttons side="right">
         <button class="button button-icon button-clear ion-search" ui-sref="search.index">
         </button>
@@ -6,7 +6,10 @@
     <!-- delegate-handle could not accept expression  -->
     <ion-content delegate-handle="phone-contacts-ptr-content">
         <ion-list>
-            <ion-item ng-repeat="contact in phoneContactsController.contacts">{{::contact.name}}</ion-item>
+            <ion-item ng-repeat="contact in phoneContactsController.contacts">
+                <h2 ng-bind="::contact.name"></h2>
+                <p ng-bind="::contact.phoneNumber"></p>
+            </ion-item>
         </ion-list>
     </ion-content>
 </ion-view>

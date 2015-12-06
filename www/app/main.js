@@ -32,7 +32,7 @@ require.config({
         'angular': {exports: 'angular'}
         , 'ngCordova': {deps: ['angular']}
         , 'cordova': {deps: ['ngCordova']}
-        , 'ionic': {exports: 'ionic'}
+        , 'ionic': {deps: ['angular'], exports: 'ionic'}
         , 'ngAnimate': {deps: ['angular']}
         , 'ngSanitize': {deps: ['angular']}
         , 'ngUiRouter': {deps: ['angular']}

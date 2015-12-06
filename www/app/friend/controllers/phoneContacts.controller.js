@@ -10,11 +10,11 @@ function (angular, module, namespace) {
 
     module.controller(name, PhoneContactsController);
                 
-    PhoneContactsController.$inject = [];
+    PhoneContactsController.$inject = ['$ionicPopup', 'friend.phoneContactService'];
 
     return PhoneContactsController;
 
-    function PhoneContactsController() {
+    function PhoneContactsController($ionicPopup, phoneContactService) {
         var vm = this;
 
         angular.extend(vm, {
@@ -24,31 +24,17 @@ function (angular, module, namespace) {
         init();
 
         function init(){
-            if (navigator == null || navigator == undefined || navigator.contacts == undefined){
-                for(var i=0; i<3; i++){
-                    console.log('push contacts');
-                    vm.contacts.push({slug: i
-                                , imgSrc: 'http://ionicframework.com/img/docs/venkman.jpg'
-                                , name: ' New Item phoneContacts' + Math.floor(Math.random() * 1000) + 3});
-                }
-            } else {
-                console.log("start to read contacts");
-                var fields = ["displayName", "name", "phoneNumbers"];
-                navigator.contacts.find(fields, OnReadContactsSucc);
-            }
+            phoneContactService.retrieveAllContactsFromPhone()
+                .then(function(contacts){
+                    vm.contacts = contacts;
+                }, function(error){
+                    $ionicPopup.alert({
+                        title: 'Error',
+                        template: 'Can not read contacts, ' + error
+                    });
+                })
         }
         
-        
-                                    
-        function OnReadContactsSucc(contacts){
-            console.log("read contacts successfully");
-            for(var i = 0; i < contacts.length; i++){
-                vm.contacts.push({slug: i
-                            , imgSrc: 'http://ionicframework.com/img/docs/venkman.jpg'
-                            , name: contacts[i].name.givenName
-                            , phone: contacts[i].phoneNumbers[0].value});
-            }
-        }
     }
 
 });
