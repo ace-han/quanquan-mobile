@@ -1,0 +1,21 @@
+<ion-popover-view class="popover-fit">
+    <ion-content>
+        <ion-list>
+        	<ion-item class="item-icon-left" ng-click="vm.openSyncContactsModal()">
+				<i class="icon ion-upload"></i>
+				Upload contacts
+				<span class="item-note">Phone to Server</span>
+			</ion-item>
+			<ion-item class="item-icon-left" ng-click="vm.syncContacts2Phone()">
+				<i class="icon ion-code-download"></i>
+				Sync phone contacts
+				<span class="item-note">Server to Phone</span>
+			</ion-item>
+			<ion-item class="item-icon-left" ng-click="vm.wipeOutAllLocalPhoneContacts()">
+				<i class="icon ion-trash-a"></i>
+				Remove contacts
+				<span class="item-note">Wipe out all contacts</span>
+			</ion-item>
+        </ion-list>
+    </ion-content> 
+</ion-popover-view>

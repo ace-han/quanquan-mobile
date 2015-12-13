@@ -2,14 +2,84 @@
     <ion-nav-buttons side="right">
         <button class="button button-icon button-clear ion-search" ui-sref="search.index">
         </button>
+        <button class="button button-icon button-clear ion-more" 
+            ng-if="::phoneContactsController.isDevEnabled() && phoneContactsController.isContactPluginEnabled()"
+            ng-click="phoneContactsController.openDevToolkitPopover($event)">
+        </button>
     </ion-nav-buttons>
     <!-- delegate-handle could not accept expression  -->
     <ion-content delegate-handle="phone-contacts-ptr-content">
         <ion-list>
-            <ion-item ng-repeat="contact in phoneContactsController.contacts">
-                <h2 ng-bind="::contact.name"></h2>
-                <p ng-bind="::contact.phoneNumber"></p>
+            <ion-item ng-if="phoneContactsController.contacts.length && phoneContactsController.noMatchCount>0" 
+                ng-click="phoneContactsController.openSyncModal()">
+                Your contact records outdate, sync again
+            </ion-item>
+
+            <ion-item class="item-media media-block" 
+                ng-click="phoneContactsController.goUserHome(contact)"
+                ng-repeat="contact in phoneContactsController.contacts">
+                <div class="media-thumbnail size-lg">
+                    <img ng-src="{{::contact.user.selfie_path}}" 
+                    ng-show="::(contact.user && contact.user.selfie_path)" 
+                    class="img128x128"/>
+                    <img src="./img/anonymous.png" 
+                    ng-hide="::(contact.user && contact.user.selfie_path)" 
+                    class="img128x128"/>
+                </div>
+                <div ng-switch on="!!contact.user">
+                    <div class="media-body box-col"
+                        ng-switch-when="true">
+                        <h2 class="media-heading text-cut">
+                            <span ng-bind="::contact.displayName"></span>
+                            &nbsp;
+                            <i class="icon {{::phoneContactsController.resolveGenderIconClass(contact.gender)}}"></i>
+                        </h2>
+                        <div class="media-content">
+                            <span class="label energized-bg" 
+                            ng-bind="::contact.city"
+                            ng-if="contact.city"></span>
+                            <span class="label energized-bg" 
+                                ng-bind="::contact.age"
+                                ng-if="contact.age"></span>
+                            <span class="label energized-bg" 
+                                ng-bind="::contact.college"
+                                ng-if="contact.college"></span>
+                            <span class="label energized-bg" 
+                                ng-bind="::contact.highSchool"
+                                ng-if="contact.highSchool"></span>
+
+                            <span class="label energized-bg" 
+                                ng-bind="::occupation"
+                                ng-repeat="occupation in ::contact.occupations"
+                                ng-if="contact.occupations.length"></span>
+
+                            <div class="positive-bg" style="height:1px; margin:2px;"></div>
+
+                            <span class="label balanced-bg" 
+                                ng-repeat="tag in contact.tags"
+                                ng-bind="::tag">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="media-body box-col"
+                        ng-switch-default >
+                        <h2 class="media-heading text-cut">
+                            <span ng-bind="::contact.displayName"></span>
+                        </h2>
+                        <div class="media-content">
+                            No relevant info available on platform
+                        </div>
+                    </div>
+                </div>
             </ion-item>
         </ion-list>
+
+        <div class="card"
+            ng-hide="phoneContactsController.contacts.length>0">
+            <div class="item item-text-wrap" ng-click="alumniController.openSyncModal()">
+                Click to make your contacts joined social network
+            </div>
+        </div>
+
     </ion-content>
 </ion-view>

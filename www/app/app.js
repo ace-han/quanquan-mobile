@@ -21,6 +21,7 @@ define([
     , 'angular-loading-bar'
     , 'ng-tags-input'
     , 'ionic-filter-bar'
+    , 'google-libphonenumber'
     , './auth/module.require'
     , './account/module.require'
     , './friend/module.require'

@@ -26,6 +26,7 @@ require.config({
         ,'angular-loading-bar': 'lib/angular-loading-bar/build/loading-bar'
         ,'ng-tags-input': 'lib/ng-tags-input/ng-tags-input'
         ,'ionic-filter-bar': 'lib/ionic-filter-bar/dist/ionic.filter.bar'
+        ,'google-libphonenumber': 'lib/google-libphonenumber/dist/browser/libphonenumber'
 
     },
     shim: {
@@ -46,6 +47,7 @@ require.config({
         , 'angular-loading-bar': {deps: ['angular']}
         , 'ng-tags-input': {deps: ['angular']}
         , 'ionic-filter-bar': {deps: ['ionic']}
+        , 'google-libphonenumber': {exports: 'google-libphonenumber'}
     }
 });
 
