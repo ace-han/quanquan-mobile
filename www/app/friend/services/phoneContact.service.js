@@ -18,7 +18,7 @@ define([
         function phoneContactService($q, Restangular) {
             var service = {
                 extractAllContactsFromPhone: extractAllContactsFromPhone
-                , retrievePhoneContacts: retrievePhoneContacts    // from server
+                , retrieveServerPhoneContacts: retrieveServerPhoneContacts    // from server
                 , getPhoneContacts: getPhoneContacts              // combine server and local
                 , syncContacts2Phone: syncContacts2Phone            // sync to phone
                 , isContactPluginEnabled: isContactPluginEnabled
@@ -35,7 +35,7 @@ define([
             
             function ensureContactPlugin(){
                 if(!isContactPluginEnabled()){
-                    throw 'Please grant permission to access your phone contact first!'
+                    throw 'Please grant permission to access your phone contacts first!'
                 }
             }
 
@@ -80,7 +80,42 @@ define([
                 _name.formatted = name
                 c.name = _name;
                 return c
-            }  
+            }
+
+            function getFormattedMobileNumber(phoneNumberStr, desiredType, countryCode){
+                var mobileNumberObj = parseMobileNumber(phoneNumberStr, countryCode)
+                    desiredType =  desiredType || PNF.E164;
+                if(!mobileNumberObj){
+                    return ''
+                }
+                return phoneUtil.format(mobileNumberObj, desiredType);
+            }
+
+            function parseMobileNumber(phoneNumberStr, countryCode){
+                var phoneNumberObj = parsePhoneNumber(phoneNumberStr, countryCode)
+                    , numberType;
+                if(!phoneNumberObj){
+                    return null;
+                }
+                numberType = phoneUtil.getNumberType(phoneNumberObj)
+                if(libphonenumber.PhoneNumberType.MOBILE != numberType){
+                    return null;
+                }
+                return phoneNumberObj;
+            }
+
+            function parsePhoneNumber(phoneNumberStr, ountryCode){
+                // 
+                var phoneNumberObj
+                    , countryCode = countryCode || 'CN';
+                try{
+                    phoneNumberObj = phoneUtil.parse(phoneNumberStr, countryCode);
+                } catch(e){
+                    console.error(e, phoneNumberStr)
+                    return null;
+                }
+                return phoneNumberObj;
+            }
 
             function extractAllContactsFromPhone(){
                 var deferred = $q.defer();
@@ -94,7 +129,23 @@ define([
                 navigator.contacts.find(fields
                     , function(contacts){
                         //contacts = resolvePhoneContacts(contacts);
-                        deferred.resolve(contacts);
+                        var result = []
+                        
+                        angular.forEach(contacts, function(contact, i){
+                            var contactName = getContactName(contact);
+
+                            angular.forEach(contact.phoneNumbers, function(phoneNumber, j){
+                                var formattedPhoneNumber = getFormattedMobileNumber(phoneNumber.value);
+                                if(!formattedPhoneNumber){
+                                    return true;
+                                }
+                                result.push({
+                                    name: contactName
+                                    , formattedPhoneNumber: formattedPhoneNumber
+                                });
+                            })
+                        })
+                        deferred.resolve(result);
                     }, function(contactError){
                         deferred.reject(contactError);
                     }, options);
@@ -102,7 +153,7 @@ define([
             }
             
 
-            function retrievePhoneContacts(){
+            function retrieveServerPhoneContacts(){
                 /*
                 * user_id from the token we are using...
                 */
@@ -124,11 +175,11 @@ define([
                 //     , localCount: 0 // all phone contacts count  
                 // }
                 return $q.all([
-                        retrievePhoneContacts()
+                        retrieveServerPhoneContacts()
                         , extractAllContactsFromPhone()
                     ]).then(function(response){
                         var serverProfiles = response[0].results
-                            , localeContacts = response[1]
+                            , localeContacts = response[1]  // [{name: 'xxx', formattedPhoneNumber: 'yyy'}, {...}, ...]
                             , retVal = {
                                 results: []     // profiles that matched
                                 , noMatchCount: 0  // profiles from server found no matched in phone
@@ -136,42 +187,29 @@ define([
                             }
                         var serverProfileMap = {}   // {formattedPhone#1: profile1, formattedPhone#2: profile2, ...} 
                             , localContactMap = {}  // {formattedPhone#1: contactName1, formattedPhone#2: contactName2, ...}
-                            , phoneNumber
                             , formattedPhoneNumber
                             , profile
 
                         angular.forEach(serverProfiles, function(profile, i){
                             // profile.phone_num from server should never be empty
-                            try{
-                                phoneNumber = phoneUtil.parse(profile.phone_num, 'CN');
-                            } catch(e){
-                                return true;
-                            }
-                            
-                            profile.formattedPhoneNumber = phoneUtil.format(phoneNumber, PNF.INTERNATIONAL);
+                            formattedPhoneNumber = getFormattedMobileNumber(profile.phone_num)
+                            if(!formattedPhoneNumber){return true;}
+
+                            profile.formattedPhoneNumber = formattedPhoneNumber;
                             profile.displayName = profile.user? profile.user.display_name: '';
                             serverProfileMap[profile.formattedPhoneNumber] = profile;
                         })
                         if(isDevEnabled() && !isContactPluginEnabled()){
-                            for(phoneNumber in serverProfileMap){
-                                retVal.results.push( serverProfileMap[ phoneNumber ] );
+                            for(formattedPhoneNumber in serverProfileMap){
+                                retVal.results.push( serverProfileMap[ formattedPhoneNumber ] );
                             }
                         } else {
                             // complex comparing job with local phone
                             angular.forEach(localeContacts, function(contact, i){
-                                var contactName = getContactName(contact)
-                                angular.forEach(contact.phoneNumbers, function(phoneNumber, j){
-                                    try{
-                                        phoneNumber = phoneUtil.parse(phoneNumber.value, 'CN');
-                                    } catch(e){
-                                        return true;
-                                    }
-                                    formattedPhoneNumber = phoneUtil.format(phoneNumber, PNF.INTERNATIONAL);
-                                    if(! (formattedPhoneNumber in localContactMap)){
-                                        retVal.localCount++;
-                                    }
-                                    localContactMap[formattedPhoneNumber] = contactName;
-                                })
+                                if(! (contact.formattedPhoneNumber in localContactMap)){
+                                    retVal.localCount++;
+                                }
+                                localContactMap[contact.formattedPhoneNumber] = contact.name;
                             })
 
                             for(formattedPhoneNumber in serverProfileMap){
@@ -200,7 +238,7 @@ define([
                 //     , localCount: 0 // all phone contacts count  
                 // }
                 return $q.all([
-                        retrievePhoneContacts()
+                        retrieveServerPhoneContacts()
                         , extractAllContactsFromPhone()
                     ]).then( function(response){
                         var serverProfiles = response[0].results
@@ -212,59 +250,48 @@ define([
                             }
                         var serverProfileMap = {}   // {formattedPhone#1: profile1, formattedPhone#2: profile2, ...} 
                             , localContactMap = {}  // {formattedPhone#1: contactName1, formattedPhone#2: contactName2, ...}
-                            , phoneNumber
                             , formattedPhoneNumber
                             , profile
                             , contact
 
                         angular.forEach(serverProfiles, function(profile, i){
                             // profile.phone_num from server should never be empty
-                            try{
-                                phoneNumber = phoneUtil.parse(profile.phone_num, 'CN');
-                            } catch(e){
-                                return true;
-                            }
-                            
-                            profile.formattedPhoneNumber = phoneUtil.format(phoneNumber, PNF.INTERNATIONAL);
+                            formattedPhoneNumber = getFormattedMobileNumber(profile.phone_num)
+                            if(!formattedPhoneNumber){return true;}
+
+                            profile.formattedPhoneNumber = formattedPhoneNumber;
                             profile.displayName = profile.user? profile.user.display_name: '';
                             serverProfileMap[profile.formattedPhoneNumber] = profile;
                         })
                         if(!isContactPluginEnabled()){
-                            for(phoneNumber in serverProfileMap){
-                                retVal.results.push( serverProfileMap[ phoneNumber ] );
+                            for(formattedPhoneNumber in serverProfileMap){
+                                retVal.results.push( serverProfileMap[ formattedPhoneNumber ] );
                             }
                         } else {
+                            
                             // complex comparing job with local phone
                             angular.forEach(localeContacts, function(contact, i){
-                                var contactName = resolveContactName(contact)
-                                angular.forEach(contact.phoneNumbers, function(phoneNumber, j){
-                                    try{
-                                        phoneNumber = phoneUtil.parse(phoneNumber.value, 'CN');
-                                    } catch(e){
-                                        return true;
-                                    }
-                                    formattedPhoneNumber = phoneUtil.format(phoneNumber, PNF.INTERNATIONAL);
-                                    if(! (formattedPhoneNumber in localContactMap)){
-                                        retVal.localCount++;
-                                    }
-                                    localContactMap[formattedPhoneNumber] = contactName;
-                                })
+                                if(! (contact.formattedPhoneNumber in localContactMap)){
+                                    retVal.localCount++;
+                                }
+                                localContactMap[contact.formattedPhoneNumber] = contact.name;
                             })
                             for(formattedPhoneNumber in serverProfileMap){
                                 profile = serverProfileMap[formattedPhoneNumber]
                                 if(formattedPhoneNumber in localContactMap ){
                                     profile.displayName = localContactMap[formattedPhoneNumber];
                                 } else {
-                                    localContactMap[formattedPhoneNumber] = profile.displayName;
+                                    localContactMap[formattedPhoneNumber] = profile.displayName; 
                                     contact = navigator.contacts.create();
                                     setContactName(contact, profile.displayName)
-                                    contact.phoneNumbers = [new ContactField('mobile', profile.phone_num, true)];
+                                    contact.phoneNumbers = [new ContactField('mobile', formattedPhoneNumber, true)];
                                     contact.save(function(c){
                                         // just output for an record
-                                        console.info('Successfully created local contact record', profile.displayName, formattedPhoneNumber);
+                                        console.info('Successfully created local contact record'
+                                            , getContactName(c), c.phoneNumbers);
                                     }, function(error){
-                                        console.error('Error on creation for local contact record', 
-                                            c.displayName, c.phone_num, error);
+                                        console.error('Error on creation for local contact record'
+                                            , getContactName(c), c.phoneNumbers, error);
                                     })
                                     
                                 }
@@ -290,15 +317,30 @@ define([
                     deferred.reject(reason);
                 }
 
-               extractAllContactsFromPhone().then(function(localeContacts){
-                    angular.forEach(localeContacts, function(contact){
-                        contact.remove(angular.noop, function(error){
-                            console.error('Error on remove', error.code);
-                        });
-                    });
-                    deferred.resolve(localeContacts);
-                });
+                var options      = prepareContactFindOptions();                
+                var fields       = prepareContactDesireFields();
+                navigator.contacts.find(fields
+                    , function(contacts){
+                        angular.forEach(contacts, function(contact, i){
+                            contact.remove(angular.noop, function(error){
+                                console.error('Error on remove', error.code);
+                            });
+                        })
+                        deferred.resolve(); // resolve with nothing, just a notification
+                    }, function(contactError){
+                        deferred.reject(contactError);
+                    }, options);
+
                 return deferred.promise;
             }
+
+            function getPhoneLocalContacts(){
+                return extractAllContactsFromPhone()
+                    .then(function(){
+
+                    });
+            }
+
+
         }
     });
