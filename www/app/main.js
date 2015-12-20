@@ -27,6 +27,7 @@ require.config({
         ,'ng-tags-input': 'lib/ng-tags-input/ng-tags-input'
         ,'ionic-filter-bar': 'lib/ionic-filter-bar/dist/ionic.filter.bar'
         ,'google-libphonenumber': 'lib/google-libphonenumber/dist/browser/libphonenumber'
+        ,'ion-sticky': 'lib/ion-sticky/ion-sticky'
 
     },
     shim: {
@@ -48,6 +49,7 @@ require.config({
         , 'ng-tags-input': {deps: ['angular']}
         , 'ionic-filter-bar': {deps: ['ionic']}
         , 'google-libphonenumber': {exports: 'google-libphonenumber'}
+        , 'ion-sticky': {deps: ['ionic'], exports: 'ion-sticky'}
     }
 });
 

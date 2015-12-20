@@ -31,6 +31,7 @@
     "ng-tags-input": "~3.0.0",
     "angular-ui-router": "~0.2.15",
     "ionic-filter-bar": "https://github.com/ace-han/ionic-filter-bar.git#ce05d6c",
-    "google-libphonenumber": "~1.0.7"
+    "google-libphonenumber": "~1.0.7",
+    "ion-sticky": "~1.0.4"
   }
 }

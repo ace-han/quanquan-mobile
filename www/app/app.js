@@ -22,6 +22,7 @@ define([
     , 'ng-tags-input'
     , 'ionic-filter-bar'
     , 'google-libphonenumber'
+    , 'ion-sticky'
     , './auth/module.require'
     , './account/module.require'
     , './friend/module.require'
@@ -50,6 +51,7 @@ function (angular, namespace
         , 'angular-loading-bar'
         , 'ngTagsInput'
         , 'jett.ionic.filter.bar'
+        , 'ion-sticky'
         , authNamespace, accountNamespace
         , friendNamespace, searchNamespace
         , groupNamespace, commonNamespace
