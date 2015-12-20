@@ -1,0 +1,57 @@
+<ion-view view-title="Sync Contacts">
+    <ion-nav-buttons side="left">
+        <!-- 
+            this might need an extra directive to enable back button from tab view
+            http://stackoverflow.com/questions/26980222/ionic-no-back-button-when-navigating-away-from-tab-view
+        -->
+        <cmn-back-button></cmn-back-button>
+        <!-- <button class="button button-icon button-clear ion-navicon" menu-toggle="left"
+            ng-hide="tagsController.canGoBack()">
+        </button> -->
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <button class="button button-icon ion-upload" 
+            ng-click="localContactsController.syncLocalContacts2Server($event)">
+        </button>
+    </ion-nav-buttons>
+    <ion-content ion-sticky ion-sticky-class="dark">
+
+            
+            <!-- <ion-list ng-show="">
+            <div class="item item-divider" style="position:fixed;background-color:#ddd;top:0; left:0; right: 0;">
+            </ion-list> -->
+            <ion-list >
+                <ion-item class="item-divider item-icon-right" >
+                    Those won't be synced
+                    <div class="badge badge-light" 
+                        style="right: 64px;"
+                        ng-bind="localContactsController.contactsNotInSyncList.length"></div>
+                    <i class="icon" 
+                    ng-click="localContactsController.toggleNotSyncList()" 
+                    ng-class="localContactsController.isNotSyncListShown ? 'ion-chevron-up' : 'ion-chevron-down'"></i>
+
+                    <div ng-show="localContactsController.isNotSyncListShown">
+                        <tags-input 
+                            name="contactWontSync"
+                            ng-model="localContactsController.contactsNotInSyncList"
+                            display-property="notSyncLabel"
+                            min-length="1"
+                            max-length="100"
+                            on-tag-removed="localContactsController.removeFromNotSyncList($tag)"
+                            add-from-autocomplete-only="true" >
+                        </tags-input>
+                    </div>
+                </ion-item>
+                <ion-checkbox class="xbox checkbox-positive"
+                    ng-repeat="contact in localContactsController.contacts"
+                    ng-model="contact.isNotInSyncList"
+                    ng-change="localContactsController.onSyncListChange(contact)"
+                    >
+                    <h2 ng-bind="::contact.localName"></h2>
+                    <p ng-bind="::contact.obfuscatedPhoneNumber"></p>
+                </ion-checkbox>
+            </ion-list>
+            
+
+    </ion-content>
+</ion-view>

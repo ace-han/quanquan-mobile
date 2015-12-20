@@ -33,7 +33,7 @@ function (angular, module, namespace) {
             , closeDevToolkitPopover: closeDevToolkitPopover
             , resolveGenderIconClass: resolveGenderIconClass
             , goUserHome: goUserHome
-            , openSyncContactsModal: openSyncContactsModal
+            , goSyncContactsPage: goSyncContactsPage
         })
         
         var popoverRef = null;
@@ -149,9 +149,9 @@ function (angular, module, namespace) {
             $state.go('account.profile.home', {userId: contact.user.id});
         }
 
-        function openSyncContactsModal(){
-            // TODO
+        function goSyncContactsPage(){
             popoverRef.hide();
+            $state.go(namespace + '.localContacts');
         }
     }
 

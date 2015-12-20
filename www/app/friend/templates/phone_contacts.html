@@ -1,14 +1,13 @@
 <ion-view view-title="1° - Phone Contacts">
     <ion-nav-buttons side="right">
-        <button class="button button-icon button-clear ion-search" ui-sref="search.index">
+        <button class="button button-icon button-clear ion-search" ui-sref="search.phoneContactSearch">
         </button>
         <button class="button button-icon button-clear ion-more" 
-            ng-if="::phoneContactsController.isDevEnabled() && phoneContactsController.isContactPluginEnabled()"
             ng-click="phoneContactsController.openDevToolkitPopover($event)">
         </button>
     </ion-nav-buttons>
     <!-- delegate-handle could not accept expression  -->
-    <ion-content delegate-handle="phone-contacts-ptr-content">
+    <ion-content delegate-handle="phone-contacts-content">
         <ion-list>
             <ion-item ng-if="phoneContactsController.contacts.length && phoneContactsController.noMatchCount>0" 
                 ng-click="phoneContactsController.openSyncModal()">
@@ -17,7 +16,7 @@
 
             <ion-item class="item-media media-block" 
                 ng-click="phoneContactsController.goUserHome(contact)"
-                ng-repeat="contact in phoneContactsController.contacts">
+                ng-repeat="contact in phoneContactsController.contacts | orderBy:'displayIndex' ">
                 <div class="media-thumbnail size-lg">
                     <img ng-src="{{::contact.user.selfie_path}}" 
                     ng-show="::(contact.user && contact.user.selfie_path)" 
@@ -31,8 +30,10 @@
                         ng-switch-when="true">
                         <h2 class="media-heading text-cut">
                             <span ng-bind="::contact.displayName"></span>
+                            <span ng-bind="::'('+contact.localName+')'" class="sub-title"></span>
                             &nbsp;
                             <i class="icon {{::phoneContactsController.resolveGenderIconClass(contact.gender)}}"></i>
+
                         </h2>
                         <div class="media-content">
                             <span class="label energized-bg" 
@@ -65,6 +66,7 @@
                         ng-switch-default >
                         <h2 class="media-heading text-cut">
                             <span ng-bind="::contact.displayName"></span>
+                            <span ng-bind="::'('+contact.localName+')'" class="sub-title"></span>
                         </h2>
                         <div class="media-content">
                             No relevant info available on platform
@@ -76,7 +78,7 @@
 
         <div class="card"
             ng-hide="phoneContactsController.contacts.length>0">
-            <div class="item item-text-wrap" ng-click="alumniController.openSyncModal()">
+            <div class="item item-text-wrap" ui-sref="friend.">
                 Click to make your contacts joined social network
             </div>
         </div>

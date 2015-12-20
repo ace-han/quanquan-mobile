@@ -63,6 +63,7 @@ function (angular, module, namespace) {
         function closeTagEditModal(){
             modalRef.hide();
             modalRef.remove();
+            modalRef = null;
             vm.modalErrMsg = '';
         }
 

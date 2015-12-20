@@ -24,8 +24,12 @@ define([
                 , isContactPluginEnabled: isContactPluginEnabled
                 , isDevEnabled: isDevEnabled
                 , wipeOutAllLocalPhoneContacts: wipeOutAllLocalPhoneContacts
+                , getPhoneLocalContacts: getPhoneLocalContacts
+                , retrieveServerPhoneContactCount: retrieveServerPhoneContactCount
+                , createPhoneContacts: createPhoneContacts
             }
-            var friendRestangular = Restangular.all('friend');
+            var friendRestangular = Restangular.all('friend')
+                ,phoneContactRestangular = friendRestangular.all('phone-contacts') ;
             
             var PNF = libphonenumber.PhoneNumberFormat
                 , phoneUtil = libphonenumber.PhoneNumberUtil.getInstance()            
@@ -153,12 +157,28 @@ define([
             }
             
 
-            function retrieveServerPhoneContacts(){
+            // function retrieveServerPhoneContacts(queryStr /*, page, pageSize*/){
+            function retrieveServerPhoneContacts(queryStr){
                 /*
                 * user_id from the token we are using...
                 */
-                return friendRestangular.all('phone-contacts')
-                    .getList({page: 1, page_size: 10000})
+                // var params = {
+                //     page: page? page: 1
+                //     , page_size: pageSize? pageSize: 10000
+                //     , ordering: 'user__nickname,user__username'
+                // }
+                var params = {
+                    page: 1
+                    , page_size: 10000
+                    , ordering: 'user__nickname,user__username'
+                }
+
+                if(queryStr){
+                    params.q = queryStr
+                }
+
+                return phoneContactRestangular
+                    .getList(params)
                     .then(function(response){
                         return {
                             results: response.plain()
@@ -167,15 +187,16 @@ define([
                     })
             }
 
-            function getPhoneContacts(){
+            function getPhoneContacts(queryStr){
                 // combine both and gen a list for display
+                // no pagination its way too complicated for the time being
                 // return {
                 //     results: []     // profiles that matched
                 //     , noMatchCount: 0  // profiles from server found no matched in phone
                 //     , localCount: 0 // all phone contacts count  
                 // }
                 return $q.all([
-                        retrieveServerPhoneContacts()
+                        retrieveServerPhoneContacts(queryStr)
                         , extractAllContactsFromPhone()
                     ]).then(function(response){
                         var serverProfiles = response[0].results
@@ -197,6 +218,7 @@ define([
 
                             profile.formattedPhoneNumber = formattedPhoneNumber;
                             profile.displayName = profile.user? profile.user.display_name: '';
+                            profile.localName = profile.displayName;
                             serverProfileMap[profile.formattedPhoneNumber] = profile;
                         })
                         if(isDevEnabled() && !isContactPluginEnabled()){
@@ -218,7 +240,7 @@ define([
                                     continue;
                                 }
                                 profile = serverProfileMap[formattedPhoneNumber]
-                                profile.displayName = localContactMap[formattedPhoneNumber];
+                                profile.localName = localContactMap[formattedPhoneNumber];
                                 retVal.results.push(profile);
                             }
                         }
@@ -226,6 +248,10 @@ define([
                             // item1.attr.localeCompare(item2.attr);
                             return left.displayName.localeCompare(right.displayName);
                         })
+                        if(queryStr){
+                            // when query String is enabled, then no more MatchCount
+                            retVal.noMatchCount = 0;
+                        }
                         return retVal;
                     })
             }
@@ -261,6 +287,7 @@ define([
 
                             profile.formattedPhoneNumber = formattedPhoneNumber;
                             profile.displayName = profile.user? profile.user.display_name: '';
+                            profile.localName = profile.displayName;
                             serverProfileMap[profile.formattedPhoneNumber] = profile;
                         })
                         if(!isContactPluginEnabled()){
@@ -279,7 +306,7 @@ define([
                             for(formattedPhoneNumber in serverProfileMap){
                                 profile = serverProfileMap[formattedPhoneNumber]
                                 if(formattedPhoneNumber in localContactMap ){
-                                    profile.displayName = localContactMap[formattedPhoneNumber];
+                                    profile.localName = localContactMap[formattedPhoneNumber];
                                 } else {
                                     localContactMap[formattedPhoneNumber] = profile.displayName; 
                                     contact = navigator.contacts.create();
@@ -334,13 +361,107 @@ define([
                 return deferred.promise;
             }
 
-            function getPhoneLocalContacts(){
-                return extractAllContactsFromPhone()
-                    .then(function(){
-
-                    });
+            function obfuscatePhoneNumber(phoneNumberStr){
+                return '****' + phoneNumberStr.slice(-4)
             }
 
+            function getMapSize(obj) {
+                var size = 0, key;
+                for (key in obj) {
+                    if (obj.hasOwnProperty(key)) size++;
+                }
+                return size;
+            };
 
+            function getPhoneLocalContacts(){
+                // return a list as in 
+                // [{name: xxx, formattedPhoneNumber: yyy, obfuscatedPhoneNumber: zzz, isNotInServer: boolean}, ...]
+                return $q.all([
+                            retrieveServerPhoneContacts()
+                            , extractAllContactsFromPhone()
+                        ]).then( function(response){
+                            var serverProfiles = response[0].results
+                                , localeContacts = response[1]
+                                // , retVal = {
+                                //     localPhoneContacts: []     
+                                //     , recordsNotInServer: []
+                                // }
+                                , retVal = []; // with [{name: xxx, formattedPhoneNumber: yyy, obfuscatedPhoneNumber: zzz, isNotInServer: boolean}, ...]
+                            var serverProfileMap = {}   // {formattedPhone#1: profile1, formattedPhone#2: profile2, ...} 
+                                , localContactMap = {}  // {formattedPhone#1: contactName1, formattedPhone#2: contactName2, ...}
+                                , formattedPhoneNumber
+                                , profile
+                                , contact
+
+                            angular.forEach(serverProfiles, function(profile, i){
+                                // profile.phone_num from server should never be empty
+                                formattedPhoneNumber = getFormattedMobileNumber(profile.phone_num)
+                                if(!formattedPhoneNumber){return true;}
+
+                                profile.formattedPhoneNumber = formattedPhoneNumber;
+                                profile.obfuscatedPhoneNumber = obfuscatePhoneNumber(formattedPhoneNumber);
+                                profile.isNotInServer = false;
+                                profile.displayName = profile.user? profile.user.display_name: '';
+                                profile.localName = profile.displayName
+                                serverProfileMap[profile.formattedPhoneNumber] = profile;
+                            })
+                            if(!isContactPluginEnabled()){
+                                for(formattedPhoneNumber in serverProfileMap){
+
+                                    retVal.push( serverProfileMap[ formattedPhoneNumber ] );
+                                }
+                            } else {
+                                
+                                // complex comparing job with local phone
+                                angular.forEach(localeContacts, function(contact, i){
+                                    localContactMap[contact.formattedPhoneNumber] = contact.name;
+                                })
+
+                                for(formattedPhoneNumber in localContactMap){
+                                    if(formattedPhoneNumber in serverProfileMap){
+                                        contact = serverProfileMap[formattedPhoneNumber];
+                                        retVal.push(contact);
+                                    } else {
+                                        contact = {
+                                            displayName: localContactMap[formattedPhoneNumber]
+                                            , localName: localContactMap[formattedPhoneNumber]
+                                            , formattedPhoneNumber: formattedPhoneNumber
+                                            , obfuscatedPhoneNumber: obfuscatePhoneNumber(formattedPhoneNumber)
+                                            , isNotInServer: true
+                                        }
+                                        retVal.push(contact);
+                                    }
+                                }
+                            }
+                            retVal.sort(function(left, right){
+                                // item1.attr.localeCompare(item2.attr);
+                                return left.displayName.localeCompare(right.displayName);
+                            })
+                            return retVal;
+                        })
+            }
+
+            function retrieveServerPhoneContactCount(){
+                return phoneContactRestangular.customGET('count')
+                    .then(function(response){
+                        // cus plain number 0 would be resolved as an undefined
+                        return !!response? response: 0;
+                    })
+            }
+
+            function createPhoneContacts(phoneNumberStrList){
+                var elementToPost = [];
+                angular.forEach(phoneNumberStrList, function(phoneNumberStr, i){
+                    var formattedPhoneNumber = getFormattedMobileNumber(phoneNumberStr);
+                    if(!formattedPhoneNumber){
+                        return true;
+                    }
+                    elementToPost.push(formattedPhoneNumber);
+                }) 
+                return phoneContactRestangular.post(elementToPost)
+                    .then(function(createdCount){
+                        return createdCount;
+                    })
+            }
         }
     });

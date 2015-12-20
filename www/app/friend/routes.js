@@ -98,7 +98,17 @@ function (friendModule, moduleNamespace, appNamespace) {
     // may as well define another page just for handling go-back issue 
     // refer to https://github.com/driftyco/ionic/issues/437
     // solution would be separated pages in search.xxx(default behavior) and friend.xxx(manually back button)
-    
+    .state(moduleNamespace + '.localContacts', {
+      url: '/local-contacts'
+      , cache: false
+      , views: {
+        '@': {
+          templateUrl: 'app/friend/templates/local_contacts.html'
+          , controller: moduleNamespace + '.LocalContactsController as localContactsController'
+          
+        }
+      }
+    })
     .state(moduleNamespace + '.chat', {
       url: '/chat'
       , views: {
