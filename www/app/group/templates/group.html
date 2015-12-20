@@ -5,10 +5,10 @@
         <button class="button button-icon ion-android-more-vertical" ui-sref="search.index">
         </button>
     </ion-nav-buttons>
-    <ion-content delegate-handle="group-ptr-content">
+    <ion-content>
+        <ion-refresher on-refresh="groupController.doRefresh()">
+        </ion-refresher>
         <ion-list>
-            <ion-refresher on-refresh="groupController.doRefresh()">
-            </ion-refresher>
             <div style="border-bottom: 3px solid #a2a2a2;">
                 <ion-item class="item-stable item-icon-right" ng-click="groupController.toggleGroup()" ng-class="{active: groupController.isGroupShown()}">
                     Group {{groupController.group.name}}
@@ -45,8 +45,9 @@
                     </p>
                 </div>
             </ion-item>
-            <ion-infinite-scroll ng-if="groupController.moreDataCanBeLoaded()" on-infinite="groupController.loadMore()" distance="2%">
-            </ion-infinite-scroll>
+            
         </ion-list>
+        <ion-infinite-scroll ng-if="groupController.moreDataCanBeLoaded()" on-infinite="groupController.loadMore()" distance="2%">
+        </ion-infinite-scroll>
     </ion-content>
 </ion-view>

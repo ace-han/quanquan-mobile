@@ -32,6 +32,8 @@ function (module, namespace) {
         });
 
 
+        doRefresh();
+
         function openPopover($event) {
             $scope.popover.show($event);
         };
@@ -54,7 +56,7 @@ function (module, namespace) {
         // Use the delegate handle name from the view.
         $scope.$on("$ionicView.loaded", function() {
             console.log("View loaded! Triggering PTR");
-            pullToRefreshService.triggerPtr('groups-ptr-content');
+            //pullToRefreshService.triggerPtr('groups-ptr-content');
         });
 
         // Used to know whether to show ititial items or new items for a manual refresh
@@ -63,43 +65,41 @@ function (module, namespace) {
         function doRefresh() {
             console.log('Refreshing!');
 
-                if (!refreshed) {
-                    groupService.getJoinedGroups()
-            .then(
-                function(groups){
-                    angular.forEach(groups, function(group){
-                        vm.joinedGroups.push({
-                            slug: group.slug
-                            , imgSrc: group.imgSrc
-                            , name: group.name
+            if (!refreshed) {
+                groupService.getJoinedGroups()
+                        .then(
+                            function(groups){
+                                angular.forEach(groups, function(group){
+                                    vm.joinedGroups.push({
+                                        slug: group.slug
+                                        , imgSrc: group.imgSrc
+                                        , name: group.name
+                                    });
+                                });
+                                refreshed = true;
+                                //Stop the ion-refresher from spinning
+                                $scope.$broadcast('scroll.refreshComplete');
+                        }
+                        , function(error){
+                            $timeout(function(){
+                                $ionicLoading.show({ template: 'Load Failed! Retry later', 
+                                    noBackdrop: true, duration: 2000 });
+
+                                //Stop the ion-refresher from spinning
+                                $scope.$broadcast('scroll.refreshComplete');
+                            }, 500); 
                         });
-                    });
-                    refreshed = true;
-                    //Stop the ion-refresher from spinning
-                    $scope.$broadcast('scroll.refreshComplete');
-            }
-            , function(error){
-                $timeout(function(){
-                    $ionicLoading.show({ template: 'Load Failed! Retry later', 
-                        noBackdrop: true, duration: 2000 });
-
-                    //Stop the ion-refresher from spinning
-                    $scope.$broadcast('scroll.refreshComplete');
-                }, 500); 
-            });
-
-                    
-                } else {
-                    //simulate async response
-                    for(var i=0; i<10; i++){
-                        vm.joinedGroups.unshift({slug: i
-                                                , imgSrc: 'http://ionicframework.com/img/docs/venkman.jpg'
-                                                , name: ' New Item ' + Math.floor(Math.random() * 1000) + 4});
-                    }
-
-                    //Stop the ion-refresher from spinning
-                    $scope.$broadcast('scroll.refreshComplete');
+            } else {
+                //simulate async response
+                for(var i=0; i<10; i++){
+                    vm.joinedGroups.unshift({slug: i
+                                            , imgSrc: 'http://ionicframework.com/img/docs/venkman.jpg'
+                                            , name: ' New Item ' + Math.floor(Math.random() * 1000) + 4});
                 }
+
+                //Stop the ion-refresher from spinning
+                $scope.$broadcast('scroll.refreshComplete');
+            }
 
         };
 

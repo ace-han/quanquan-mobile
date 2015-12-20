@@ -37,7 +37,7 @@ function (module, namespace) {
         }).then(function(popover) {
             $scope.popover = popover;
         });
-
+        doRefresh();
 
         function openPopover($event) {
             $scope.popover.show($event);
@@ -61,7 +61,7 @@ function (module, namespace) {
         // Use the delegate handle name from the view.
         $scope.$on("$ionicView.loaded", function() {
             console.log("View loaded! Triggering PTR");
-            pullToRefreshService.triggerPtr('group-ptr-content');
+            //pullToRefreshService.triggerPtr('group-ptr-content');
         });
 
         // Used to know whether to show ititial items or new items for a manual refresh
