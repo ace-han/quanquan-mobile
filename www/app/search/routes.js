@@ -31,7 +31,7 @@ function (searchModule, moduleNamespace, appNamespace) {
                 }
               })
               .state(moduleNamespace + '.alumniSearch', {
-                url: '/alumni/search?schoolType'
+                url: '/alumni/search?schoolType&q'
                 , data: {
                   loginRequired: true
                 }
@@ -40,6 +40,19 @@ function (searchModule, moduleNamespace, appNamespace) {
                   '@': {
                     templateUrl: 'app/search/templates/alumni_search.html'
                     , controller: moduleNamespace + '.AlumniSearchController as alumniSearchController'
+                  }
+                }
+              })
+              .state(moduleNamespace + '.phoneContactSearch', {
+                url: '/phone-contact/search?q'
+                , data: {
+                  loginRequired: true
+                }
+                , cache: false
+                , views: {
+                  '@': {
+                    templateUrl: 'app/search/templates/phone_contact_search.html'
+                    , controller: moduleNamespace + '.PhoneContactSearchController as phoneContactSearchController'
                   }
                 }
               })

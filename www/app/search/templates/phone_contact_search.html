@@ -1,0 +1,79 @@
+<ion-view view-title="Search Alumni">
+    <!-- delegate-handle could not accept expression  -->
+    <ion-content delegate-handle="alumni-search-ptr-content">
+        <div ng-show="!phoneContactSearchController.items.length && !phoneContactSearchController.q"
+            class="item item-text-wrap stable-bg">
+            <p style="text-align:center;">
+                Input to search contact
+            </p>
+        </div>
+        <div ng-show="!phoneContactSearchController.items.length && phoneContactSearchController.q"
+            class="item item-text-wrap stable-bg">
+            <p style="text-align:center;">
+                No match result ...
+            </p>
+        </div>
+        <ion-list>
+            <ion-item class="item-media media-block" 
+                ui-sref="account.profile.home({userId: contact.user.id})"
+                ng-repeat="contact in phoneContactSearchController.items">
+                <div class="media-thumbnail size-lg">
+                    <img ng-src="{{::contact.user.selfie_path}}" 
+                    ng-show="::contact.user.selfie_path" 
+                    class="img128x128"/>
+                    <img src="./img/anonymous.png" 
+                    ng-hide="::contact.user.selfie_path" 
+                    class="img128x128"/>
+                </div>
+                <div class="media-body box-col">
+                    <h2 class="media-heading text-cut">
+                        <span ng-bind="::contact.displayName"></span>
+                        <span ng-bind="::'('+contact.localName+')'" class="sub-title"></span>
+                        &nbsp;
+                        <i class="icon {{::phoneContactSearchController.resolveGenderIconClass(contact.gender)}}"></i>
+                    </h2>
+                    <div class="media-content">
+                        <span class="label energized-bg" 
+                        ng-bind="::contact.city"
+                        ng-if="contact.city"></span>
+                        <span class="label energized-bg" 
+                            ng-bind="::contact.age"
+                            ng-if="contact.age"></span>
+                        <span class="label energized-bg" 
+                            ng-bind="::contact.college"
+                            ng-if="contact.college"></span>
+                        <span class="label energized-bg" 
+                            ng-bind="::contact.highSchool"
+                            ng-if="contact.highSchool"></span>
+
+                        <span class="label energized-bg" 
+                            ng-bind="::occupation"
+                            ng-repeat="occupation in ::contact.occupations"
+                            ng-if="contact.occupations.length"></span>
+
+                        <div class="positive-bg" style="height:1px; margin:2px;"></div>
+
+                        <span class="label balanced-bg" 
+                            ng-repeat="tag in contact.tags"
+                            ng-bind="::tag">
+                        </span>
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
+
+        <!-- <ion-infinite-scroll 
+            ng-if="phoneContactSearchController.moreDataCanBeLoaded()" 
+            on-infinite="phoneContactSearchController.loadMore()"
+            distance="2%"
+            >
+        </ion-infinite-scroll>
+        
+        <div ng-show="phoneContactSearchController.mayShowNoMore && !phoneContactSearchController.moreDataCanBeLoaded()"
+            class="item item-text-wrap stable-bg">
+            <p style="text-align:center;">
+                No more items, total: {{phoneContactSearchController.matchCount}}
+            </p>
+        </div> -->
+    </ion-content>
+</ion-view>

@@ -1,6 +1,6 @@
 define([
     './alumniSearch.controller'
-    //, './register.controller'
+    , './phoneContactSearch.controller'
 ], function () {
     'use strict';
 });
