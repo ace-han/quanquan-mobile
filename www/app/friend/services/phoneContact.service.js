@@ -48,7 +48,7 @@ define([
             }
 
             function isDevEnabled(){
-                return !!window.LiveReload;
+                return !!window.LiveReload || window.cordova.env;
             }
 
             function prepareContactFindOptions(){
