@@ -1,6 +1,6 @@
 define([
     './tag.service'
-    // , './register.service'
+    , './social.service'
 ], function () {
     'use strict';
 });

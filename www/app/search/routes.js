@@ -22,11 +22,12 @@ function (searchModule, moduleNamespace, appNamespace) {
                 }
               })
               .state(moduleNamespace + '.index', {
-                url: '?q&category'
+                url: '?q'
                 , cache: false
                 , views: {
                   '@': {
                     templateUrl: 'app/search/templates/index.html'
+                    , controller: moduleNamespace + '.GeneralSearchController as generalSearchController'
                   }
                 }
               })
@@ -56,12 +57,34 @@ function (searchModule, moduleNamespace, appNamespace) {
                   }
                 }
               })
-              .state(moduleNamespace + '.socialPath', {
-                url: '/social-path'
+              .state(moduleNamespace + '.routes', {
+                url: '/routes?targetUserId'
+                , data: {
+                  loginRequired: true
+                }
                 , cache: false
                 , views: {
                   '@': {
-                    templateUrl: 'app/search/templates/social_path.html'
+                    templateUrl: 'app/search/templates/routes.html'
+                    //, controller: moduleNamespace + '.SocialRoutesController as socialRoutesController'
+                  }
+                }
+              })
+              .state(moduleNamespace + 'routes.detail', {
+                url: '/detail?routeHash'
+                , cache: false
+                , views: {
+                  '@': {
+                    templateUrl: 'app/search/templates/route_detail.html'
+                  }
+                }
+              })
+              .state(moduleNamespace + '.reference', {
+                url: '/reference?q&category'
+                , cache: false
+                , views: {
+                  '@': {
+                    templateUrl: 'app/search/templates/reference.html'
                   }
                 }
               });
