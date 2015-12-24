@@ -24,7 +24,7 @@
         </div>
         <ion-list>
             <ion-item class="item-media media-block" 
-                ui-sref="search.routes({targetUserId: item.user.id})"
+                ui-sref="search.routes({targetUser: item.user.id})"
                 ng-repeat="item in generalSearchController.items">
                 <div class="media-thumbnail size-lg">
                     <img ng-src="{{::item.user.selfie_path}}" 

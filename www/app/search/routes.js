@@ -58,24 +58,52 @@ function (searchModule, moduleNamespace, appNamespace) {
                 }
               })
               .state(moduleNamespace + '.routes', {
-                url: '/routes?targetUserId'
+                url: '/routes/:targetUser'
                 , data: {
                   loginRequired: true
                 }
                 , cache: false
+                , resolve: {
+                  socialRoutes: ['search.socialService', '$stateParams', '$ionicLoading'
+                    , function(socialService, $stateParams, $ionicLoading){
+                    return socialService.getSocialRoutes($stateParams.targetUser)
+                          .then(function(response){
+                            return response.results
+                          }, function(error){
+                            console.error(error)
+                            $ionicLoading.show({ template: 'Server Error!', noBackdrop: true, duration: 1000 });
+                          });
+                  }]
+                }
                 , views: {
                   '@': {
                     templateUrl: 'app/search/templates/routes.html'
-                    //, controller: moduleNamespace + '.SocialRoutesController as socialRoutesController'
+                    , controller: moduleNamespace + '.SocialRoutesController as socialRoutesController'
                   }
                 }
               })
-              .state(moduleNamespace + 'routes.detail', {
-                url: '/detail?routeHash'
+              .state(moduleNamespace + '.routeDetail', {
+                url: '/detail/:routeCode'
+                , data: {
+                  loginRequired: true
+                }
                 , cache: false
+                , resolve: {
+                  profiles: ['search.socialService', '$stateParams', '$ionicLoading'
+                    , function(socialService, $stateParams, $ionicLoading){
+                    return socialService.getRouteDetail($stateParams.routeCode)
+                          .then(function(response){
+                            return response.results
+                          }, function(error){
+                            console.error(error)
+                            $ionicLoading.show({ template: 'Server Error!', noBackdrop: true, duration: 1000 });
+                          });
+                  }]
+                }
                 , views: {
                   '@': {
                     templateUrl: 'app/search/templates/route_detail.html'
+                    , controller: moduleNamespace + '.RouteDetailController as routeDetailController'
                   }
                 }
               })

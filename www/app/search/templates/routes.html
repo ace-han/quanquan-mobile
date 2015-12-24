@@ -1,60 +1,25 @@
-<ion-view view-title="Search Results">
+<ion-view view-title="Social Routes">
     <ion-nav-buttons side="right">
 
     </ion-nav-buttons>
     <ion-content>
-        <div ng-show="!generalSearchController.items.length && generalSearchController.q"
+        <div ng-show="!socialRoutesController.socialRoutes.length"
             class="item item-text-wrap stable-bg">
             <p style="text-align:center;">
                 No match result ...
             </p>
         </div>
         <!-- yes, with card style-->
-        <ion-list class="card">
-            <ion-item class="item-media media-block" 
-                ui-sref="search.routes.detail({routeHash: item.hash})"
-                ng-repeat="item in generalSearchController.items">
-                <div class="media-thumbnail size-lg">
-                    <img ng-src="{{::item.user.selfie_path}}" 
-                    ng-show="::item.user.selfie_path" 
-                    class="img128x128"/>
-                    <img src="./img/anonymous.png" 
-                    ng-hide="::item.user.selfie_path" 
-                    class="img128x128"/>
-                </div>
-                <div class="media-body box-col">
-                    <h2 class="media-heading text-cut">
-                        <span ng-bind="::item.user.display_name"></span>
-                        &nbsp;
-                        <i class="icon {{::generalSearchController.resolveGenderIconClass(item.gender)}}"></i>
-                    </h2>
-                    <div class="media-content">
-                        <span class="label energized-bg" 
-                        ng-bind="::item.city"
-                        ng-if="item.city"></span>
-                        <span class="label energized-bg" 
-                            ng-bind="::item.age"
-                            ng-if="item.age"></span>
-                        <span class="label energized-bg" 
-                            ng-bind="::item.college"
-                            ng-if="item.college"></span>
-                        <span class="label energized-bg" 
-                            ng-bind="::item.highSchool"
-                            ng-if="item.highSchool"></span>
-
-                        <span class="label energized-bg" 
-                            ng-bind="::occupation"
-                            ng-repeat="occupation in ::item.occupations"
-                            ng-if="item.occupations.length"></span>
-
-                        <div class="positive-bg" style="height:1px; margin:2px;"></div>
-
-                        <span class="label balanced-bg" 
-                            ng-repeat="tag in item.tags"
-                            ng-bind="::tag">
-                        </span>
-                    </div>
-                </div>
+        <ion-list>
+            <ion-item class="item-text-wrap card" 
+                ui-sref="search.routeDetail({routeCode: socialRoute.route_code})"
+                ng-repeat="socialRoute in socialRoutesController.socialRoutes"
+                >
+                <span ng-repeat="item in socialRoute.items">
+                    <span ng-if="::!$first">→</span>
+                    <span ng-bind="::item.user.display_name"></span>
+                    <span ng-if="::item.is_from_mobile_contact">*</span>
+                </span>
             </ion-item>
         </ion-list>
     </ion-content>

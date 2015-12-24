@@ -17,6 +17,8 @@ define([
         function socialService($q, Restangular, principalService) {
             var service = {
                 getSocialProfile: getSocialProfile
+                , getSocialRoutes: getSocialRoutes
+                , getRouteDetail: getRouteDetail
                 
             }
             var friendRestangular = Restangular.all('friend')
@@ -37,6 +39,32 @@ define([
                 return socialRestangular.getList(params)
                     .then(function(response){
                         // let's align with drf's return format as much as possible
+                        return {
+                            results: response.plain()
+                            , count: response.count
+                        }
+                    })
+            }
+
+            function getSocialRoutes(targetUser){
+                var params = {
+                    target_user: targetUser
+                };
+                return socialRestangular.customGETLIST('social-routes', params)
+                    .then(function(response){
+                        return {
+                            results: response.plain()
+                            , count: response.count
+                        }
+                    })
+            }
+
+            function getRouteDetail(routeCode){
+                var params = {
+                    route_code: routeCode
+                };
+                return socialRestangular.customGETLIST('social-route-detail', params)
+                    .then(function(response){
                         return {
                             results: response.plain()
                             , count: response.count
