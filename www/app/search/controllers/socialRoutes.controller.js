@@ -28,8 +28,8 @@ function (angular, module, namespace) {
         init();
 
         function init(){
-            angular.forEach(vm.socialRoutes, function(route){
-                route.expandable = true;
+            angular.forEach(vm.socialRoutes, function(route, i){
+                route.expandable = i!=0;
             });
         }
 
