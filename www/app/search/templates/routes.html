@@ -7,19 +7,55 @@
             class="item item-text-wrap stable-bg">
             <p style="text-align:center;">
                 No match result ...
+                
             </p>
         </div>
         <!-- yes, with card style-->
-        <ion-list>
-            <ion-item class="item-text-wrap card" 
-                ui-sref="search.routeDetail({routeCode: socialRoute.route_code})"
-                ng-repeat="socialRoute in socialRoutesController.socialRoutes"
-                >
+        <div class="list card" 
+            ng-repeat="socialRoute in socialRoutesController.socialRoutes">
+            <ion-item class="item-text-wrap item-icon-right"
+                ng-click="socialRoute.expandable=!socialRoute.expandable">
                 <span ng-repeat="item in socialRoute.items">
                     <span ng-if="::!$first">→</span>
                     <span ng-bind="::item.user.display_name"></span>
                     <span ng-if="::item.is_from_mobile_contact">*</span>
                 </span>
+                <i class="icon" 
+                    ng-class="{'ion-ios-minus-empty': !socialRoute.expandable, 'ion-ios-plus-empty': socialRoute.expandable}"
+                ></i>
+            </ion-item>
+            <ion-item class="item-avatar" 
+                ng-repeat="item in socialRoute.items"
+                ng-hide="socialRoute.expandable">
+                <img ng-src="{{::item.user.selfie_path}}" 
+                ng-if="::item.user.selfie_path"/>
+                <img src="./img/anonymous.png" 
+                ng-if=":: !item.user.selfie_path"/>
+                <p>
+                    <span ng-bind="::item.user.display_name"></span>
+                    &nbsp;
+                    <i class="icon {{::socialRoutesController.resolveGenderIconClass(item.gender)}}"></i>
+                </p>
+                <p>
+                    <span class="padding-horizontal-1" ng-bind="::item.city"
+                        ng-if="item.city"></span>
+                    <span class="padding-horizontal-1" ng-bind="::item.age"
+                        ng-if="item.age"></span>
+                    <span class="padding-horizontal-1" ng-bind="::item.college"
+                        ng-if="item.college"></span>
+                    <span class="padding-horizontal-1" ng-bind="::item.highSchool"
+                        ng-if="item.highSchool"></span>
+                    <span class="padding-horizontal-1" ng-bind="::occupation"
+                        ng-repeat="occupation in ::item.occupations"
+                        ng-if="item.occupations.length"></span>
+
+                </p>
+            </ion-item>
+            <ion-item class="item-icon-left"
+                ui-sref="search.routeDetail({routeCode: socialRoute.route_code})"
+                >
+                <i class="icon ion-ios-eye-outline"></i>
+                Detail
             </ion-item>
         </ion-list>
     </ion-content>

@@ -62,7 +62,7 @@ function (searchModule, moduleNamespace, appNamespace) {
                 , data: {
                   loginRequired: true
                 }
-                , cache: false
+                , cache: true
                 , resolve: {
                   socialRoutes: ['search.socialService', '$stateParams', '$ionicLoading'
                     , function(socialService, $stateParams, $ionicLoading){

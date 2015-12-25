@@ -10,24 +10,31 @@ function (angular, module, namespace) {
 
     module.controller(name, SocialRoutesController);
                 
-    SocialRoutesController.$inject = [
-                                    'socialRoutes'
+    SocialRoutesController.$inject = [ 'account.basicInfoService'
+                                    , 'socialRoutes'
                                 ];
 
     return SocialRoutesController;
 
-    function SocialRoutesController( socialRoutes ) {
+    function SocialRoutesController( basicInfoService, socialRoutes ) {
         // currently only support mobile contacts and alumni
         var vm = this;
 
         angular.extend(vm, {
             socialRoutes: socialRoutes || []
+            , resolveGenderIconClass: resolveGenderIconClass
         });
 
         init();
 
         function init(){
-            
+            angular.forEach(vm.socialRoutes, function(route){
+                route.expandable = true;
+            });
+        }
+
+        function resolveGenderIconClass(nGender){
+            return basicInfoService.resolveGenderIconClass(nGender);
         }
     }
 

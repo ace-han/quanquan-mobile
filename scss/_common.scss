@@ -94,7 +94,7 @@ input.reset-field {
     }
 }
 
-@each $percentage in 0.1,0.15,0.2 {
+@each $percentage in 0.01,0.1,0.15,0.2 {
 	.padding-#{$percentage*100} {
  		@include padding($percentage,$percentage,$percentage,$percentage);
 	}
