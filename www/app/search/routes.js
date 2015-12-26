@@ -107,14 +107,6 @@ function (searchModule, moduleNamespace, appNamespace) {
                   }
                 }
               })
-              .state(moduleNamespace + '.reference', {
-                url: '/reference?q&category'
-                , cache: false
-                , views: {
-                  '@': {
-                    templateUrl: 'app/search/templates/reference.html'
-                  }
-                }
-              });
+              
         }]);
 });

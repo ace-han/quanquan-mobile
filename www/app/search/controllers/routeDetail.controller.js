@@ -25,19 +25,16 @@ function (angular, module, namespace) {
         var vm = this;
 
         angular.extend(vm, {
-            items: profiles | []
+            items: profiles || []
             , resolveGenderIconClass: resolveGenderIconClass
-
         });
 
 
         init();
 
         function init(){
-            
 
         }
-
 
         function resolveGenderIconClass(nGender){
             return basicInfoService.resolveGenderIconClass(nGender);
