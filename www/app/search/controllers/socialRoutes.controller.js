@@ -10,31 +10,57 @@ function (angular, module, namespace) {
 
     module.controller(name, SocialRoutesController);
                 
-    SocialRoutesController.$inject = [ 'account.basicInfoService'
+    SocialRoutesController.$inject = [ '$ionicLoading'
+                                    , 'account.basicInfoService'
+                                    , namespace+'.socialService'
                                     , 'socialRoutes'
                                 ];
 
     return SocialRoutesController;
 
-    function SocialRoutesController( basicInfoService, socialRoutes ) {
+    function SocialRoutesController( $ionicLoading
+                                    , basicInfoService
+                                    , socialService
+                                    , socialRoutes ) {
         // currently only support mobile contacts and alumni
         var vm = this;
 
         angular.extend(vm, {
             socialRoutes: socialRoutes || []
             , resolveGenderIconClass: resolveGenderIconClass
+            , toggleRouteDetail: toggleRouteDetail
         });
 
         init();
 
         function init(){
             angular.forEach(vm.socialRoutes, function(route, i){
-                route.expandable = i!=0;
+                route.expandable = true;
+                if(i==0){
+                    toggleRouteDetail(route);
+                    return true;
+                }
+                
             });
         }
 
         function resolveGenderIconClass(nGender){
             return basicInfoService.resolveGenderIconClass(nGender);
+        }
+
+        function toggleRouteDetail(route){
+            if (route.detailItems){
+                route.expandable = !route.expandable;
+                return;
+            }
+            socialService.getRouteDetail(route.route_code, true)
+                .then(function(response){
+                    route.detailItems = response.results
+                    route.expandable = !route.expandable;
+                }, function(error){
+                    console.error(error)
+                    $ionicLoading.show({ template: 'Server Error!', noBackdrop: true, duration: 1000 });
+                })
         }
     }
 

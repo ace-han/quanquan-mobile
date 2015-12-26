@@ -83,7 +83,7 @@ function (searchModule, moduleNamespace, appNamespace) {
                 }
               })
               .state(moduleNamespace + '.routeDetail', {
-                url: '/detail/:routeCode'
+                url: '/route-detail/:routeCode'
                 , data: {
                   loginRequired: true
                 }

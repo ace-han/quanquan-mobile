@@ -14,10 +14,10 @@
         <div class="list card" 
             ng-repeat="socialRoute in socialRoutesController.socialRoutes">
             <ion-item class="item-text-wrap item-icon-right"
-                ng-click="socialRoute.expandable=!socialRoute.expandable">
+                ng-click="socialRoutesController.toggleRouteDetail(socialRoute)">
                 <span ng-repeat="item in socialRoute.items">
                     <span ng-if="::!$first">→</span>
-                    <span ng-bind="::item.user.display_name"></span>
+                    <span ng-bind="::item.display_name"></span>
                     <span ng-if="::item.is_from_mobile_contact">*</span>
                 </span>
                 <i class="icon" 
@@ -25,29 +25,29 @@
                 ></i>
             </ion-item>
             <ion-item class="item-avatar" 
-                ng-repeat="item in socialRoute.items"
+                ng-repeat="detailItem in socialRoute.detailItems"
                 ng-hide="socialRoute.expandable">
-                <img ng-src="{{::item.user.selfie_path}}" 
-                ng-if="::item.user.selfie_path"/>
+                <img ng-src="{{::detailItem.user.selfie_path}}" 
+                ng-if="::detailItem.user.selfie_path"/>
                 <img src="./img/anonymous.png" 
-                ng-if=":: !item.user.selfie_path"/>
+                ng-if=":: !detailItem.user.selfie_path"/>
                 <p>
-                    <span ng-bind="::item.user.display_name"></span>
+                    <span ng-bind="::detailItem.user.display_name"></span>
                     &nbsp;
-                    <i class="icon {{::socialRoutesController.resolveGenderIconClass(item.gender)}}"></i>
+                    <i class="icon {{::socialRoutesController.resolveGenderIconClass(detailItem.gender)}}"></i>
                 </p>
                 <p>
-                    <span class="padding-horizontal-1" ng-bind="::item.city"
-                        ng-if="item.city"></span>
-                    <span class="padding-horizontal-1" ng-bind="::item.age"
-                        ng-if="item.age"></span>
-                    <span class="padding-horizontal-1" ng-bind="::item.college"
-                        ng-if="item.college"></span>
-                    <span class="padding-horizontal-1" ng-bind="::item.highSchool"
-                        ng-if="item.highSchool"></span>
+                    <span class="padding-horizontal-1" ng-bind="::detailItem.city"
+                        ng-if="detailItem.city"></span>
+                    <span class="padding-horizontal-1" ng-bind="::detailItem.age"
+                        ng-if="detailItem.age"></span>
+                    <span class="padding-horizontal-1" ng-bind="::detailItem.college"
+                        ng-if="detailItem.college"></span>
+                    <span class="padding-horizontal-1" ng-bind="::detailItem.high_school"
+                        ng-if="detailItem.high_school"></span>
                     <span class="padding-horizontal-1" ng-bind="::occupation"
-                        ng-repeat="occupation in ::item.occupations"
-                        ng-if="item.occupations.length"></span>
+                        ng-repeat="occupation in ::detailItem.occupations"
+                        ng-if="detailItem.occupations.length"></span>
 
                 </p>
             </ion-item>

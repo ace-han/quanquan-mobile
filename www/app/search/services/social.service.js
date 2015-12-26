@@ -59,10 +59,14 @@ define([
                     })
             }
 
-            function getRouteDetail(routeCode){
+            function getRouteDetail(routeCode, simple){
+                // simple => simple result that has no tags on the profile
                 var params = {
                     route_code: routeCode
                 };
+                if(simple){
+                    params.fields = ['user,gender,city,age,college,high_school,occupations']
+                }
                 return socialRestangular.customGETLIST('social-route-detail', params)
                     .then(function(response){
                         return {
