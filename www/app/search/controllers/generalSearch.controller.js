@@ -90,9 +90,10 @@ function (angular, module, namespace) {
 
                     }
                     , update: function (filteredItems, filterText) {
-                        // we'd better keep the reference the same instead of an
+                        // we'd better keep the same reference instead of a new one
                         vm.q = filterText;
-                        vm.items = filteredItems;
+                        vm.items.length = 0;
+                        Array.prototype.push.apply(vm.items, filteredItems);
                     }
                     , cancel: function(){
                         vm.q = '';

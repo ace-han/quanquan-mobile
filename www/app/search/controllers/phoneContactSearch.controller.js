@@ -60,7 +60,6 @@ function (angular, module, namespace) {
                     debounce: true
                     , items: vm.items // dont care if it is an empty list
                     , search: function(filterText){
-                        vm.q = filterText;
                         return phoneContactService.getPhoneContacts(filterText)
                             .then(function(response){
                                 page = 2; // direct jump to next page for ifiniteLoad
@@ -71,8 +70,10 @@ function (angular, module, namespace) {
 
                     }
                     , update: function (filteredItems, filterText) {
-                        // we'd better keep the reference the same instead of an
-                        vm.items = filteredItems;
+                        // we'd better keep the same reference instead of a new one
+                        vm.q = filterText;
+                        vm.items.length = 0;
+                        Array.prototype.push.apply(vm.items, filteredItems);
                     }
                     , cancel: function(){
                         vm.goBack();
