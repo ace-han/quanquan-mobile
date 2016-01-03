@@ -65,7 +65,7 @@ define([
                     route_code: routeCode
                 };
                 if(simple){
-                    params.fields = ['user,gender,city,age,college,high_school,occupations']
+                    params.fields = ['id,user,gender,city,age,college,high_school,occupations']
                 }
                 return socialRestangular.customGETLIST('social-route-detail', params)
                     .then(function(response){
