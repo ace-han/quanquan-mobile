@@ -133,7 +133,7 @@ function (angular, module, namespace) {
             basicInfoService.getCityList()
                 .then(function(list){
                     angular.forEach(list, function(e, i){
-                        if(vm.profile.city = e.value){
+                        if(vm.profile.city == e.value){
                             vm.profile.cityStr = e.label;
                             return false;
                         }
@@ -143,7 +143,7 @@ function (angular, module, namespace) {
                 basicInfoService.getCollegeList()
                 .then(function(list){
                     angular.forEach(list, function(e, i){
-                        if(vm.profile.college.id = e.id){
+                        if(vm.profile.college.id == e.id){
                             vm.profile.collegeStr = e.name;
                             return false;
                         }
@@ -154,7 +154,7 @@ function (angular, module, namespace) {
                 basicInfoService.getHighSchoolList()
                 .then(function(list){
                     angular.forEach(list, function(e, i){
-                        if(vm.profile.high_school.id = e.id){
+                        if(vm.profile.high_school.id == e.id){
                             vm.profile.highSchoolStr = e.name;
                             return false;
                         }
