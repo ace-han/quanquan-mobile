@@ -104,7 +104,7 @@ function (angular, module, namespace) {
         function goBack(){
             // only go back from the current page, not from an already left page from this current page
             $timeout(function(){
-                if(currentStateName != $state.current.name){return;}
+                if(currentStateName != $state.current.name || $state.current.name.indexOf(namespace)!=-1){return;}
                 $window.history.back();
             }, 100)
             
